@@ -9,9 +9,12 @@ import MobileStickyCTA from "@/components/MobileStickyCTA";
 
 export default function MainLayoutWrapper({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const isAdmin = pathname?.startsWith("/admin");
+  const isNoHeaderFooter =
+    pathname?.startsWith("/admin") ||
+    pathname?.startsWith("/review-generator") ||
+    pathname?.startsWith("/reviews");
 
-  if (isAdmin) {
+  if (isNoHeaderFooter) {
     return <main className="flex-grow">{children}</main>;
   }
 

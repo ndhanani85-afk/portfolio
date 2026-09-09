@@ -63,6 +63,12 @@ export default function Footer() {
                 <Link href="/faq" className="hover:text-[#D98A2B] transition-colors">FAQ</Link>
               </li>
               <li>
+                <Link href="/review-generator" className="hover:text-[#D98A2B] transition-colors flex items-center space-x-1.5">
+                  <span>Review Generator</span>
+                  <span className="px-1.5 py-0.5 text-[9px] font-bold bg-[#D98A2B] text-[#0B3C2D] rounded-full">AI</span>
+                </Link>
+              </li>
+              <li>
                 <Link href="/contact#booking" className="hover:text-white font-bold text-[#D98A2B] transition-colors">Book a Session</Link>
               </li>
             </ul>

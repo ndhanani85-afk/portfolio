@@ -1,12 +1,12 @@
 import { NextResponse } from "next/server";
-import { dbConnect } from "@/lib/db";
-import Booking from "@/models/Booking";
+import { supabaseAdmin } from "@/lib/supabase";
 import { sendBookingEmail } from "@/lib/mail";
 import {
   getLocalBookings,
   saveLocalBooking,
   deleteLocalBooking,
   updateLocalBooking,
+  BookingRecord,
 } from "@/lib/bookingStore";
 
 // POST: Submit a new booking / Quiz lead / Contact form (INSTANT < 50ms)
@@ -29,7 +29,7 @@ export async function POST(req: Request) {
     }
 
     const bookingId = `lead_${Date.now()}_${Math.random().toString(36).substring(2, 8)}`;
-    const newRecord = {
+    const newRecord: BookingRecord = {
       _id: bookingId,
       name: leadName,
       email: leadEmail,
@@ -42,24 +42,30 @@ export async function POST(req: Request) {
     // 1. Save to local store INSTANTLY (< 1ms)
     saveLocalBooking(newRecord);
 
-    // 2. Non-blocking background sync to MongoDB Atlas & email notification
+    // 2. Non-blocking background sync to Supabase Cloud Database & email notification
     (async () => {
       try {
         sendBookingEmail(newRecord).catch((e) =>
           console.log("Email dispatch background notice:", e)
         );
-        await dbConnect();
-        await Booking.create({
-          _id: bookingId,
-          name: leadName,
-          email: leadEmail,
-          phone: leadPhone,
-          serviceType: finalService,
-          message: finalMessage,
-          createdAt: newRecord.createdAt,
-        });
+
+        const { error: supabaseError } = await supabaseAdmin
+          .from("bookings")
+          .upsert({
+            id: bookingId,
+            name: leadName,
+            email: leadEmail,
+            phone: leadPhone,
+            service_type: finalService,
+            message: finalMessage,
+            created_at: newRecord.createdAt,
+          });
+
+        if (supabaseError) {
+          console.log("[Supabase Lead Insert Warning]:", supabaseError.message);
+        }
       } catch (err) {
-        console.log("[MongoDB Background Sync Notice]:", err);
+        console.log("[Supabase Background Sync Notice]:", err);
       }
     })();
 
@@ -92,38 +98,33 @@ export async function GET(req: Request) {
     // Always load local store immediately
     let allLeads = getLocalBookings();
 
-    // Try fetching from MongoDB Atlas with a 2-second timeout
+    // Try fetching from Supabase Cloud Database
     try {
-      const mongoPromise = (async () => {
-        await dbConnect();
-        const docs = await Booking.find({}).sort({ createdAt: -1 }).lean();
-        return docs;
-      })();
+      const { data: supabaseLeads, error } = await supabaseAdmin
+        .from("bookings")
+        .select("*")
+        .order("created_at", { ascending: false });
 
-      const timeoutPromise = new Promise((resolve) => setTimeout(() => resolve(null), 2000));
-      const mongoResult: any = await Promise.race([mongoPromise, timeoutPromise]);
-
-      if (Array.isArray(mongoResult) && mongoResult.length > 0) {
-        const mongoFormatted = mongoResult.map((doc: any) => ({
-          _id: String(doc._id),
+      if (!error && Array.isArray(supabaseLeads) && supabaseLeads.length > 0) {
+        const formatted: BookingRecord[] = supabaseLeads.map((doc: any) => ({
+          _id: doc.id || String(doc._id),
           name: doc.name || "",
           email: doc.email || "",
           phone: doc.phone || "",
-          serviceType: doc.serviceType || "General Counseling Inquiry",
+          serviceType: doc.service_type || doc.serviceType || "General Counseling Inquiry",
           message: doc.message || "",
-          createdAt: doc.createdAt ? new Date(doc.createdAt).toISOString() : new Date().toISOString(),
+          createdAt: doc.created_at || new Date().toISOString(),
         }));
 
         // Smart Deduplication by phone/email or _id
-        const leadMap = new Map();
-        [...allLeads, ...mongoFormatted].forEach((item) => {
+        const leadMap = new Map<string, BookingRecord>();
+        [...allLeads, ...formatted].forEach((item) => {
           const uniqueKey = item.phone || item.email || item._id;
           if (!leadMap.has(uniqueKey)) {
             leadMap.set(uniqueKey, item);
           } else {
-            // Keep doc with matching _id
             const existing = leadMap.get(uniqueKey);
-            if (!existing._id || existing._id.startsWith("lead_")) {
+            if (!existing?._id || existing._id.startsWith("lead_")) {
               leadMap.set(uniqueKey, item);
             }
           }
@@ -131,27 +132,27 @@ export async function GET(req: Request) {
         allLeads = Array.from(leadMap.values());
       }
     } catch (dbErr) {
-      console.log("[MongoDB GET notice - using local store]:", dbErr);
+      console.log("[Supabase GET notice - using local store fallback]:", dbErr);
     }
 
     allLeads.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 
     return NextResponse.json({
       success: true,
-      source: "Active Practitioner Database",
+      source: "Supabase Cloud Database",
       data: allLeads,
     });
   } catch (error: any) {
     console.error("API GET error:", error);
     return NextResponse.json({
       success: true,
-      source: "Active Practitioner Database",
+      source: "Supabase Cloud Database",
       data: getLocalBookings(),
     });
   }
 }
 
-// DELETE: Delete a lead entry permanently from ALL databases
+// DELETE: Delete a lead entry permanently from databases
 export async function DELETE(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
@@ -167,23 +168,18 @@ export async function DELETE(req: Request) {
       return NextResponse.json({ error: "Booking ID is required" }, { status: 400 });
     }
 
-    // 1. Delete from local JSON / memory store immediately
+    // 1. Delete from local JSON store immediately
     deleteLocalBooking(id);
 
-    // 2. Non-blocking background deletion from MongoDB Atlas by _id OR phone OR email OR name
+    // 2. Non-blocking background deletion from Supabase
     (async () => {
       try {
-        await dbConnect();
-        await Booking.deleteMany({
-          $or: [
-            { _id: id },
-            { phone: id },
-            { email: id },
-            { name: id }
-          ]
-        });
+        await supabaseAdmin
+          .from("bookings")
+          .delete()
+          .or(`id.eq.${id},phone.eq.${id},email.eq.${id}`);
       } catch (e) {
-        console.log("[MongoDB DELETE notice]:", e);
+        console.log("[Supabase DELETE notice]:", e);
       }
     })();
 
@@ -215,11 +211,18 @@ export async function PUT(req: Request) {
     const updated = updateLocalBooking(id, updateData);
 
     try {
-      await dbConnect();
-      await Booking.deleteMany({ $or: [{ _id: id }, { phone: phone }] });
-      await Booking.create({ _id: id, ...updateData });
+      await supabaseAdmin
+        .from("bookings")
+        .update({
+          name,
+          email,
+          phone,
+          service_type: serviceType,
+          message,
+        })
+        .eq("id", id);
     } catch (e) {
-      console.log("[MongoDB PUT notice]:", e);
+      console.log("[Supabase PUT notice]:", e);
     }
 
     return NextResponse.json({ success: true, message: "Lead updated successfully", data: updated });
