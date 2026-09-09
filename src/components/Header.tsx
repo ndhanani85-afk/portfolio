@@ -117,6 +117,13 @@ export default function Header() {
             >
               FAQ
             </Link>
+
+            <Link
+              href="/review-generator"
+              className="text-sm font-medium text-deep-ink hover:text-[#0B3C2D] transition-colors"
+            >
+              Reviews
+            </Link>
           </nav>
 
           {/* Primary CTA */}
@@ -203,6 +210,13 @@ export default function Header() {
                 className="text-base font-bold text-[#0B3C2D] hover:text-[#D98A2B]"
               >
                 FAQ
+              </Link>
+              <Link
+                href="/review-generator"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="text-base font-bold text-[#0B3C2D] hover:text-[#D98A2B]"
+              >
+                Reviews
               </Link>
               <Link
                 href="/contact#booking"
