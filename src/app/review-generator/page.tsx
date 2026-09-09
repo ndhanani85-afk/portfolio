@@ -16,12 +16,33 @@ import {
 } from "lucide-react";
 import LeafMotif from "@/components/LeafMotif";
 
+import {
+  AlertDialog,
+  AlertDialogPopup,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogAction,
+} from "@/components/animate-ui/components/base/alert-dialog";
+
 interface ReviewSeed {
   category: string;
   subType: string;
-  mode: "counseling" | "visa";
+  mode?: "counseling";
   text: string;
 }
+
+const confettiList = [
+  { top: "12%", left: "15%", width: "w-2 h-3.5", color: "bg-[#EA580C]", rotate: "rotate-12" },
+  { top: "18%", left: "82%", width: "w-3 h-2", color: "bg-[#0F9D58]", rotate: "-rotate-45" },
+  { top: "25%", left: "10%", width: "w-2.5 h-2.5", color: "bg-[#F59E0B]", rotate: "rotate-45" },
+  { top: "35%", left: "88%", width: "w-2 h-4", color: "bg-[#3B82F6]", rotate: "rotate-12" },
+  { top: "65%", left: "8%", width: "w-3 h-2", color: "bg-[#EC4899]", rotate: "-rotate-12" },
+  { top: "72%", left: "85%", width: "w-2.5 h-3", color: "bg-[#8B5CF6]", rotate: "rotate-45" },
+  { top: "82%", left: "18%", width: "w-2 h-3", color: "bg-[#10B981]", rotate: "-rotate-30" },
+  { top: "85%", left: "78%", width: "w-3 h-2", color: "bg-[#F97316]", rotate: "rotate-60" },
+];
 
 export default function ReviewGeneratorPage() {
   // Selected Filter Pills (Counseling Practice Mode Only)
@@ -601,81 +622,74 @@ export default function ReviewGeneratorPage() {
 
       </div>
 
-      {/* ── CELEBRATORY SUBMISSION MODAL (Exact match to 2nd image animation) ── */}
-      {saveSuccess && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#13221C]/60 backdrop-blur-sm animate-fade-in">
-          <div className="relative w-full max-w-sm bg-white rounded-3xl p-7 sm:p-9 shadow-2xl border border-[#E4DDD0] text-center overflow-hidden animate-fade-up">
-            
-            {/* Multi-colored Confetti Flakes (Matching 2nd image) */}
-            {confettiList.map((c, idx) => (
-              <div
-                key={idx}
-                className={`absolute ${c.width} ${c.color} ${c.rotate} rounded-xs pointer-events-none opacity-85 animate-confetti`}
-                style={{ top: c.top, left: c.left }}
-              />
-            ))}
+      {/* ── CELEBRATORY SUBMISSION ALERT DIALOG (animate-ui animated alert-dialog with from="bottom") ── */}
+      <AlertDialog open={saveSuccess} onOpenChange={setSaveSuccess}>
+        <AlertDialogPopup from="bottom" className="sm:max-w-[425px]">
+          {/* Multi-colored Confetti Flakes (Matching 2nd image) */}
+          {confettiList.map((c, idx) => (
+            <div
+              key={idx}
+              className={`absolute ${c.width} ${c.color} ${c.rotate} rounded-xs pointer-events-none opacity-85 animate-confetti`}
+              style={{ top: c.top, left: c.left }}
+            />
+          ))}
 
-            {/* Close Button */}
-            <button
-              onClick={() => setSaveSuccess(false)}
-              className="absolute top-4 right-4 p-1.5 rounded-full text-[#8C847C] hover:bg-[#FAF8F5] transition-colors z-10"
-              aria-label="Close"
-            >
-              <X className="w-5 h-5" />
-            </button>
+          {/* Close Button */}
+          <button
+            type="button"
+            onClick={() => setSaveSuccess(false)}
+            className="absolute top-4 right-4 p-1.5 rounded-full text-[#8C847C] hover:bg-[#FAF8F5] transition-colors z-10"
+            aria-label="Close"
+          >
+            <X className="w-5 h-5" />
+          </button>
 
-            {/* Concentric Green Circle Checkmark Emblem (Image 2 style) */}
-            <div className="relative my-4 flex items-center justify-center">
-              {/* Outer soft glowing green halo */}
-              <div className="w-28 h-28 rounded-full bg-[#E6F4EA] animate-halo-pulse flex items-center justify-center">
-                {/* Inner solid green circle */}
-                <div className="w-16 h-16 rounded-full bg-[#0F9D58] text-white flex items-center justify-center shadow-lg shadow-[#0F9D58]/30 animate-success-pop">
-                  {/* Double Checkmark Icon (Exact match to 2nd image) */}
-                  <svg
-                    className="w-8 h-8 text-white stroke-current"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    strokeWidth="3"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M4 12l4 4L18 6" />
-                    <path d="M9 12l2.5 2.5L20 7" opacity="0.85" />
-                  </svg>
-                </div>
+          {/* Concentric Green Circle Checkmark Emblem (Image 2 style) */}
+          <div className="relative my-4 flex items-center justify-center">
+            {/* Outer soft glowing green halo */}
+            <div className="w-28 h-28 rounded-full bg-[#E6F4EA] animate-halo-pulse flex items-center justify-center">
+              {/* Inner solid green circle */}
+              <div className="w-16 h-16 rounded-full bg-[#0F9D58] text-white flex items-center justify-center shadow-lg shadow-[#0F9D58]/30 animate-success-pop">
+                {/* Double Checkmark Icon (Exact match to 2nd image) */}
+                <svg
+                  className="w-8 h-8 text-white stroke-current"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  strokeWidth="3"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M4 12l4 4L18 6" />
+                  <path d="M9 12l2.5 2.5L20 7" opacity="0.85" />
+                </svg>
               </div>
             </div>
-
-            {/* Heading & Friendly Non-Technical Subtitle */}
-            <div className="space-y-2 mt-4">
-              <h2 className="text-xl sm:text-2xl font-black text-[#13221C] tracking-tight">
-                Review Submitted!
-              </h2>
-              <p className="text-xs sm:text-sm text-[#5E5852] leading-relaxed">
-                Thank you, <strong className="text-[#13221C]">{submittedAuthor || "Client"}</strong>! Your feedback has been shared with Nikunj Dhanani.
-              </p>
-            </div>
-
-            {/* Done Action Buttons */}
-            <div className="mt-6 pt-2 space-y-2">
-              <button
-                onClick={() => setSaveSuccess(false)}
-                className="w-full py-3 px-5 rounded-2xl bg-[#0B3C2D] hover:bg-[#07291f] text-white font-bold text-xs sm:text-sm transition-all shadow-md"
-              >
-                Done
-              </button>
-
-              <Link
-                href="/"
-                className="block text-xs font-bold text-[#8C847C] hover:text-[#0B3C2D] py-1 transition-colors"
-              >
-                Return to Homepage
-              </Link>
-            </div>
-
           </div>
-        </div>
-      )}
+
+          <AlertDialogHeader>
+            <AlertDialogTitle>Review Submitted!</AlertDialogTitle>
+            <AlertDialogDescription>
+              Thank you, <strong className="text-[#13221C]">{submittedAuthor || "Client"}</strong>! Your feedback has been shared with Nikunj Dhanani.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+
+          <AlertDialogFooter className="flex-col sm:flex-col gap-2">
+            <AlertDialogAction
+              onClick={() => setSaveSuccess(false)}
+              className="w-full py-3.5 px-6 rounded-2xl bg-[#0B3C2D] hover:bg-[#07291f] text-white font-bold text-sm shadow-md"
+            >
+              Done
+            </AlertDialogAction>
+            <Link
+              href="/"
+              onClick={() => setSaveSuccess(false)}
+              className="block text-xs font-bold text-[#8C847C] hover:text-[#0B3C2D] py-1 transition-colors text-center"
+            >
+              Return to Homepage
+            </Link>
+          </AlertDialogFooter>
+        </AlertDialogPopup>
+      </AlertDialog>
 
     </div>
   );

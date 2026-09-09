@@ -81,7 +81,7 @@ export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
     const category = searchParams.get("category");
-    const mode = searchParams.get("mode"); // "counseling" | "visa" | "all"
+    const mode = searchParams.get("mode"); // "counseling" | "all"
     const getSeedsOnly = searchParams.get("seeds") === "true";
 
     if (getSeedsOnly) {

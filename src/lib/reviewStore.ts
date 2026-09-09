@@ -17,7 +17,7 @@ export interface ReviewRecord {
 export const SEED_REVIEWS: Array<{
   category: string;
   subType: string;
-  mode: "counseling" | "visa";
+  mode: "counseling";
   text: string;
 }> = [
   // ── Practice & Counseling Reviews ──
@@ -200,98 +200,6 @@ export const SEED_REVIEWS: Array<{
     subType: "1-on-1 Sessions",
     mode: "counseling",
     text: "Every session with Nikunj paid dividends in peace of mind, family harmony, and emotional resilience for our entire household.",
-  },
-
-  // ── Visa & Global Travel Reviews (Exact match to screenshot reference) ──
-  {
-    category: "USA",
-    subType: "Student",
-    mode: "visa",
-    text: "Had an amazing experience with TESCA Visa Consultancy for my USA F1 visa application. The team is professional, supportive, and guided me seamlessly through the entire mock interview process.",
-  },
-  {
-    category: "Canada",
-    subType: "Student",
-    mode: "visa",
-    text: "Got my Canada study permit approved in record time! The documentation review was meticulous and left zero room for errors. Highly recommend TESCA for prospective students.",
-  },
-  {
-    category: "UK",
-    subType: "Student",
-    mode: "visa",
-    text: "Exceptional support for UK student visa processing. From CAS verification to financial documentation checklists, the team made every complex requirement effortless.",
-  },
-  {
-    category: "Australia",
-    subType: "Tourist",
-    mode: "visa",
-    text: "Smooth and stress-free Australian tourist visa approval for our entire family. Transparent process, timely updates, and courteous staff throughout.",
-  },
-  {
-    category: "Germany",
-    subType: "Student",
-    mode: "visa",
-    text: "Navigating the German blocked account and APS certification was daunting, but the consultancy provided step-by-step clarity until my visa was stamped successfully.",
-  },
-  {
-    category: "Dubai",
-    subType: "Tourist",
-    mode: "visa",
-    text: "Lightning fast Dubai visit visa processing! Received our visas within 48 hours without any hassle. Super reliable service.",
-  },
-  {
-    category: "Ireland",
-    subType: "Student",
-    mode: "visa",
-    text: "Securing my Irish study visa seemed stressful due to financial scrutiny, but their counseling team prepared every file with surgical precision. Forever thankful!",
-  },
-  {
-    category: "N. Zealand",
-    subType: "Student",
-    mode: "visa",
-    text: "Remarkable service for New Zealand student visa filing. Transparent guidance, prompt responses on WhatsApp, and genuine care for the applicant's future.",
-  },
-  {
-    category: "USA",
-    subType: "Tourist",
-    mode: "visa",
-    text: "Got my US B1/B2 tourist visa approved on the first attempt! The DS-160 review and realistic consulate mock interview prep made all the difference.",
-  },
-  {
-    category: "Canada",
-    subType: "Dependent",
-    mode: "visa",
-    text: "Processed our Canada spousal dependent visa smoothly. Clear SOP guidance, flawless document tracking, and constant reassurance from the counselors.",
-  },
-  {
-    category: "Singapore",
-    subType: "Tourist",
-    mode: "visa",
-    text: "Flawless Singapore e-visa experience. Fast turnaround, transparent fees, and prompt verification of all flight and hotel confirmations.",
-  },
-  {
-    category: "UK",
-    subType: "Dependent",
-    mode: "visa",
-    text: "Very professional handling of our UK dependent visa application. No delays, prompt answers to queries, and top-notch documentation support.",
-  },
-  {
-    category: "Australia",
-    subType: "Student",
-    mode: "visa",
-    text: "Got my Australia subclass 500 visa granted smoothly! The team guided me on GTE requirements and health checks thoroughly. Top visa consultants!",
-  },
-  {
-    category: "USA",
-    subType: "Student",
-    mode: "visa",
-    text: "The level of detail in my financial sponsorship documentation was unmatched. With TESCA's mock interviews, I felt completely confident facing the visa officer.",
-  },
-  {
-    category: "Canada",
-    subType: "Tourist",
-    mode: "visa",
-    text: "Very reliable and honest consultancy. They don't make false promises and ensure your documentation is 100% genuine and compliant. Highly satisfied!",
   },
 ];
 
