@@ -1,15 +1,37 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { Mic, Users, Calendar, ArrowRight, CheckCircle2, Mail, Send, X, Star, FileText } from "lucide-react";
 import LeafMotif from "@/components/LeafMotif";
 import ScrollReveal from "@/components/ScrollReveal";
+
+const confettiList = [
+  { top: "10%", left: "10%", color: "bg-emerald-400", width: "w-2 h-3.5", rotate: "rotate-12" },
+  { top: "15%", left: "80%", color: "bg-amber-400", width: "w-2.5 h-2.5", rotate: "-rotate-45" },
+  { top: "8%", left: "45%", color: "bg-[#0B3C2D]", width: "w-1.5 h-3", rotate: "rotate-45" },
+  { top: "25%", left: "5%", color: "bg-teal-400", width: "w-3 h-2", rotate: "-rotate-12" },
+  { top: "30%", left: "85%", color: "bg-amber-500", width: "w-2 h-4", rotate: "rotate-24" },
+  { top: "6%", left: "70%", color: "bg-emerald-500", width: "w-2.5 h-2", rotate: "rotate-90" },
+];
 
 export default function SpeakingPage() {
   const [selectedTopic, setSelectedTopic] = useState<string | null>(null);
   const [formData, setFormData] = useState({ name: "", email: "", org: "", date: "", message: "" });
   const [isSubmitted, setIsSubmitted] = useState(false);
+
+  // Auto-open modal when navigating to #booking-form
+  useEffect(() => {
+    const checkHash = () => {
+      if (typeof window !== "undefined" && window.location.hash === "#booking-form") {
+        setSelectedTopic("General Keynote & Corporate Workshop");
+      }
+    };
+    checkHash();
+    window.addEventListener("hashchange", checkHash);
+    return () => window.removeEventListener("hashchange", checkHash);
+  }, []);
 
   const keynoteTalks = [
     {
@@ -105,14 +127,25 @@ export default function SpeakingPage() {
                 I deliver engaging, evidence-based keynotes and interactive workshops for corporate leadership teams, educational institutions, and community organizations.
               </p>
 
-              <div className="pt-2 flex flex-wrap items-center gap-4">
-                <a
-                  href="#booking-form"
-                  className="px-6 py-3 rounded-full bg-[#0B3C2D] hover:bg-[#07291f] text-white font-bold text-xs shadow-md transition-colors inline-flex items-center"
+              <div className="pt-2 flex flex-wrap items-center gap-3.5">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSelectedTopic("General Keynote & Corporate Workshop");
+                    setIsSubmitted(false);
+                  }}
+                  className="px-6 py-3.5 rounded-full bg-[#0B3C2D] hover:bg-[#07291f] text-white font-bold text-xs shadow-md hover:shadow-lg transition-all inline-flex items-center cursor-pointer active:scale-98"
                 >
                   <Calendar className="w-4 h-4 mr-2" />
                   Request Speaking Engagement
-                </a>
+                </button>
+                <Link
+                  href="/contact#booking"
+                  className="px-5 py-3.5 rounded-full bg-[#F8F4EE] hover:bg-[#efe8dd] text-[#0B3C2D] font-bold text-xs border border-[#0B3C2D]/15 transition-all inline-flex items-center"
+                >
+                  Book 1-on-1 Counseling
+                  <ArrowRight className="w-3.5 h-3.5 ml-1.5" />
+                </Link>
               </div>
             </div>
 
@@ -232,8 +265,24 @@ export default function SpeakingPage() {
 
         {/* Modal Request Form */}
         {selectedTopic && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#13221C]/70 backdrop-blur-sm animate-fade-in">
-            <div className="relative w-full max-w-lg bg-white rounded-2xl shadow-2xl p-6 md:p-8 border border-[#0B3C2D]/10 my-auto">
+          <div
+            id="booking-form"
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#13221C]/70 backdrop-blur-sm animate-fade-in"
+          >
+            <div className="relative w-full max-w-lg bg-white rounded-3xl shadow-2xl p-6 md:p-8 border border-[#0B3C2D]/10 my-auto overflow-hidden">
+              {/* Confetti Flakes when submitted */}
+              {isSubmitted && (
+                <>
+                  {confettiList.map((c, idx) => (
+                    <div
+                      key={idx}
+                      className={`absolute ${c.width} ${c.color} ${c.rotate} rounded-xs pointer-events-none opacity-85 animate-confetti`}
+                      style={{ top: c.top, left: c.left }}
+                    />
+                  ))}
+                </>
+              )}
+
               <div className="flex items-center justify-between border-b border-[#0B3C2D]/10 pb-4 mb-4">
                 <div>
                   <span className="text-[10px] font-bold text-[#D98A2B] uppercase tracking-wider block">Keynote Booking Request</span>
@@ -241,7 +290,8 @@ export default function SpeakingPage() {
                 </div>
                 <button
                   onClick={() => { setSelectedTopic(null); setIsSubmitted(false); }}
-                  className="p-1 rounded-full text-ink-muted hover:bg-[#F8F4EE]"
+                  className="p-1.5 rounded-full text-ink-muted hover:bg-[#F8F4EE] transition-colors"
+                  aria-label="Close"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -250,7 +300,7 @@ export default function SpeakingPage() {
               {!isSubmitted ? (
                 <form onSubmit={handleSubmit} className="space-y-4 text-left">
                   <div>
-                    <label className="block text-xs font-bold text-[#0B3C2D] mb-1">Your Name</label>
+                    <label className="block text-xs font-bold text-[#0B3C2D] mb-1">Your Name *</label>
                     <input
                       type="text"
                       required
@@ -262,7 +312,7 @@ export default function SpeakingPage() {
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold text-[#0B3C2D] mb-1">Work Email</label>
+                    <label className="block text-xs font-bold text-[#0B3C2D] mb-1">Work Email *</label>
                     <input
                       type="email"
                       required
@@ -274,7 +324,7 @@ export default function SpeakingPage() {
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold text-[#0B3C2D] mb-1">Organization / School Name</label>
+                    <label className="block text-xs font-bold text-[#0B3C2D] mb-1">Organization / School Name *</label>
                     <input
                       type="text"
                       required
@@ -286,7 +336,7 @@ export default function SpeakingPage() {
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold text-[#0B3C2D] mb-1">Proposed Date / Details</label>
+                    <label className="block text-xs font-bold text-[#0B3C2D] mb-1">Proposed Date / Details (Optional)</label>
                     <textarea
                       rows={2}
                       value={formData.message}
@@ -298,26 +348,45 @@ export default function SpeakingPage() {
 
                   <button
                     type="submit"
-                    className="w-full py-3 rounded-full bg-[#0B3C2D] hover:bg-[#07291f] text-white font-bold text-xs transition-colors shadow-md"
+                    className="w-full py-3.5 rounded-full bg-[#0B3C2D] hover:bg-[#07291f] text-white font-bold text-xs transition-colors shadow-md"
                   >
                     Submit Keynote Request
                   </button>
                 </form>
               ) : (
-                <div className="text-center py-6 space-y-3">
-                  <div className="w-12 h-12 rounded-full bg-[#8CA899]/20 text-[#0B3C2D] flex items-center justify-center mx-auto">
-                    <Send className="w-6 h-6 text-[#0B3C2D]" />
+                <div className="text-center py-4 space-y-4 animate-fade-in">
+                  {/* Concentric Green Circle Checkmark Emblem */}
+                  <div className="relative my-3 flex items-center justify-center">
+                    <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-[#E6F4EA] animate-halo-pulse flex items-center justify-center">
+                      <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-[#0F9D58] text-white flex items-center justify-center shadow-lg shadow-[#0F9D58]/30 animate-success-pop">
+                        <svg
+                          className="w-7 h-7 sm:w-8 sm:h-8 text-white stroke-current"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          strokeWidth="3"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <path d="M4 12l4 4L18 6" />
+                          <path d="M9 12l2.5 2.5L20 7" opacity="0.85" />
+                        </svg>
+                      </div>
+                    </div>
                   </div>
-                  <h4 className="text-xl font-serif-display font-bold text-[#0B3C2D]">Request Received!</h4>
-                  <p className="text-xs text-ink-muted">
-                    Thank you, {formData.name}. Nikunj will review your event details and respond within 24 business hours.
+
+                  <h4 className="text-2xl font-serif-display font-bold text-[#0B3C2D]">Request Received!</h4>
+                  <p className="text-xs text-ink-muted max-w-sm mx-auto leading-relaxed">
+                    Thank you, <strong className="text-[#13221C]">{formData.name}</strong>! Your keynote speaking request for <strong className="text-[#0B3C2D]">{selectedTopic}</strong> has been received. Nikunj will review your event details and respond within 24 business hours.
                   </p>
-                  <button
-                    onClick={() => { setSelectedTopic(null); setIsSubmitted(false); }}
-                    className="px-6 py-2 rounded-full bg-[#F8F4EE] text-xs font-bold text-[#0B3C2D]"
-                  >
-                    Close
-                  </button>
+
+                  <div className="pt-2">
+                    <button
+                      onClick={() => { setSelectedTopic(null); setIsSubmitted(false); }}
+                      className="w-full py-3.5 rounded-2xl bg-[#0B3C2D] hover:bg-[#07291f] text-white font-bold text-xs sm:text-sm shadow-md active:scale-98 transition-all"
+                    >
+                      Done
+                    </button>
+                  </div>
                 </div>
               )}
             </div>
