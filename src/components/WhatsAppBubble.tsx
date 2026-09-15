@@ -11,7 +11,7 @@ export default function WhatsAppBubble() {
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Chat on WhatsApp with Nikunj Dhanani"
-      className="fixed bottom-20 right-4 sm:bottom-6 sm:right-6 z-40 flex items-center space-x-2.5 bg-[#25D366] hover:bg-[#20ba5a] text-white px-4 py-3 rounded-full shadow-2xl hover-lift transition-all duration-300 group border border-white/20"
+      className="hidden md:flex fixed bottom-6 right-6 z-40 items-center space-x-2.5 bg-[#25D366] hover:bg-[#20ba5a] text-white px-4 py-3 rounded-full shadow-2xl hover-lift transition-all duration-300 group border border-white/20"
     >
       {/* Official Crisp WhatsApp SVG Logo */}
       <svg
