@@ -85,7 +85,7 @@ export const metadata: Metadata = {
     images: ["/ndhanani.png"],
   },
   verification: {
-    google: "5IN0At3gecy-sD7PjTVXdN83IVD55Gq6hBZAM",
+    google: "5lN0At3gecy-sD7PjTVXdN83IVD55Gq6hBZAM8MO4jE",
   },
 };
 
