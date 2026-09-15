@@ -157,7 +157,7 @@ export default function AdminDashboard() {
         localStorage.setItem("dhanani_admin_key", key);
         setBookings(data.data || []);
         setFilteredBookings(data.data || []);
-        setSource(data.source || "Active Practitioner Database");
+        setSource(data.source || "Lead Submission Channels");
         return true;
       } else {
         localStorage.removeItem("dhanani_admin_key");
@@ -387,7 +387,7 @@ export default function AdminDashboard() {
             </h1>
             <p className="text-xs text-[#5E5852] flex items-center mt-1">
               <Database className="w-3.5 h-3.5 mr-1.5 text-[#6B7F62]" />
-              Active Database: <strong className="ml-1 text-[#1E2C24] font-bold">{source}</strong>
+              Lead Sources: <strong className="ml-1 text-[#1E2C24] font-bold">{source}</strong>
             </p>
           </div>
           
@@ -670,7 +670,7 @@ export default function AdminDashboard() {
                   Active Storage Engine
                 </span>
                 <span className="block text-base sm:text-lg font-bold text-[#0B3C2D] pt-1">
-                  Supabase Cloud Database
+                  Lead Storage: <strong className="ml-1 text-[#0B3C2D] font-bold">Site Database</strong>
                 </span>
               </div>
             </div>

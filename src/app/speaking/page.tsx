@@ -21,6 +21,8 @@ export default function SpeakingPage() {
   const [formData, setFormData] = useState({ name: "", email: "", org: "", date: "", message: "" });
   const [isSubmitted, setIsSubmitted] = useState(false);
 
+  const [submitError, setSubmitError] = useState("");
+
   // Auto-open modal when navigating to #booking-form
   useEffect(() => {
     const checkHash = () => {
@@ -87,23 +89,32 @@ export default function SpeakingPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setSubmitError("");
     try {
-      await fetch("/api/bookings", {
+      const res = await fetch("/api/bookings", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: formData.name,
           email: formData.email,
-          phone: formData.org ? `Org: ${formData.org}` : "",
+          phone: "",
           serviceType: "Keynote Speaking Request",
-          message: `Topic: ${selectedTopic}. Proposed Details: ${formData.message || "None"}`,
+          message: `Topic: ${selectedTopic}. Organization: ${formData.org}. Proposed Details: ${formData.message || "None"}`,
         }),
       });
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        setSubmitError(
+          data.message || "Something went wrong. Please try again."
+        );
+        return;
+      }
     } catch (err) {
       console.error("Speaking request error:", err);
-    } finally {
-      setIsSubmitted(true);
+      setSubmitError("Network error. Please check your connection and try again.");
+      return;
     }
+    setIsSubmitted(true);
   };
 
   return (
@@ -299,6 +310,12 @@ export default function SpeakingPage() {
 
               {!isSubmitted ? (
                 <form onSubmit={handleSubmit} className="space-y-4 text-left">
+                  {submitError && (
+                    <div className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs font-semibold">
+                      <X className="w-4 h-4 shrink-0" />
+                      {submitError}
+                    </div>
+                  )}
                   <div>
                     <label className="block text-xs font-bold text-[#0B3C2D] mb-1">Your Name *</label>
                     <input

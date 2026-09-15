@@ -152,14 +152,14 @@ export async function GET(req: Request) {
 
     return NextResponse.json({
       success: true,
-      source: "Supabase Cloud Database",
+      source: "Lead Submission Channels",
       data: allLeads,
     });
   } catch (error: any) {
     console.error("API GET error:", error);
     return NextResponse.json({
       success: true,
-      source: "Supabase Cloud Database",
+      source: "Lead Submission Channels",
       data: getLocalBookings(),
     });
   }
