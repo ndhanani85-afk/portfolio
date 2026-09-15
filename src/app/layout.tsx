@@ -84,6 +84,9 @@ export const metadata: Metadata = {
     description: "Guiding families through stress, back to calm. 6+ years of evidence-based counseling in Mumbai & online.",
     images: ["/ndhanani.png"],
   },
+  verification: {
+    google: "5IN0At3gecy-sD7PjTVXdN83IVD55Gq6hBZAM",
+  },
 };
 
 const jsonLd = {
