@@ -91,8 +91,7 @@ export default function AdminDashboard() {
   // Load auth state from localStorage on mount
   useEffect(() => {
     const savedKey = localStorage.getItem("dhanani_admin_key");
-    if (savedKey) {
-      setIsAuthenticated(true);
+    if (savedKey && savedKey !== "dhanani_admin_2026") {
       fetchBookings(savedKey);
       fetchReviews(savedKey);
     }
@@ -145,10 +144,12 @@ export default function AdminDashboard() {
     setFilteredReviews(result);
   }, [reviews, searchTerm, reviewFilterCategory]);
 
-  const fetchBookings = async (key: string) => {
+  const fetchBookings = async (key: string): Promise<boolean> => {
     setLoading(true);
     try {
-      const res = await fetch(`/api/bookings?key=${key}`);
+      const res = await fetch(`/api/bookings`, {
+        headers: { "x-admin-key": key },
+      });
       const data = await res.json();
 
       if (res.ok && data.success) {
@@ -157,15 +158,17 @@ export default function AdminDashboard() {
         setBookings(data.data || []);
         setFilteredBookings(data.data || []);
         setSource(data.source || "Active Practitioner Database");
+        return true;
       } else {
-        if (key !== "dhanani_admin_2026") {
-          setLoginError(data.error || "Invalid administrator password");
-          localStorage.removeItem("dhanani_admin_key");
-          setIsAuthenticated(false);
-        }
+        localStorage.removeItem("dhanani_admin_key");
+        setIsAuthenticated(false);
+        return false;
       }
     } catch (err) {
       console.log("Admin bookings fetch error:", err);
+      localStorage.removeItem("dhanani_admin_key");
+      setIsAuthenticated(false);
+      return false;
     } finally {
       setLoading(false);
     }
@@ -187,14 +190,15 @@ export default function AdminDashboard() {
     }
   };
 
-  const handleLoginSubmit = (e: React.FormEvent) => {
+  const handleLoginSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoginError("");
     if (!password) return;
-    localStorage.setItem("dhanani_admin_key", password);
-    setIsAuthenticated(true);
-    fetchBookings(password);
+    const ok = await fetchBookings(password);
     fetchReviews(password);
+    if (!ok) {
+      setLoginError("Invalid administrator password");
+    }
   };
 
   const handleLogout = () => {
@@ -208,7 +212,8 @@ export default function AdminDashboard() {
   };
 
   const handleRefresh = () => {
-    const savedKey = localStorage.getItem("dhanani_admin_key") || "dhanani_admin_2026";
+    const savedKey = localStorage.getItem("dhanani_admin_key");
+    if (!savedKey) return;
     fetchBookings(savedKey);
     fetchReviews(savedKey);
   };
@@ -222,11 +227,13 @@ export default function AdminDashboard() {
     setBookings((prev) => prev.filter((b) => b._id !== id));
     setFilteredBookings((prev) => prev.filter((b) => b._id !== id));
 
-    const savedKey = localStorage.getItem("dhanani_admin_key") || "dhanani_admin_2026";
+    const savedKey = localStorage.getItem("dhanani_admin_key");
+    if (!savedKey) return;
     setDeletingId(id);
     try {
-      await fetch(`/api/bookings?id=${id}&key=${savedKey}`, {
+      await fetch(`/api/bookings?id=${id}`, {
         method: "DELETE",
+        headers: { "x-admin-key": savedKey },
       });
     } catch (err) {
       console.log("Error deleting lead from server:", err);
@@ -244,11 +251,13 @@ export default function AdminDashboard() {
     setReviews((prev) => prev.filter((r) => r._id !== id));
     setFilteredReviews((prev) => prev.filter((r) => r._id !== id));
 
-    const savedKey = localStorage.getItem("dhanani_admin_key") || "dhanani_admin_2026";
+    const savedKey = localStorage.getItem("dhanani_admin_key");
+    if (!savedKey) return;
     setDeletingReviewId(id);
     try {
-      await fetch(`/api/reviews?id=${id}&key=${savedKey}`, {
+      await fetch(`/api/reviews?id=${id}`, {
         method: "DELETE",
+        headers: { "x-admin-key": savedKey },
       });
     } catch (err) {
       console.log("Error deleting review:", err);
@@ -276,9 +285,9 @@ export default function AdminDashboard() {
     const savedKey = localStorage.getItem("dhanani_admin_key");
     setIsUpdating(true);
     try {
-      const res = await fetch(`/api/bookings?key=${savedKey}`, {
+      const res = await fetch(`/api/bookings`, {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "x-admin-key": savedKey ?? "" },
         body: JSON.stringify({
           id: editingBooking._id,
           ...editForm,

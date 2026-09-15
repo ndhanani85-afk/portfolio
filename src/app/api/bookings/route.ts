@@ -8,9 +8,22 @@ import {
   updateLocalBooking,
   BookingRecord,
 } from "@/lib/bookingStore";
+import { checkRateLimit, maybeCleanupStaleEntries } from "@/lib/rateLimit";
 
 // POST: Submit a new booking / Quiz lead / Contact form (INSTANT < 50ms)
 export async function POST(req: Request) {
+  maybeCleanupStaleEntries();
+
+  const rateResult = checkRateLimit(req);
+  if (!rateResult.allowed) {
+    return NextResponse.json(
+      {
+        error: "Too many submissions. Please wait a few minutes before trying again.",
+      },
+      { status: 429 }
+    );
+  }
+
   try {
     const body = await req.json();
     const { name, email, phone, serviceType, service, message, notes } = body;
@@ -78,8 +91,8 @@ export async function POST(req: Request) {
   } catch (error: any) {
     console.error("API POST error:", error);
     return NextResponse.json(
-      { success: true, message: "Thank you! Your submission has been registered." },
-      { status: 200 }
+      { success: false, message: "Something went wrong. Please try again." },
+      { status: 500 }
     );
   }
 }
@@ -90,8 +103,8 @@ export async function GET(req: Request) {
     const { searchParams } = new URL(req.url);
     const key = searchParams.get("key") || req.headers.get("x-admin-key");
 
-    const ADMIN_KEY = process.env.ADMIN_KEY || "dhanani_admin_2026";
-    if (key !== ADMIN_KEY && key !== "dhanani_admin_2026") {
+    const ADMIN_KEY = process.env.ADMIN_KEY;
+    if (!ADMIN_KEY || key !== ADMIN_KEY) {
       return NextResponse.json({ error: "Unauthorized access" }, { status: 401 });
     }
 
@@ -159,8 +172,8 @@ export async function DELETE(req: Request) {
     const id = searchParams.get("id");
     const key = searchParams.get("key") || req.headers.get("x-admin-key");
 
-    const ADMIN_KEY = process.env.ADMIN_KEY || "dhanani_admin_2026";
-    if (key !== ADMIN_KEY && key !== "dhanani_admin_2026") {
+    const ADMIN_KEY = process.env.ADMIN_KEY;
+    if (!ADMIN_KEY || key !== ADMIN_KEY) {
       return NextResponse.json({ error: "Unauthorized access" }, { status: 401 });
     }
 
@@ -177,7 +190,7 @@ export async function DELETE(req: Request) {
         await supabaseAdmin
           .from("bookings")
           .delete()
-          .or(`id.eq.${id},phone.eq.${id},email.eq.${id}`);
+          .eq("id", id);
       } catch (e) {
         console.log("[Supabase DELETE notice]:", e);
       }
@@ -195,8 +208,8 @@ export async function PUT(req: Request) {
     const { searchParams } = new URL(req.url);
     const key = searchParams.get("key") || req.headers.get("x-admin-key");
 
-    const ADMIN_KEY = process.env.ADMIN_KEY || "dhanani_admin_2026";
-    if (key !== ADMIN_KEY && key !== "dhanani_admin_2026") {
+    const ADMIN_KEY = process.env.ADMIN_KEY;
+    if (!ADMIN_KEY || key !== ADMIN_KEY) {
       return NextResponse.json({ error: "Unauthorized access" }, { status: 401 });
     }
 

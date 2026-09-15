@@ -7,9 +7,22 @@ import {
   SEED_REVIEWS,
   ReviewRecord,
 } from "@/lib/reviewStore";
+import { checkRateLimit, maybeCleanupStaleEntries } from "@/lib/rateLimit";
 
 // POST: Save a review into Supabase and local store (instant < 20ms)
 export async function POST(req: Request) {
+  maybeCleanupStaleEntries();
+
+  const rateResult = checkRateLimit(req);
+  if (!rateResult.allowed) {
+    return NextResponse.json(
+      {
+        error: "Too many submissions. Please wait a few minutes before trying again.",
+      },
+      { status: 429 }
+    );
+  }
+
   try {
     const body = await req.json();
     const { name, rating, category, subType, reviewText, isAIGenerated } = body;
@@ -131,12 +144,14 @@ export async function GET(req: Request) {
       );
     }
 
-    allReviews.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+    // Only expose real submissions to the public feed. Seeds remain available via ?seeds=true.
+    const realReviews = allReviews.filter((r) => r.source !== "seed_storage");
+    realReviews.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 
     return NextResponse.json({
       success: true,
-      total: allReviews.length,
-      data: allReviews,
+      total: realReviews.length,
+      data: realReviews,
     });
   } catch (error: any) {
     console.error("API GET Review error:", error);
@@ -154,8 +169,8 @@ export async function DELETE(req: Request) {
     const id = searchParams.get("id");
     const key = searchParams.get("key") || req.headers.get("x-admin-key");
 
-    const ADMIN_KEY = process.env.ADMIN_KEY || "dhanani_admin_2026";
-    if (key !== ADMIN_KEY && key !== "dhanani_admin_2026") {
+    const ADMIN_KEY = process.env.ADMIN_KEY;
+    if (!ADMIN_KEY || key !== ADMIN_KEY) {
       return NextResponse.json({ error: "Unauthorized access" }, { status: 401 });
     }
 

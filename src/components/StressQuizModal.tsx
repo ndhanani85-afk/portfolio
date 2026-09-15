@@ -437,16 +437,12 @@ const questionsList: QuestionDef[] = [
 
 export default function StressQuizModal({ isOpen, onClose }: StressQuizModalProps) {
   const [lang, setLang] = useState<QuizLanguage | null>(null);
-  
+
   // Steps Breakdown:
   // Step 0: Language Selection
-  // Step 1: Q1
-  // Step 2: Q2
-  // Step 3: Q3
+  // Steps 1-3: Q1, Q2, Q3
   // Step 4: Mid-Quiz Lead Details Form (Name, 10-digit Phone, Email)
-  // Step 5: Q4
-  // Step 6: Q5
-  // Step 7: Q6
+  // Steps 5-7: Q4, Q5, Q6
   // Step 8: Final Diagnosis Card & WhatsApp Action
   const [stepIndex, setStepIndex] = useState<number>(0);
 
@@ -459,6 +455,7 @@ export default function StressQuizModal({ isOpen, onClose }: StressQuizModalProp
   const [leadForm, setLeadForm] = useState({ name: "", phone: "", email: "" });
   const [phoneTouched, setPhoneTouched] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [leadError, setLeadError] = useState("");
 
   // Background Scroll Locking Effect when Modal is Open
   useEffect(() => {
@@ -501,8 +498,9 @@ export default function StressQuizModal({ isOpen, onClose }: StressQuizModalProp
     if (!isLeadFormValid) return;
 
     setIsSubmitting(true);
+    setLeadError("");
     try {
-      await fetch("/api/bookings", {
+      const res = await fetch("/api/bookings", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -513,8 +511,17 @@ export default function StressQuizModal({ isOpen, onClose }: StressQuizModalProp
           message: `Language: ${currentLanguage.toUpperCase()} | Self-Assessment in progress`,
         }),
       });
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        setLeadError(data.message || "Could not save your details. Please try again.");
+        setIsSubmitting(false);
+        return;
+      }
     } catch (err) {
       console.error("Lead submission notice:", err);
+      setLeadError("Network error. Please check your connection.");
+      setIsSubmitting(false);
+      return;
     } finally {
       setIsSubmitting(false);
       setStepIndex(5); // Proceed to Q4
@@ -842,6 +849,12 @@ export default function StressQuizModal({ isOpen, onClose }: StressQuizModalProp
               </div>
 
               <form onSubmit={handleLeadSubmit} className="space-y-3 pt-1">
+                {leadError && (
+                  <div className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs font-semibold">
+                    <AlertCircle className="w-4 h-4 shrink-0" />
+                    {leadError}
+                  </div>
+                )}
                 <div>
                   <label className="block text-xs font-bold text-[#1E2C24] mb-1 flex items-center justify-between">
                     <span>{currentLanguage === "hi" ? "पूरा नाम *" : currentLanguage === "gu" ? "પૂરું નામ *" : "Full Name *"}</span>

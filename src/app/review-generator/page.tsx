@@ -60,6 +60,7 @@ export default function ReviewGeneratorPage() {
   // Generation & AI simulation states
   const [isGenerating, setIsGenerating] = useState<boolean>(false);
   const [isSaving, setIsSaving] = useState<boolean>(false);
+  const [saveError, setSaveError] = useState<string>("");
   const [saveSuccess, setSaveSuccess] = useState<boolean>(false);
   const [submittedAuthor, setSubmittedAuthor] = useState<string>("");
   const [isCopied, setIsCopied] = useState<boolean>(false);
@@ -224,7 +225,7 @@ export default function ReviewGeneratorPage() {
     }
 
     setIsSaving(true);
-
+    setSaveError("");
     try {
       const payload = {
         name: clientName.trim(),
@@ -244,34 +245,26 @@ export default function ReviewGeneratorPage() {
       const data = await res.json();
 
       if (res.ok && data.success) {
-        // Capture author name for celebration modal before clearing
         setSubmittedAuthor(clientName.trim());
-        // Trigger celebratory animated modal
         setSaveSuccess(true);
-
-        // Prepend to recent reviews list
         setRecentSavedReviews((prev) => [data.data, ...prev]);
-
-        // Copy text for user's convenience too
         try {
           await navigator.clipboard.writeText(reviewText);
           setIsCopied(true);
           setTimeout(() => setIsCopied(false), 2500);
         } catch (e) {}
-
-        // Clear all form fields
         setReviewText("");
         setClientName("");
         setSelectedCategory("All");
         setSelectedType("All");
         setRating(5);
-        setNameError("");
+        setSaveError("");
       } else {
-        alert(data.error || "Failed to post your review. Please try again.");
+        setSaveError(data.error || "Failed to post your review. Please try again.");
       }
     } catch (err) {
       console.log("Error posting review:", err);
-      alert("An unexpected error occurred. Please try again.");
+      setSaveError("An unexpected error occurred. Please try again.");
     } finally {
       setIsSaving(false);
     }
@@ -475,32 +468,30 @@ export default function ReviewGeneratorPage() {
 
           {/* REQUIRED Name Field & Star Rating */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4 pt-1">
-            <div>
-              <label className="block text-[11px] sm:text-xs font-bold uppercase tracking-wider text-[#13221C] mb-1">
-                Your Full Name <span className="text-red-500 font-bold">*</span>
-              </label>
-              <input
-                ref={nameInputRef}
-                type="text"
-                required
-                placeholder="e.g. Priya Sharma or Siddharth Mehta"
-                value={clientName}
-                onChange={(e) => {
-                  setClientName(e.target.value);
-                  if (nameError) setNameError("");
-                }}
-                className={`w-full px-3.5 py-3 sm:py-2.5 rounded-xl border text-base sm:text-sm font-semibold text-[#1E293B] focus:outline-none transition-all ${
-                  nameError
-                    ? "border-red-500 bg-red-50/30 focus:border-red-500"
-                    : "border-[#E2E8F0] bg-[#F8FAFC] focus:border-[#0B3C2D] focus:bg-white"
-                }`}
-              />
-              {nameError && (
-                <p className="text-[11px] font-bold text-red-600 mt-1">
-                  {nameError}
-                </p>
-              )}
-            </div>
+          <div>
+            <label className="block text-[11px] sm:text-xs font-bold uppercase tracking-wider text-[#13221C] mb-1">
+              Your Full Name <span className="text-red-500 font-bold">*</span>
+            </label>
+            <input
+              ref={nameInputRef}
+              type="text"
+              required
+              placeholder="e.g. Priya Sharma or Siddharth Mehta"
+              value={clientName}
+              onChange={(e) => {
+                setClientName(e.target.value);
+                if (saveError) setSaveError("");
+              }}
+              className={`w-full px-3.5 py-3 sm:py-2.5 rounded-xl border text-base sm:text-sm font-semibold text-[#1E293B] focus:outline-none transition-all ${
+                saveError ? "border-red-500 bg-red-50/30 focus:border-red-500" : "border-[#E2E8F0] bg-[#F8FAFC] focus:border-[#0B3C2D] focus:bg-white"
+              }`}
+            />
+            {saveError && (
+              <p className="text-[11px] font-bold text-red-600 mt-1">
+                {saveError}
+              </p>
+            )}
+          </div>
 
             <div>
               <label className="block text-[11px] sm:text-xs font-bold uppercase tracking-wider text-[#5E5852] mb-1">
