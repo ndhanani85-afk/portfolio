@@ -1,9 +1,18 @@
 "use client";
 
 import React from "react";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function WhatsAppBubble() {
+  const { language } = useLanguage();
   const whatsappUrl = "https://wa.me/919925060609?text=Hi%20Nikunj,%20I'd%20like%20to%20ask%20a%20quick%20question.";
+
+  const label =
+    language === "gu"
+      ? "વોટ્સએપ પર વાત કરો"
+      : language === "hi"
+      ? "व्हाट्सएप पर बात करें"
+      : "Chat on WhatsApp";
 
   return (
     <a
@@ -24,7 +33,7 @@ export default function WhatsAppBubble() {
       </svg>
       
       <span className="text-xs sm:text-sm font-bold whitespace-nowrap">
-        Chat on WhatsApp
+        {label}
       </span>
     </a>
   );

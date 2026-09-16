@@ -7,6 +7,8 @@ import CalendarBooking from "@/components/CalendarBooking";
 import { Phone, Mail, MapPin, ShieldCheck, CheckCircle2, MessageCircle, Clock, CalendarDays, Lock, AlertCircle, X } from "lucide-react";
 import LeafMotif from "@/components/LeafMotif";
 import ScrollReveal from "@/components/ScrollReveal";
+import { useLanguage } from "@/context/LanguageContext";
+import { translations } from "@/lib/translations";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -27,6 +29,8 @@ const confettiList = [
 ];
 
 function ContactBookingContent() {
+  const { language, t } = useLanguage();
+  const cp = translations.contactPage;
   const searchParams = useSearchParams();
   const initialService = searchParams.get("service") || "Parenting Coaching";
 
@@ -44,6 +48,12 @@ function ContactBookingContent() {
   const [isBooked, setIsBooked] = useState(false);
   const [showCelebration, setShowCelebration] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const serviceOptions = [
+    { key: "Parenting Coaching", label: cp?.form.services.parenting ? t(cp.form.services.parenting) : "Parenting Coaching" },
+    { key: "Relationship Repair", label: cp?.form.services.relationship ? t(cp.form.services.relationship) : "Relationship Repair" },
+    { key: "Counselling & Life Coaching", label: cp?.form.services.counselling ? t(cp.form.services.counselling) : "Counselling & Life Coaching" },
+  ];
 
   // Restore service param from URL on mount
   useEffect(() => {
@@ -129,13 +139,13 @@ function ContactBookingContent() {
         <ScrollReveal direction="up" delay={100}>
           <div className="text-center max-w-3xl mx-auto space-y-4">
             <span className="text-xs font-bold uppercase tracking-widest text-[#D98A2B]">
-              Direct Scheduling
+              {cp?.header.badge ? t(cp.header.badge) : "Direct Scheduling"}
             </span>
             <h1 className="text-4xl sm:text-5xl font-serif-display font-bold text-[#0B3C2D]">
-              Book Your Confidential Counseling Session
+              {cp?.header.title ? t(cp.header.title) : "Book Your Confidential Counseling Session"}
             </h1>
             <p className="text-base text-ink-muted leading-relaxed">
-              Choose your preferred date, time slot, and session focus. Every session is conducted directly by me with 100% privacy.
+              {cp?.header.subtitle ? t(cp.header.subtitle) : "Choose your preferred date, time slot, and session focus. Every session is conducted directly by me with 100% privacy."}
             </p>
           </div>
         </ScrollReveal>
@@ -155,7 +165,9 @@ function ContactBookingContent() {
                     <h3 className="text-xl font-serif-display font-bold text-[#0B3C2D]">
                       Nikunj Dhanani
                     </h3>
-                    <p className="text-xs text-ink-muted">Independent Counselor & Speaker</p>
+                    <p className="text-xs text-ink-muted">
+                      {cp?.counselorRole ? t(cp.counselorRole) : "Independent Counselor & Speaker"}
+                    </p>
                   </div>
                 </div>
 
@@ -163,15 +175,21 @@ function ContactBookingContent() {
                   <div className="flex items-start space-x-3">
                     <MapPin className="w-4 h-4 text-[#D98A2B] shrink-0 mt-0.5" />
                     <div>
-                      <strong className="block text-[#0B3C2D]">Practice Location:</strong>
-                      <span>Mota Varachha, Surat, Gujarat (Online Nationwide via Zoom)</span>
+                      <strong className="block text-[#0B3C2D]">
+                        {cp?.info.practiceLocation.label ? t(cp.info.practiceLocation.label) : "Practice Location:"}
+                      </strong>
+                      <span>
+                        {cp?.info.practiceLocation.value ? t(cp.info.practiceLocation.value) : "Mota Varachha, Surat, Gujarat (Online Nationwide via Zoom)"}
+                      </span>
                     </div>
                   </div>
 
                   <div className="flex items-center space-x-3">
                     <Phone className="w-4 h-4 text-[#D98A2B] shrink-0" />
                     <div>
-                      <strong className="block text-[#0B3C2D]">Phone / WhatsApp:</strong>
+                      <strong className="block text-[#0B3C2D]">
+                        {cp?.info.phoneWhatsapp.label ? t(cp.info.phoneWhatsapp.label) : "Phone / WhatsApp:"}
+                      </strong>
                       <span>+91 99250 60609</span>
                     </div>
                   </div>
@@ -179,7 +197,9 @@ function ContactBookingContent() {
                   <div className="flex items-center space-x-3">
                     <Mail className="w-4 h-4 text-[#D98A2B] shrink-0" />
                     <div>
-                      <strong className="block text-[#0B3C2D]">Email:</strong>
+                      <strong className="block text-[#0B3C2D]">
+                        {cp?.info.email.label ? t(cp.info.email.label) : "Email:"}
+                      </strong>
                       <span>ndhanani85@gmail.com</span>
                     </div>
                   </div>
@@ -188,18 +208,24 @@ function ContactBookingContent() {
                 <div className="bg-[#F8F4EE] p-4 rounded-2xl border border-[#0B3C2D]/10 space-y-2">
                   <div className="flex items-center space-x-2 text-xs font-bold text-[#0B3C2D]">
                     <ShieldCheck className="w-4 h-4 text-[#8CA899]" />
-                    <span>100% Confidential & Private Care</span>
+                    <span>
+                      {cp?.info.confidentialityTitle ? t(cp.info.confidentialityTitle) : "100% Confidential & Private Care"}
+                    </span>
                   </div>
                   <p className="text-[11px] text-ink-muted">
-                    No third-party platforms or shared data. All communications remain strictly between you and me.
+                    {cp?.info.confidentialityDesc ? t(cp.info.confidentialityDesc) : "No third-party platforms or shared data. All communications remain strictly between you and me."}
                   </p>
                 </div>
 
                 {/* WhatsApp Callout */}
                 <div className="p-4 rounded-2xl bg-[#25D366]/10 border border-[#25D366]/20 flex items-center justify-between">
                   <div>
-                    <span className="text-xs font-bold text-[#0B3C2D] block">Prefer quick WhatsApp chat?</span>
-                    <span className="text-[11px] text-ink-muted">Ask questions before booking</span>
+                    <span className="text-xs font-bold text-[#0B3C2D] block">
+                      {cp?.info.whatsappCalloutTitle ? t(cp.info.whatsappCalloutTitle) : "Prefer quick WhatsApp chat?"}
+                    </span>
+                    <span className="text-[11px] text-ink-muted">
+                      {cp?.info.whatsappCalloutSub ? t(cp.info.whatsappCalloutSub) : "Ask questions before booking"}
+                    </span>
                   </div>
                   <a
                     href="https://wa.me/919925060609?text=Hi%20Nikunj,%20I'd%20like%20to%20ask%20a%20question."
@@ -207,7 +233,7 @@ function ContactBookingContent() {
                     rel="noopener noreferrer"
                     className="px-3.5 py-2 rounded-xl bg-[#25D366] text-white font-bold text-xs hover:bg-[#20ba5a] transition-colors"
                   >
-                    WhatsApp
+                    {cp?.info.whatsappBtn ? t(cp.info.whatsappBtn) : "WhatsApp"}
                   </a>
                 </div>
               </div>
@@ -216,20 +242,16 @@ function ContactBookingContent() {
             {/* What Happens Next Box */}
             <ScrollReveal direction="up" delay={200}>
               <div className="bg-white rounded-3xl p-6 border border-[#0B3C2D]/10 space-y-3">
-                <span className="text-xs font-bold text-[#D98A2B] uppercase tracking-wider block">What Happens Next?</span>
+                <span className="text-xs font-bold text-[#D98A2B] uppercase tracking-wider block">
+                  {cp?.whatHappensNext.heading ? t(cp.whatHappensNext.heading) : "What Happens Next?"}
+                </span>
                 <ul className="space-y-2 text-xs text-ink-muted">
-                  <li className="flex items-start space-x-2">
-                    <CheckCircle2 className="w-4 h-4 text-[#0B3C2D] shrink-0 mt-0.5" />
-                    <span>Instant confirmation email & WhatsApp text with session details.</span>
-                  </li>
-                  <li className="flex items-start space-x-2">
-                    <CheckCircle2 className="w-4 h-4 text-[#0B3C2D] shrink-0 mt-0.5" />
-                    <span>Private Zoom link or Surat practice address provided prior to session.</span>
-                  </li>
-                  <li className="flex items-start space-x-2">
-                    <CheckCircle2 className="w-4 h-4 text-[#0B3C2D] shrink-0 mt-0.5" />
-                    <span>Optional 5-minute pre-session questionnaire sent for goal alignment.</span>
-                  </li>
+                  {cp?.whatHappensNext.items.map((item, idx) => (
+                    <li key={idx} className="flex items-start space-x-2">
+                      <CheckCircle2 className="w-4 h-4 text-[#0B3C2D] shrink-0 mt-0.5" />
+                      <span>{t(item)}</span>
+                    </li>
+                  ))}
                 </ul>
               </div>
             </ScrollReveal>
@@ -241,31 +263,27 @@ function ContactBookingContent() {
               {!isBooked ? (
                 <form onSubmit={handleSubmitBooking} className="bg-white rounded-3xl p-8 border border-[#0B3C2D]/10 shadow-md space-y-6">
                   <h3 className="text-2xl font-serif-display font-bold text-[#0B3C2D]">
-                    Schedule Your Session
+                    {cp?.form.scheduleTitle ? t(cp.form.scheduleTitle) : "Schedule Your Session"}
                   </h3>
 
                   {/* Session Type Picker */}
                   <div>
                     <label className="block text-xs font-bold text-[#0B3C2D] mb-2 uppercase tracking-wider">
-                      Select Session Offering
+                      {cp?.form.selectOffering ? t(cp.form.selectOffering) : "Select Session Offering"}
                     </label>
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                      {[
-                        "Parenting Coaching",
-                        "Relationship Repair",
-                        "Counselling & Life Coaching",
-                      ].map((type) => (
+                      {serviceOptions.map((opt) => (
                         <button
-                          key={type}
+                          key={opt.key}
                           type="button"
-                          onClick={() => setSessionType(type)}
+                          onClick={() => setSessionType(opt.key)}
                           className={`py-2.5 px-3 rounded-xl text-xs font-bold transition-all border ${
-                            sessionType === type
+                            sessionType === opt.key
                               ? "bg-[#0B3C2D] text-white border-[#0B3C2D] shadow-sm"
                               : "bg-[#F8F4EE] border-[#0B3C2D]/15 text-deep-ink hover:bg-[#8CA899]/20"
                           }`}
                         >
-                          {type}
+                          {opt.label}
                         </button>
                       ))}
                     </div>
@@ -282,19 +300,23 @@ function ContactBookingContent() {
                   {/* Contact Fields */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-xs font-bold text-[#0B3C2D] mb-1">Your Full Name *</label>
+                      <label className="block text-xs font-bold text-[#0B3C2D] mb-1">
+                        {cp?.form.nameLabel ? t(cp.form.nameLabel) : "Your Full Name *"}
+                      </label>
                       <input
                         type="text"
                         required
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        placeholder="e.g. Priya Sharma"
+                        placeholder={cp?.form.namePlaceholder ? t(cp.form.namePlaceholder) : "e.g. Rahul Sharma"}
                         className="w-full px-3.5 py-2.5 rounded-xl border border-[#0B3C2D]/20 text-xs focus:outline-none focus:border-[#0B3C2D] bg-white"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-xs font-bold text-[#0B3C2D] mb-1">Phone / WhatsApp Number *</label>
+                      <label className="block text-xs font-bold text-[#0B3C2D] mb-1">
+                        {cp?.form.phoneLabel ? t(cp.form.phoneLabel) : "Phone / WhatsApp Number *"}
+                      </label>
                       <div className="relative">
                         <Phone className="w-4 h-5 text-[#8C847C] absolute left-3 top-3.5" />
                         <input
@@ -311,7 +333,7 @@ function ContactBookingContent() {
                           onBlur={() => {
                             if (formData.phone && !isPhoneValid) setPhoneError("");
                           }}
-                          placeholder="+91 98765 43210"
+                          placeholder={cp?.form.phonePlaceholder ? t(cp.form.phonePlaceholder) : "+91 98765 43210"}
                           className={`w-full pl-9 pr-3 py-2.5 rounded-xl border text-xs focus:outline-none focus:border-[#0B3C2D] bg-white transition-colors ${
                             phoneError ? "border-red-500 ring-2 ring-red-500/20" : "border-[#0B3C2D]/20"
                           }`}
@@ -327,24 +349,28 @@ function ContactBookingContent() {
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold text-[#0B3C2D] mb-1">Email Address *</label>
+                    <label className="block text-xs font-bold text-[#0B3C2D] mb-1">
+                      {cp?.form.emailLabel ? t(cp.form.emailLabel) : "Email Address *"}
+                    </label>
                     <input
                       type="email"
                       required
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      placeholder="priya@example.com"
+                      placeholder={cp?.form.emailPlaceholder ? t(cp.form.emailPlaceholder) : "priya@example.com"}
                       className="w-full px-3.5 py-2.5 rounded-xl border border-[#0B3C2D]/20 text-xs focus:outline-none focus:border-[#0B3C2D] bg-white"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold text-[#0B3C2D] mb-1">Brief Note / What brings you to counseling? (Optional)</label>
+                    <label className="block text-xs font-bold text-[#0B3C2D] mb-1">
+                      {cp?.form.notesLabel ? t(cp.form.notesLabel) : "Brief Note / What brings you to counseling? (Optional)"}
+                    </label>
                     <textarea
                       rows={2}
                       value={formData.notes}
                       onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-                      placeholder="Share any background details or specific concerns..."
+                      placeholder={cp?.form.notesPlaceholder ? t(cp.form.notesPlaceholder) : "Share any background details or specific concerns..."}
                       className="w-full px-3.5 py-2.5 rounded-xl border border-[#0B3C2D]/20 text-xs focus:outline-none focus:border-[#0B3C2D] bg-white"
                     ></textarea>
                   </div>
@@ -371,10 +397,10 @@ function ContactBookingContent() {
                           <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                           <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 4.373 0 12h4z" />
                         </svg>
-                        Processing Reservation...
+                        {cp?.form.submitting ? t(cp.form.submitting) : "Processing Reservation..."}
                       </>
                     ) : (
-                      "Confirm & Reserve Time Slot"
+                      cp?.form.submitBtn ? t(cp.form.submitBtn) : "Confirm & Reserve Time Slot"
                     )}
                   </button>
 
@@ -401,17 +427,17 @@ function ContactBookingContent() {
                   </div>
 
                   <h3 className="text-3xl font-serif-display font-bold text-[#0B3C2D]">
-                    Session Reserved!
+                    {cp?.dialog.reservedTitle ? t(cp.dialog.reservedTitle) : "Session Reserved!"}
                   </h3>
                   <p className="text-sm text-ink-muted leading-relaxed max-w-md mx-auto">
-                    Thank you, <strong>{formData.name}</strong>. Your <strong>{sessionType}</strong> session has been reserved for:
+                    {cp?.dialog.thankYou ? t(cp.dialog.thankYou) : "Thank you,"} <strong>{formData.name}</strong>. {serviceOptions.find((o) => o.key === sessionType)?.label || sessionType} {cp?.dialog.sessionReservedFor ? t(cp.dialog.sessionReservedFor) : "session has been reserved for:"}
                   </p>
                   <div className="bg-[#F8F4EE] p-4 rounded-2xl border border-[#0B3C2D]/10 max-w-sm mx-auto text-xs font-bold text-[#0B3C2D] space-y-1">
-                    <p>📅 {selectedDate?.toLocaleDateString("en-IN", { weekday: "long", month: "long", day: "numeric", year: "numeric" })}</p>
+                    <p>📅 {selectedDate?.toLocaleDateString(language === "gu" ? "gu-IN" : language === "hi" ? "hi-IN" : "en-IN", { weekday: "long", month: "long", day: "numeric", year: "numeric" })}</p>
                     <p>⏰ {selectedTime}</p>
                   </div>
                   <p className="text-xs text-ink-muted">
-                    A confirmation email & WhatsApp message with link/location details will be sent to <strong>{formData.email}</strong>.
+                    {cp?.dialog.confirmationNotice ? t(cp.dialog.confirmationNotice) : "A confirmation email & WhatsApp message with link/location details will be sent to"} <strong>{formData.email}</strong>.
                   </p>
 
                   <div className="pt-2 flex flex-col sm:flex-row gap-3 justify-center items-center">
@@ -420,7 +446,7 @@ function ContactBookingContent() {
                       onClick={() => setShowCelebration(true)}
                       className="px-6 py-2.5 rounded-full bg-[#0B3C2D]/10 hover:bg-[#0B3C2D]/20 text-[#0B3C2D] font-bold text-xs transition-colors"
                     >
-                      View Booking Summary
+                      {cp?.dialog.viewSummaryBtn ? t(cp.dialog.viewSummaryBtn) : "View Booking Summary"}
                     </button>
                     <button
                       type="button"
@@ -430,7 +456,7 @@ function ContactBookingContent() {
                       }}
                       className="px-6 py-2.5 rounded-full bg-[#0B3C2D] hover:bg-[#07291f] text-white font-bold text-xs transition-colors shadow-md"
                     >
-                      Book Another Session
+                      {cp?.dialog.bookAnotherBtn ? t(cp.dialog.bookAnotherBtn) : "Book Another Session"}
                     </button>
                   </div>
                 </div>
@@ -442,7 +468,7 @@ function ContactBookingContent() {
 
       </div>
 
-      {/* ── CELEBRATORY COUNSELING BOOKING ALERT DIALOG (animate-ui animated alert-dialog with from="bottom") ── */}
+      {/* ── CELEBRATORY COUNSELING BOOKING ALERT DIALOG ── */}
       <AlertDialog open={showCelebration} onOpenChange={setShowCelebration}>
         <AlertDialogPopup from="bottom" className="w-[92%] sm:max-w-[425px] p-5 sm:p-8 max-h-[90vh] overflow-y-auto">
           {/* Multi-colored Confetti Flakes */}
@@ -466,11 +492,8 @@ function ContactBookingContent() {
 
           {/* Concentric Green Circle Checkmark Emblem */}
           <div className="relative my-3 sm:my-4 flex items-center justify-center">
-            {/* Outer soft glowing green halo */}
             <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-[#E6F4EA] animate-halo-pulse flex items-center justify-center">
-              {/* Inner solid green circle */}
               <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-[#0F9D58] text-white flex items-center justify-center shadow-lg shadow-[#0F9D58]/30 animate-success-pop">
-                {/* Double Checkmark Icon */}
                 <svg
                   className="w-7 h-7 sm:w-8 sm:h-8 text-white stroke-current"
                   viewBox="0 0 24 24"
@@ -487,9 +510,11 @@ function ContactBookingContent() {
           </div>
 
           <AlertDialogHeader className="mb-4">
-            <AlertDialogTitle className="text-lg sm:text-2xl text-center">Session Reserved!</AlertDialogTitle>
+            <AlertDialogTitle className="text-lg sm:text-2xl text-center">
+              {cp?.dialog.reservedTitle ? t(cp.dialog.reservedTitle) : "Session Reserved!"}
+            </AlertDialogTitle>
             <AlertDialogDescription className="text-xs sm:text-sm text-center">
-              Thank you, <strong className="text-[#13221C]">{formData.name}</strong>! Your <strong className="text-[#0B3C2D]">{sessionType}</strong> session has been reserved.
+              {cp?.dialog.thankYou ? t(cp.dialog.thankYou) : "Thank you,"} <strong className="text-[#13221C]">{formData.name}</strong>! {serviceOptions.find((o) => o.key === sessionType)?.label || sessionType} {cp?.dialog.sessionReservedFor ? t(cp.dialog.sessionReservedFor) : "session has been reserved."}
             </AlertDialogDescription>
           </AlertDialogHeader>
 
@@ -497,7 +522,7 @@ function ContactBookingContent() {
           <div className="bg-[#F8F4EE] p-3.5 rounded-2xl border border-[#0B3C2D]/10 text-xs font-semibold text-[#0B3C2D] space-y-1 text-center my-3">
             <p className="flex items-center justify-center gap-1.5">
               <span>📅</span>
-              <span>{selectedDate?.toLocaleDateString("en-IN", { weekday: "long", month: "long", day: "numeric", year: "numeric" })}</span>
+              <span>{selectedDate?.toLocaleDateString(language === "gu" ? "gu-IN" : language === "hi" ? "hi-IN" : "en-IN", { weekday: "long", month: "long", day: "numeric", year: "numeric" })}</span>
             </p>
             <p className="flex items-center justify-center gap-1.5 text-[#D98A2B] font-bold">
               <span>⏰</span>
@@ -506,7 +531,7 @@ function ContactBookingContent() {
           </div>
 
           <p className="text-[11px] text-ink-muted text-center leading-relaxed">
-            A confirmation email & WhatsApp message with private session details have been sent to <strong>{formData.email}</strong>.
+            {cp?.dialog.confirmationNotice ? t(cp.dialog.confirmationNotice) : "A confirmation email & WhatsApp message with private session details have been sent to"} <strong>{formData.email}</strong>.
           </p>
 
           <AlertDialogFooter className="flex-col sm:flex-col gap-2 mt-4">
@@ -514,14 +539,14 @@ function ContactBookingContent() {
               onClick={() => setShowCelebration(false)}
               className="w-full py-3 sm:py-3.5 px-6 rounded-2xl bg-[#0B3C2D] hover:bg-[#07291f] text-white font-bold text-xs sm:text-sm shadow-md active:scale-98 touch-manipulation"
             >
-              Done
+              {cp?.dialog.doneBtn ? t(cp.dialog.doneBtn) : "Done"}
             </AlertDialogAction>
             <Link
               href="/"
               onClick={() => setShowCelebration(false)}
               className="block text-xs font-bold text-[#8C847C] hover:text-[#0B3C2D] py-1 transition-colors text-center"
             >
-              Return to Homepage
+              {cp?.dialog.returnHomeBtn ? t(cp.dialog.returnHomeBtn) : "Return to Homepage"}
             </Link>
           </AlertDialogFooter>
         </AlertDialogPopup>

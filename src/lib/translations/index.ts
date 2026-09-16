@@ -1,6 +1,22 @@
 import { SupportedLanguage } from "@/context/LanguageContext";
+import { homeTranslations } from "./home";
+import { aboutTranslations } from "./about";
+import { servicesTranslations } from "./services";
+import { faqPageTranslations } from "./faq";
+import { contactTranslations } from "./contact";
+import { speakingTranslations } from "./speaking";
+import { resourcesTranslations } from "./resources";
+import { detailedServicesTranslations } from "./detailedServices";
 
 export interface TranslationDictionary {
+  home?: typeof homeTranslations;
+  aboutPage?: typeof aboutTranslations;
+  servicesPage?: typeof servicesTranslations;
+  faqPage?: typeof faqPageTranslations;
+  contactPage?: typeof contactTranslations;
+  speakingPage?: typeof speakingTranslations;
+  resourcesPage?: typeof resourcesTranslations;
+  detailedServices?: typeof detailedServicesTranslations;
   header: {
     home: Record<SupportedLanguage, string>;
     services: Record<SupportedLanguage, string>;
@@ -794,4 +810,24 @@ export const translations: TranslationDictionary = {
       gu: "પસંદ કરો →",
     },
   },
+  home: homeTranslations,
+  aboutPage: aboutTranslations,
+  servicesPage: servicesTranslations,
+  faqPage: faqPageTranslations,
+  contactPage: contactTranslations,
+  speakingPage: speakingTranslations,
+  resourcesPage: resourcesTranslations,
+  detailedServices: detailedServicesTranslations,
 };
+
+export {
+  homeTranslations,
+  aboutTranslations,
+  servicesTranslations,
+  faqPageTranslations,
+  contactTranslations,
+  speakingTranslations,
+  resourcesTranslations,
+  detailedServicesTranslations,
+};
+

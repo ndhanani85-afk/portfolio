@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { ChevronLeft, ChevronRight, Clock, CalendarDays } from "lucide-react";
 import LeafMotif from "@/components/LeafMotif";
+import { useLanguage } from "@/context/LanguageContext";
+import { translations } from "@/lib/translations";
 
 interface CalendarBookingProps {
   selectedDate: Date | null;
@@ -16,12 +18,12 @@ const timeSlots = [
   "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM"
 ];
 
-const monthNames = [
+const fallbackMonthNames = [
   "January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December"
 ];
 
-const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+const fallbackDayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 export default function CalendarBooking({
   selectedDate,
@@ -29,6 +31,11 @@ export default function CalendarBooking({
   onDateSelect,
   onTimeSelect
 }: CalendarBookingProps) {
+  const { language, t } = useLanguage();
+  const formT = translations.contactPage?.form;
+  const monthNames = formT?.months?.[language] || fallbackMonthNames;
+  const dayNames = formT?.days?.[language] || fallbackDayNames;
+
   const today = new Date();
   const [currentMonth, setCurrentMonth] = useState(today.getMonth());
   const [currentYear, setCurrentYear] = useState(today.getFullYear());
@@ -118,8 +125,9 @@ export default function CalendarBooking({
   };
 
   const formatSelectedDate = () => {
-    if (!selectedDate) return "Please choose a date above";
-    return selectedDate.toLocaleDateString("en-IN", {
+    if (!selectedDate) return formT?.chooseDateAbove ? t(formT.chooseDateAbove) : "Please choose a date above";
+    const locale = language === "gu" ? "gu-IN" : language === "hi" ? "hi-IN" : "en-IN";
+    return selectedDate.toLocaleDateString(locale, {
       weekday: "short",
       day: "numeric",
       month: "short",
@@ -131,7 +139,9 @@ export default function CalendarBooking({
     <div className="bg-white border border-[#0B3C2D]/15 rounded-2xl p-5 md:p-6 shadow-md">
       <div className="flex items-center space-x-2 mb-4">
         <LeafMotif className="w-5 h-5 text-[#D98A2B]" />
-        <h3 className="text-base font-bold text-[#0B3C2D] font-serif-display">Select Session Date</h3>
+        <h3 className="text-base font-bold text-[#0B3C2D] font-serif-display">
+          {formT?.calendarHeading ? t(formT.calendarHeading) : "Select Session Date"}
+        </h3>
       </div>
 
       <div className="flex items-center justify-between mb-3 bg-[#FAF7F2] px-3 py-2 rounded-xl">
@@ -205,7 +215,9 @@ export default function CalendarBooking({
       <div className="border-t border-[#0B3C2D]/10 pt-4">
         <div className="flex items-center space-x-2 mb-3">
           <Clock className="w-4 h-4 text-[#D98A2B]" />
-          <span className="text-xs font-bold text-[#0B3C2D] uppercase tracking-wider">Select Available Time Slot</span>
+          <span className="text-xs font-bold text-[#0B3C2D] uppercase tracking-wider">
+            {formT?.timeHeading ? t(formT.timeHeading) : "Select Available Time Slot"}
+          </span>
         </div>
         <div className="grid grid-cols-3 sm:grid-cols-3 gap-2">
           {timeSlots.map((time) => {
@@ -230,7 +242,9 @@ export default function CalendarBooking({
           })}
         </div>
         {!selectedTime && (
-          <p className="text-[11px] text-ink-light mt-3 text-center">Select an available slot to proceed</p>
+          <p className="text-[11px] text-ink-light mt-3 text-center">
+            {formT?.chooseSlotToProceed ? t(formT.chooseSlotToProceed) : "Select an available slot to proceed"}
+          </p>
         )}
       </div>
     </div>

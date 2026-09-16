@@ -88,59 +88,59 @@ export default function HomePage() {
 
   const processSteps = [
     {
-      step: "01",
-      title: "Discover",
-      subtitle: "Free Initial Call",
-      description: "A 15-minute introductory conversation to understand your context, concerns, and primary goals.",
+      step: translations.home?.processStepsSection.step1.step || "01",
+      title: t(translations.home?.processStepsSection.step1.title || { en: "Discover", hi: "प्रारंभिक परिचय", gu: "પ્રારંભિક સંવાદ" }),
+      subtitle: t(translations.home?.processStepsSection.step1.subtitle || { en: "Free Initial Call", hi: "निःशुल्क परिचय कॉल", gu: "નિઃશુલ્ક પરિચય કોલ" }),
+      description: t(translations.home?.processStepsSection.step1.description || { en: "A 15-minute introductory conversation to understand your context, concerns, and primary goals.", hi: "", gu: "" }),
     },
     {
-      step: "02",
-      title: "Define",
-      subtitle: "Root Cause Mapping",
-      description: "We map underlying behavioral patterns, emotional triggers, and relational friction points.",
+      step: translations.home?.processStepsSection.step2.step || "02",
+      title: t(translations.home?.processStepsSection.step2.title || { en: "Define", hi: "मूल कारणों की पहचान", gu: "મૂળ કારણોની ઓળખ" }),
+      subtitle: t(translations.home?.processStepsSection.step2.subtitle || { en: "Root Cause Mapping", hi: "रूट कॉज़ मैपिंग", gu: "રૂટ કોઝ મેપિંગ" }),
+      description: t(translations.home?.processStepsSection.step2.description || { en: "We map underlying behavioral patterns, emotional triggers, and relational friction points.", hi: "", gu: "" }),
     },
     {
-      step: "03",
-      title: "Strategy",
-      subtitle: "Custom Action Plan",
-      description: "Co-creating practical, evidence-based coping tools and communication frameworks for daily life.",
+      step: translations.home?.processStepsSection.step3.step || "03",
+      title: t(translations.home?.processStepsSection.step3.title || { en: "Strategy", hi: "व्यक्तिगत योजना", gu: "વ્યક્તિગત યોજના" }),
+      subtitle: t(translations.home?.processStepsSection.step3.subtitle || { en: "Custom Action Plan", hi: "कस्टम एक्शन प्लान", gu: "કસ્ટમ એક્શન પ્લાન" }),
+      description: t(translations.home?.processStepsSection.step3.description || { en: "Co-creating practical, evidence-based coping tools and communication frameworks for daily life.", hi: "", gu: "" }),
     },
     {
-      step: "04",
-      title: "Sessions",
-      subtitle: "Guided 1-on-1 Work",
-      description: "Dedicated structured sessions (online or in Mumbai) to practice strategies and navigate real scenarios.",
+      step: translations.home?.processStepsSection.step4.step || "04",
+      title: t(translations.home?.processStepsSection.step4.title || { en: "Sessions", hi: "मार्गदर्शित सत्र", gu: "માર્ગદર્શિત સત્રો" }),
+      subtitle: t(translations.home?.processStepsSection.step4.subtitle || { en: "Guided 1-on-1 Work", hi: "निर्देशित १-ऑन-१ कार्य", gu: "નિર્દેશિત ૧-ઓન-૧ કાર્ય" }),
+      description: t(translations.home?.processStepsSection.step4.description || { en: "Dedicated structured sessions (online or in Mumbai) to practice strategies and navigate real scenarios.", hi: "", gu: "" }),
     },
     {
-      step: "05",
-      title: "Growth",
-      subtitle: "Sustainable Calm",
-      description: "Achieving lasting emotional balance, renewed relationship warmth, and self-sustaining clarity.",
+      step: translations.home?.processStepsSection.step5.step || "05",
+      title: t(translations.home?.processStepsSection.step5.title || { en: "Growth", hi: "स्थायी सुकून", gu: "કાયમી સુખાકારી" }),
+      subtitle: t(translations.home?.processStepsSection.step5.subtitle || { en: "Sustainable Calm", hi: "शाश्वत मानसिक शांति", gu: "શાશ્વત માનસિક શાંતિ" }),
+      description: t(translations.home?.processStepsSection.step5.description || { en: "Achieving lasting emotional balance, renewed relationship warmth, and self-sustaining clarity.", hi: "", gu: "" }),
     },
   ];
 
   const testimonials = [
     {
-      quote: "Nikunj helped us transform our evening routine with our teenagers from screaming matches into calm, open conversations. His practical frameworks gave our family back peace.",
-      author: "P. R. & Family",
-      role: "Parenting Coaching Clients",
-      location: "Mumbai",
+      quote: t(translations.home?.testimonialsSection.item1.quote || { en: "Nikunj helped us transform our evening routine with our teenagers from screaming matches into calm, open conversations. His practical frameworks gave our family back peace.", hi: "", gu: "" }),
+      author: t(translations.home?.testimonialsSection.item1.author || { en: "P. R. & Family", hi: "पी. आर. और परिवार", gu: "પી. આર. અને પરિવાર" }),
+      role: t(translations.home?.testimonialsSection.item1.role || { en: "Parenting Coaching Clients", hi: "पेरेंटिंग कोचिंग क्लाइंट्स", gu: "પેરેન્ટિંગ કોચિંગ ક્લાયન્ટ્સ" }),
+      location: t(translations.home?.testimonialsSection.item1.location || { en: "Mumbai", hi: "मुंबई", gu: "મુંબઈ" }),
       avatar: "/avatar1.png",
       stars: 5,
     },
     {
-      quote: "My husband and I were trapped in the same argument for 2 years after our second child. In just 4 sessions, Nikunj helped us break down defenses and rebuild trust.",
-      author: "S. & A. Mehta",
-      role: "Relationship Repair",
-      location: "Pune / Online",
+      quote: t(translations.home?.testimonialsSection.item2.quote || { en: "My husband and I were trapped in the same argument for 2 years after our second child. In just 4 sessions, Nikunj helped us break down defenses and rebuild trust.", hi: "", gu: "" }),
+      author: t(translations.home?.testimonialsSection.item2.author || { en: "S. & A. Mehta", hi: "एस. और ए. मेहता", gu: "એસ. અને એ. મહેતા" }),
+      role: t(translations.home?.testimonialsSection.item2.role || { en: "Relationship Repair", hi: "दांपत्य सुधार क्लाइंट्स", gu: "રિલેશનશિપ રિપેર ક્લાયન્ટ્સ" }),
+      location: t(translations.home?.testimonialsSection.item2.location || { en: "Pune / Online", hi: "पुणे / ऑनलाइन", gu: "પુણે / ઓનલાઈન" }),
       avatar: "/avatar2.png",
       stars: 5,
     },
     {
-      quote: "As a senior manager, my anxiety was leaking into both my leadership and my home life. Nikunj's evidence-based approach is grounded, practical, and deeply supportive.",
-      author: "R. Sharma",
-      role: "Corporate Executive",
-      location: "Bengaluru",
+      quote: t(translations.home?.testimonialsSection.item3.quote || { en: "As a senior manager, my anxiety was leaking into both my leadership and my home life. Nikunj's evidence-based approach is grounded, practical, and deeply supportive.", hi: "", gu: "" }),
+      author: t(translations.home?.testimonialsSection.item3.author || { en: "R. Sharma", hi: "आर. शर्मा", gu: "આર. શર્મા" }),
+      role: t(translations.home?.testimonialsSection.item3.role || { en: "Corporate Executive", hi: "कॉरपोरेट एग्जीक्यूटिव", gu: "કોર્પોરેટ એક્ઝિક્યુટિવ" }),
+      location: t(translations.home?.testimonialsSection.item3.location || { en: "Bengaluru", hi: "बेंगलुरु", gu: "બેંગલુરુ" }),
       avatar: "/avatar3.png",
       stars: 5,
     },
@@ -665,19 +665,19 @@ export default function HomePage() {
           
           <div className="text-center max-w-3xl mx-auto space-y-3">
             <span className="text-xs font-bold uppercase tracking-widest text-[#D98A2B]">
-              Core Practice Offerings
+              {t(translations.home?.coreServices.badge || { en: "Core Practice Offerings", hi: "मुख्य परामर्श सेवाएं", gu: "મુખ્ય કાઉન્સેલિંગ સેવાઓ" })}
             </span>
             <h2 className="text-3xl sm:text-4xl font-serif-display font-bold text-[#0B3C2D]">
-              Structured Offerings & Counseling Services
+              {t(translations.home?.coreServices.heading || { en: "Structured Offerings & Counseling Services", hi: "व्यवस्थित परामर्श एवं व्यक्तिगत मार्गदर्शन", gu: "સુવ્યવસ્થિત કાઉન્સેલિંગ અને માર્ગદર્શન સેવાઓ" })}
             </h2>
             <p className="text-sm sm:text-base text-ink-muted">
-              Choose the dedicated format that aligns with your present needs.
+              {t(translations.home?.coreServices.subheading || { en: "Choose the dedicated format that aligns with your present needs.", hi: "अपनी वर्तमान स्थिति और आवश्यकता के अनुसार उपयुक्त परामर्श सत्र चुनें।", gu: "તમારી વર્તમાન સ્થિતિ અને જરૂરિયાત મુજબ યોગ્ય સત્ર પસંદ કરો." })}
             </p>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             
-            {/* Service 1 */}
+            {/* Service 1: Parenting Coaching */}
             <div className="bg-[#F8F4EE] rounded-3xl p-8 border border-[#0B3C2D]/15 flex flex-col justify-between hover-lift">
               <div className="space-y-6">
                 <div className="relative w-full h-44 rounded-2xl overflow-hidden shadow-sm">
@@ -691,27 +691,27 @@ export default function HomePage() {
                 </div>
                 <div>
                   <span className="text-xs font-bold text-[#D98A2B] uppercase tracking-wider block mb-1">
-                    Family & Youth
+                    {t(translations.home?.coreServices.parenting.tag || { en: "Family & Youth", hi: "परिवार एवं बाल-विकास", gu: "પરિવાર અને બાળ ઉછેર" })}
                   </span>
                   <h3 className="text-2xl font-serif-display font-bold text-[#0B3C2D]">
-                    Parenting Coaching
+                    {t(translations.home?.coreServices.parenting.title || { en: "Parenting Coaching", hi: "पेरेंटिंग कोचिंग व मार्गदर्शन", gu: "પેરેન્ટિંગ કોચિંગ અને માર્ગદર્શન" })}
                   </h3>
                 </div>
                 <p className="text-xs text-ink-muted leading-relaxed">
-                  Transform household stress, manage child behavior cycles, and restore warmth between parents and children with structured guidance.
+                  {t(translations.home?.coreServices.parenting.description || { en: "Transform household stress, manage child behavior cycles, and restore warmth between parents and children with structured guidance.", hi: "", gu: "" })}
                 </p>
                 <ul className="space-y-2 text-xs text-[#13221C]">
                   <li className="flex items-center space-x-2">
                     <LeafMotif className="w-4 h-4 text-[#D98A2B]" />
-                    <span>Behavioral triggers & routine structure</span>
+                    <span>{t(translations.home?.coreServices.parenting.point1 || { en: "Behavioral triggers & routine structure", hi: "", gu: "" })}</span>
                   </li>
                   <li className="flex items-center space-x-2">
                     <LeafMotif className="w-4 h-4 text-[#D98A2B]" />
-                    <span>Teenager independence & emotional regulation</span>
+                    <span>{t(translations.home?.coreServices.parenting.point2 || { en: "Teenager independence & emotional regulation", hi: "", gu: "" })}</span>
                   </li>
                   <li className="flex items-center space-x-2">
                     <LeafMotif className="w-4 h-4 text-[#D98A2B]" />
-                    <span>Co-parenting alignment</span>
+                    <span>{t(translations.home?.coreServices.parenting.point3 || { en: "Co-parenting alignment", hi: "", gu: "" })}</span>
                   </li>
                 </ul>
               </div>
@@ -721,16 +721,16 @@ export default function HomePage() {
                   href="/services/parenting-coaching"
                   className="w-full inline-flex items-center justify-center px-6 py-3 rounded-full bg-[#0B3C2D] hover:bg-[#07291f] text-white font-bold text-xs transition-colors"
                 >
-                  View Parenting Program
+                  {t(translations.home?.coreServices.parenting.button || { en: "View Parenting Program", hi: "पेरेंटिंग प्रोग्राम देखें", gu: "પેરેન્ટિંગ પ્રોગ્રામ જુઓ" })}
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </Link>
               </div>
             </div>
 
-            {/* Service 2 */}
+            {/* Service 2: Relationship Repair */}
             <div className="bg-white rounded-3xl p-8 border-2 border-[#D98A2B] flex flex-col justify-between shadow-lg relative hover-lift">
               <span className="absolute -top-3.5 left-8 px-4 py-1 rounded-full bg-[#D98A2B] text-white text-[10px] font-bold uppercase tracking-wider">
-                Most Requested
+                {t(translations.home?.coreServices.relationship.badge || { en: "Most Requested", hi: "सर्वाधिक लोकप्रिय", gu: "સૌથી વધુ પસંદ કરાયેલ" })}
               </span>
               <div className="space-y-6">
                 <div className="relative w-full h-44 rounded-2xl overflow-hidden shadow-sm">
@@ -744,27 +744,27 @@ export default function HomePage() {
                 </div>
                 <div>
                   <span className="text-xs font-bold text-[#0B3C2D] uppercase tracking-wider block mb-1">
-                    Couples Support
+                    {t(translations.home?.coreServices.relationship.tag || { en: "Couples Support", hi: "दांपत्य सहयोग", gu: "દંપતી સહયોગ" })}
                   </span>
                   <h3 className="text-2xl font-serif-display font-bold text-[#0B3C2D]">
-                    Relationship Repair
+                    {t(translations.home?.coreServices.relationship.title || { en: "Relationship Repair", hi: "रिलेशनशिप व दांपत्य सुधार", gu: "સંબંધ સુધારણા અને દાંપત્ય જીવન" })}
                   </h3>
                 </div>
                 <p className="text-xs text-ink-muted leading-relaxed">
-                  Break repetitive argument cycles, heal past misunderstandings, and rebuild intimate communication with your partner.
+                  {t(translations.home?.coreServices.relationship.description || { en: "Break repetitive argument cycles, heal past misunderstandings, and rebuild intimate communication with your partner.", hi: "", gu: "" })}
                 </p>
                 <ul className="space-y-2 text-xs text-[#13221C]">
                   <li className="flex items-center space-x-2">
                     <LeafMotif className="w-4 h-4 text-[#0B3C2D]" />
-                    <span>De-escalation & conflict resolution</span>
+                    <span>{t(translations.home?.coreServices.relationship.point1 || { en: "De-escalation & conflict resolution", hi: "", gu: "" })}</span>
                   </li>
                   <li className="flex items-center space-x-2">
                     <LeafMotif className="w-4 h-4 text-[#0B3C2D]" />
-                    <span>Emotional intimacy & trust renewal</span>
+                    <span>{t(translations.home?.coreServices.relationship.point2 || { en: "Emotional intimacy & trust renewal", hi: "", gu: "" })}</span>
                   </li>
                   <li className="flex items-center space-x-2">
                     <LeafMotif className="w-4 h-4 text-[#0B3C2D]" />
-                    <span>Kids after marriage & relationship balance</span>
+                    <span>{t(translations.home?.coreServices.relationship.point3 || { en: "Kids after marriage & relationship balance", hi: "शादी के बाद बच्चे और दांपत्य संतुलन", gu: "લગ્ન પછી બાળકો અને સંબંધોની સમતુલા" })}</span>
                   </li>
                 </ul>
               </div>
@@ -774,13 +774,13 @@ export default function HomePage() {
                   href="/services/relationship-repair"
                   className="w-full inline-flex items-center justify-center px-6 py-3 rounded-full bg-[#0B3C2D] hover:bg-[#07291f] text-white font-bold text-xs transition-colors shadow-md"
                 >
-                  View Relationship Program
+                  {t(translations.home?.coreServices.relationship.button || { en: "View Relationship Program", hi: "रिलेशनशिप प्रोग्राम देखें", gu: "સંબંધ સુધારણા પ્રોગ્રામ જુઓ" })}
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </Link>
               </div>
             </div>
 
-            {/* Service 3 */}
+            {/* Service 3: Counselling & Life Coaching */}
             <div className="bg-[#F8F4EE] rounded-3xl p-8 border border-[#0B3C2D]/15 flex flex-col justify-between hover-lift">
               <div className="space-y-6">
                 <div className="relative w-full h-44 rounded-2xl overflow-hidden shadow-sm">
@@ -794,27 +794,27 @@ export default function HomePage() {
                 </div>
                 <div>
                   <span className="text-xs font-bold text-[#0B3C2D] uppercase tracking-wider block mb-1">
-                    Individual Care
+                    {t(translations.home?.coreServices.counselling.tag || { en: "Individual Care", hi: "व्यक्तिगत परामर्श", gu: "વ્યક્તિગત કાઉન્સેલિંગ" })}
                   </span>
                   <h3 className="text-2xl font-serif-display font-bold text-[#0B3C2D]">
-                    Counselling & Life Coaching
+                    {t(translations.home?.coreServices.counselling.title || { en: "Counselling & Life Coaching", hi: "काउंसलिंग और लाइफ कोचिंग", gu: "કાઉન્સેલિંગ અને લાઈફ કોચિંગ" })}
                   </h3>
                 </div>
                 <p className="text-xs text-ink-muted leading-relaxed">
-                  Tailored 1-on-1 counseling for stress management, executive burnout, life transitions, and self-confidence.
+                  {t(translations.home?.coreServices.counselling.description || { en: "Tailored 1-on-1 counseling for stress management, executive burnout, life transitions, and self-confidence.", hi: "", gu: "" })}
                 </p>
                 <ul className="space-y-2 text-xs text-[#13221C]">
                   <li className="flex items-center space-x-2">
                     <LeafMotif className="w-4 h-4 text-[#D98A2B]" />
-                    <span>Stress & executive burnout relief</span>
+                    <span>{t(translations.home?.coreServices.counselling.point1 || { en: "Stress & executive burnout relief", hi: "", gu: "" })}</span>
                   </li>
                   <li className="flex items-center space-x-2">
                     <LeafMotif className="w-4 h-4 text-[#D98A2B]" />
-                    <span>Emotional resilience & boundaries</span>
+                    <span>{t(translations.home?.coreServices.counselling.point2 || { en: "Emotional resilience & boundaries", hi: "", gu: "" })}</span>
                   </li>
                   <li className="flex items-center space-x-2">
                     <LeafMotif className="w-4 h-4 text-[#D98A2B]" />
-                    <span>Career & life transition clarity</span>
+                    <span>{t(translations.home?.coreServices.counselling.point3 || { en: "Career & life transition clarity", hi: "", gu: "" })}</span>
                   </li>
                 </ul>
               </div>
@@ -824,7 +824,7 @@ export default function HomePage() {
                   href="/services/counselling-life-coaching"
                   className="w-full inline-flex items-center justify-center px-6 py-3 rounded-full bg-[#0B3C2D] hover:bg-[#07291f] text-white font-bold text-xs transition-colors"
                 >
-                  View Individual Program
+                  {t(translations.home?.coreServices.counselling.button || { en: "View Individual Program", hi: "व्यक्तिगत प्रोग्राम देखें", gu: "વ્યક્તિગત પ્રોગ્રામ જુઓ" })}
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </Link>
               </div>
@@ -844,13 +844,13 @@ export default function HomePage() {
           
           <div className="text-center max-w-3xl mx-auto space-y-3">
             <span className="text-xs font-bold uppercase tracking-widest text-[#D98A2B]">
-              Clear, Transparent Process
+              {t(translations.home?.processStepsSection.badge || { en: "Clear, Transparent Process", hi: "स्पष्ट और पारदर्शी प्रक्रिया", gu: "સ્પષ્ટ અને પારદર્શક પ્રક્રિયા" })}
             </span>
             <h2 className="text-3xl sm:text-4xl font-serif-display font-bold text-[#0B3C2D]">
-              How We Work Together
+              {t(translations.home?.processStepsSection.heading || { en: "How We Work Together", hi: "हमारी कार्यप्रणाली", gu: "આપણી કાર્યપદ્ધતિ" })}
             </h2>
             <p className="text-sm sm:text-base text-ink-muted">
-              A 5-step structured journey designed to move you from stress to emotional calm.
+              {t(translations.home?.processStepsSection.subheading || { en: "A 5-step structured journey designed to move you from stress to emotional calm.", hi: "तनाव से मानसिक शांति और स्पष्टता की ओर ले जाने वाली ५ चरणों की सुव्यवस्थित यात्रा।", gu: "તણાવમાંથી માનસિક શાંતિ અને સ્પષ્ટતા તરફ લઈ જતી ૫ તબક્કાની સુવ્યવસ્થિત યાત્રા." })}
             </p>
           </div>
 
@@ -894,7 +894,7 @@ export default function HomePage() {
                 120+
               </span>
               <p className="text-xs font-semibold uppercase tracking-wider text-[#8CA899]">
-                Sessions Conducted
+                {t(translations.home?.stats.stat1Label || { en: "Sessions Conducted", hi: "सफलतापूर्वक पूर्ण सत्र", gu: "સફળતાપૂર્વક પૂર્ણ સત્રો" })}
               </p>
             </div>
 
@@ -903,7 +903,7 @@ export default function HomePage() {
                 80+
               </span>
               <p className="text-xs font-semibold uppercase tracking-wider text-[#8CA899]">
-                Families & Leaders
+                {t(translations.home?.stats.stat2Label || { en: "Families & Leaders", hi: "मार्गदर्शित परिवार एवं प्रोफेशनल्स", gu: "માર્ગદર્શન મેળવેલ પરિવારો અને લીડર્સ" })}
               </p>
             </div>
 
@@ -912,16 +912,16 @@ export default function HomePage() {
                 6+
               </span>
               <p className="text-xs font-semibold uppercase tracking-wider text-[#8CA899]">
-                Years Practice
+                {t(translations.home?.stats.stat3Label || { en: "Years Practice", hi: "वर्षों का समर्पित अनुभव", gu: "વર્ષોનો સમર્પિત અનુભવ" })}
               </p>
             </div>
 
             <div className="space-y-1 pt-4 md:pt-0">
               <span className="text-4xl sm:text-5xl font-serif-display font-bold text-[#D98A2B]">
-                25+
+                98%
               </span>
               <p className="text-xs font-semibold uppercase tracking-wider text-[#8CA899]">
-                Cities Served Online
+                {t(translations.home?.stats.stat4Label || { en: "Positive Feedback", hi: "सकारात्मक संतुष्टि दर", gu: "સંતોષકારક પ્રતિસાદ" })}
               </p>
             </div>
 
@@ -938,10 +938,10 @@ export default function HomePage() {
           
           <div className="text-center max-w-3xl mx-auto space-y-3">
             <span className="text-xs font-bold uppercase tracking-widest text-[#D98A2B]">
-              Client Experiences
+              {t(translations.home?.testimonialsSection.badge || { en: "Client Experiences", hi: "संतुष्ट परिवारों के अनुभव", gu: "માર્ગદર્શન મેળવનારના વાસ્તવિક અનુભવો" })}
             </span>
             <h2 className="text-3xl sm:text-4xl font-serif-display font-bold text-[#0B3C2D]">
-              What Families Say
+              {t(translations.home?.testimonialsSection.heading || { en: "What Families Say", hi: "तनाव से शांति की सच्ची यात्राएं", gu: "પરિવારો શું કહે છે" })}
             </h2>
           </div>
 
@@ -1032,11 +1032,11 @@ export default function HomePage() {
                     Nikunj Dhanani
                   </h3>
                   <p className="text-xs text-[#D98A2B] font-bold uppercase tracking-wider">
-                    Family Counselor & Life Coach
+                    {t(translations.home?.aboutPreview.role || { en: "Family Counselor & Life Coach", hi: "पारिवारिक परामर्शदाता एवं लाइफ कोच", gu: "પારિવારિક કાઉન્સેલર અને લાઈફ કોચ" })}
                   </p>
                 </div>
                 <p className="text-xs text-ink-muted leading-relaxed">
-                  Based in Surat. Specializing in family stress dynamics, relationship repair, and executive mental wellness.
+                  {t(translations.home?.aboutPreview.bioShort || { en: "Based in Surat. Specializing in family stress dynamics, relationship repair, and executive mental wellness.", hi: "सूरत स्थित। पारिवारिक तनाव समाधान, दांपत्य सुधार और मानसिक स्वास्थ्य में विशेषज्ञ।", gu: "સુરત સ્થિત. પારિવારિક તણાવ નિવારણ, દાંપત્ય સુધારણા અને માનસિક સુખાકારીમાં વિશેષજ્ઞ." })}
                 </p>
                 <div className="pt-2 flex flex-wrap justify-center gap-2 text-[11px] text-[#0B3C2D]">
                   <span className="px-3 py-1 bg-[#F8F4EE] rounded-full border border-[#0B3C2D]/10">English</span>
@@ -1048,13 +1048,13 @@ export default function HomePage() {
 
             <div className="lg:col-span-7 space-y-6">
               <span className="text-xs font-bold uppercase tracking-widest text-[#D98A2B]">
-                Meet Your Counselor
+                {t(translations.home?.aboutPreview.badge || { en: "Meet Your Counselor", hi: "काउंसलर परिचय", gu: "કાઉન્સેલર પરિચય" })}
               </span>
               <h2 className="text-3xl sm:text-4xl font-serif-display font-bold text-[#0B3C2D]">
-                "Every family holds the capacity for calm — sometimes it just takes an outside lens."
+                {t(translations.home?.aboutPreview.quote || { en: "\"Every family holds the capacity for calm — sometimes it just takes an outside lens.\"", hi: "\"प्रत्येक परिवार में शांति और सामंजस्य की पूरी क्षमता होती है — कभी-कभी केवल एक नए नजरिए की जरूरत होती है।\"", gu: "\"દરેક પરિવારમાં શાંતિ અને સંવાદની ક્ષમતા હોય જ છે — ક્યારેક માત્ર એક તટસ્થ દ્રષ્ટિકોણની જરૂર હોય છે.\"" })}
               </h2>
               <p className="text-sm sm:text-base text-ink-muted leading-relaxed">
-                Over the past 6 years, I have sat across hundreds of parents, couples, and corporate leaders navigating high-stakes emotional challenges. My approach combines evidence-based behavioral coaching with warmth, specificity, and absolute confidentiality.
+                {t(translations.home?.aboutPreview.desc || { en: "Over the past 6 years, I have sat across hundreds of parents, couples, and corporate leaders navigating high-stakes emotional challenges. My approach combines evidence-based behavioral coaching with warmth, specificity, and absolute confidentiality.", hi: "पिछले ६ वर्षों में, मैंने सैकड़ों माता-पिता, दंपतियों और कॉरपोरेट लीडर्स के साथ बैठकर उनकी भावनात्मक चुनौतियों का समाधान किया है। मेरा दृष्टिकोण वैज्ञानिक पद्धतियों, आत्मीयता और पूर्ण गोपनीयता का संगम है।", gu: "છેલ્લા ૬ વર્ષોમાં, મેં સેંકડો વાલીઓ, દંપતીઓ અને કોર્પોરેટ અગ્રણીઓ સાથે રૂબરૂ બેસીને તેમના મનોભાવો અને વિખવાદો ઉકેલ્યા છે. મારો અભિગમ વૈજ્ઞાનિક પદ્ધતિઓ, આત્મીયતા અને સંપૂર્ણ ગોપનીયતા પર આધારિત છે." })}
               </p>
 
               <div className="pt-2">
@@ -1062,7 +1062,7 @@ export default function HomePage() {
                   href="/about"
                   className="inline-flex items-center px-6 py-3 rounded-full bg-[#0B3C2D] hover:bg-[#07291f] text-white font-bold text-sm transition-colors"
                 >
-                  Read My Story & Background
+                  {t(translations.home?.aboutPreview.readStoryBtn || { en: "Read My Story & Background", hi: "मेरी यात्रा और अनुभव जानें", gu: "મારી સફર અને અનુભવ જાણો" })}
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </Link>
               </div>
@@ -1082,17 +1082,17 @@ export default function HomePage() {
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div className="space-y-3">
               <span className="text-xs font-bold uppercase tracking-widest text-[#D98A2B]">
-                Keynotes & Workshops
+                {t(translations.home?.speakingTeaser.badge || { en: "Keynotes & Workshops", hi: "व्याख्यान एवं वर्कशॉप", gu: "વ્યાખ્યાન અને વર્કશોપ" })}
               </span>
               <h2 className="text-3xl sm:text-4xl font-serif-display font-bold text-[#0B3C2D]">
-                Speaking for Corporate & School Audiences
+                {t(translations.home?.speakingTeaser.heading || { en: "Speaking for Corporate & School Audiences", hi: "कॉरपोरेट और शिक्षण संस्थानों के लिए प्रेरणादायक व्याख्यान", gu: "કોર્પોરેટ અને શૈક્ષણિક સંસ્થાઓ માટે પ્રેરણાદાયી વક્તવ્ય" })}
               </h2>
             </div>
             <Link
               href="/speaking"
               className="inline-flex items-center text-sm font-bold text-[#0B3C2D] hover:text-[#D98A2B] transition-colors"
             >
-              View Keynote Topics & Request Talk
+              {t(translations.home?.speakingTeaser.viewTopicsBtn || { en: "View Keynote Topics & Request Talk", hi: "विषय देखें एवं व्याख्यान आमंत्रित करें", gu: "વિષયો જુઓ અને વક્તવ્ય માટે આમંત્રણ આપો" })}
               <ArrowRight className="w-4 h-4 ml-1.5" />
             </Link>
           </div>
@@ -1110,13 +1110,13 @@ export default function HomePage() {
               </div>
               <div className="p-6 pt-0 space-y-3">
                 <span className="text-xs font-bold text-[#D98A2B] uppercase tracking-wider block">
-                  Corporate Leadership
+                  {t(translations.home?.speakingTeaser.card1?.tag || { en: "Corporate Leadership", hi: "कॉरपोरेट लीडरशिप", gu: "કોર્પોરેટ લીડરશિપ" })}
                 </span>
                 <h3 className="text-xl font-serif-display font-bold text-[#0B3C2D]">
-                  Leading Through Uncertainty
+                  {t(translations.home?.speakingTeaser.card1?.title || { en: "Leading Through Uncertainty", hi: "अनिश्चितता में मजबूत नेतृत्व", gu: "અનિશ્ચિતતા વચ્ચે મજબૂત નેતૃત્વ" })}
                 </h3>
                 <p className="text-xs text-ink-muted leading-relaxed">
-                  Practical strategies for leaders to manage decision fatigue, support team wellbeing, and maintain personal resilience.
+                  {t(translations.home?.speakingTeaser.card1?.desc || { en: "Practical strategies for leaders to manage decision fatigue, support team wellbeing, and maintain personal resilience.", hi: "लीडर्स के लिए निर्णय के तनाव को कम करने, टीम के कल्याण और व्यक्तिगत मानसिक संतुलन की व्यावहारिक रणनीतियां।", gu: "લીડર્સ માટે નિર્ણયોના થાકમાંથી મુક્તિ, ટીમની સુખાકારી અને આંતરિક મનોબળ જાળવવાની વ્યવહારુ રીતો." })}
                 </p>
               </div>
             </div>
@@ -1133,13 +1133,13 @@ export default function HomePage() {
               </div>
               <div className="p-6 pt-0 space-y-3">
                 <span className="text-xs font-bold text-[#D98A2B] uppercase tracking-wider block">
-                  Schools & Parents
+                  {t(translations.home?.speakingTeaser.card2?.tag || { en: "Schools & Parents", hi: "स्कूल एवं अभिभावक", gu: "શાળાઓ અને વાલીઓ" })}
                 </span>
                 <h3 className="text-xl font-serif-display font-bold text-[#0B3C2D]">
-                  Modern Parenting & Teen Anxiety
+                  {t(translations.home?.speakingTeaser.card2?.title || { en: "Modern Parenting & Teen Anxiety", hi: "आधुनिक पेरेंटिंग और टीनएजर्स", gu: "આધુનિક પેરેન્ટિંગ અને ટીનેજર્સ" })}
                 </h3>
                 <p className="text-xs text-ink-muted leading-relaxed">
-                  Helping parents build emotional safety and effective boundaries in the digital age.
+                  {t(translations.home?.speakingTeaser.card2?.desc || { en: "Helping parents build emotional safety and effective boundaries in the digital age.", hi: "डिजिटल युग में बच्चों के साथ भावनात्मक सुरक्षा और शांत सीमाओं का निर्माण करने में सहायता।", gu: "ડિજિટલ યુગમાં બાળકો સાથે સ્નેહપૂર્ણ સુરક્ષા અને શાંત શિસ્તની રચના કરવામાં સહાય." })}
                 </p>
               </div>
             </div>
@@ -1156,13 +1156,13 @@ export default function HomePage() {
               </div>
               <div className="p-6 pt-0 space-y-3">
                 <span className="text-xs font-bold text-[#D98A2B] uppercase tracking-wider block">
-                  Institutions & Retreats
+                  {t(translations.home?.speakingTeaser.card3?.tag || { en: "Institutions & Retreats", hi: "संस्थाएं एवं रिट्रीट्स", gu: "સંસ્થાઓ અને રિટ્રીટ્સ" })}
                 </span>
                 <h3 className="text-xl font-serif-display font-bold text-[#0B3C2D]">
-                  Building Emotional Balance
+                  {t(translations.home?.speakingTeaser.card3?.title || { en: "Building Emotional Balance", hi: "भावनात्मक संतुलन का निर्माण", gu: "લાગણીશીલ સમતુલાનું નિર્માણ" })}
                 </h3>
                 <p className="text-xs text-ink-muted leading-relaxed">
-                  Interactive workshops on stress regulation, active listening, and relationship longevity.
+                  {t(translations.home?.speakingTeaser.card3?.desc || { en: "Interactive workshops on stress regulation, active listening, and relationship longevity.", hi: "तनाव नियंत्रण, ध्यानपूर्वक सुनने की कला और स्थायी संबंधों पर संवादात्मक वर्कशॉप।", gu: "તણાવ નિયંત્રણ, સક્રિય સાંભળવાની કળા અને મજબૂત સંબંધો પર ઇન્ટરેક્ટિવ વર્કશોપ." })}
                 </p>
               </div>
             </div>
@@ -1182,24 +1182,36 @@ export default function HomePage() {
             <div className="flex items-center justify-center space-x-3 p-4 bg-white rounded-2xl border border-[#0B3C2D]/10">
               <ShieldCheck className="w-6 h-6 text-[#8CA899]" />
               <div className="text-left">
-                <span className="text-xs font-bold text-[#0B3C2D] block">100% Confidential Care</span>
-                <span className="text-[11px] text-ink-muted">Strict privacy standards enforced</span>
+                <span className="text-xs font-bold text-[#0B3C2D] block">
+                  {t(translations.home?.trustStrip.confidentialTitle || { en: "100% Confidential Care", hi: "१००% पूर्णतः गोपनीय सेवा", gu: "૧૦૦% સંપૂર્ણ ગોપનીય સેવા" })}
+                </span>
+                <span className="text-[11px] text-ink-muted">
+                  {t(translations.home?.trustStrip.confidentialSub || { en: "Strict privacy standards enforced", hi: "कड़े गोपनीयता मानकों का पालन", gu: "કડક પ્રાઈવસી નિયમોનું પાલન" })}
+                </span>
               </div>
             </div>
 
             <div className="flex items-center justify-center space-x-3 p-4 bg-white rounded-2xl border border-[#0B3C2D]/10">
               <Globe className="w-6 h-6 text-[#8CA899]" />
               <div className="text-left">
-                <span className="text-xs font-bold text-[#0B3C2D] block">3 Languages Spoken</span>
-                <span className="text-[11px] text-ink-muted">English, Hindi, & Gujarati</span>
+                <span className="text-xs font-bold text-[#0B3C2D] block">
+                  {t(translations.home?.trustStrip.languagesTitle || { en: "3 Languages Spoken", hi: "३ भाषाओं में परामर्श", gu: "૩ ભાષાઓમાં કાઉન્સેલિંગ" })}
+                </span>
+                <span className="text-[11px] text-ink-muted">
+                  {t(translations.home?.trustStrip.languagesSub || { en: "English, Hindi, & Gujarati", hi: "अंग्रेजी, हिंदी और गुजराती", gu: "અંગ્રેજી, હિન્દી અને ગુજરાતી" })}
+                </span>
               </div>
             </div>
 
             <div className="flex items-center justify-center space-x-3 p-4 bg-white rounded-2xl border border-[#0B3C2D]/10">
               <Award className="w-6 h-6 text-[#D98A2B]" />
               <div className="text-left">
-                <span className="text-xs font-bold text-[#0B3C2D] block">6+ Years Credibility</span>
-                <span className="text-[11px] text-ink-muted">Surat Practice & Online Nationwide</span>
+                <span className="text-xs font-bold text-[#0B3C2D] block">
+                  {t(translations.home?.trustStrip.experienceTitle || { en: "6+ Years Credibility", hi: "६+ वर्षों का अनुभव", gu: "૬+ વર્ષનો સક્રિય અનુભવ" })}
+                </span>
+                <span className="text-[11px] text-ink-muted">
+                  {t(translations.home?.trustStrip.experienceSub || { en: "Surat Practice & Online Nationwide", hi: "सूरत क्लीनिक एवं पूरे भारत में ऑनलाइन", gu: "સુરત ક્લિનિક અને દેશભરમાં ઓનલાઇન" })}
+                </span>
               </div>
             </div>
 
@@ -1215,10 +1227,10 @@ export default function HomePage() {
         <div className="max-w-4xl mx-auto px-4 text-center space-y-8">
           <LeafMotif className="w-10 h-10 text-[#D98A2B] mx-auto" />
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif-display font-bold leading-tight">
-            Get the support you deserve today.
+            {t(translations.home?.finalCTA.heading || { en: "Get the support you deserve today.", hi: "आज ही मानसिक शांति और सुकून की ओर कदम बढ़ाएं।", gu: "આજે જ માનસિક શાંતિ અને સહયોગ તરફ ડગલું માંડો." })}
           </h2>
           <p className="text-base sm:text-lg text-[#8CA899] max-w-2xl mx-auto">
-            Take the first step toward family calm, relationship repair, or personal stress relief with direct 1-on-1 counseling.
+            {t(translations.home?.finalCTA.subheading || { en: "Take the first step toward family calm, relationship repair, or personal stress relief with direct 1-on-1 counseling.", hi: "व्यक्तिगत 1-ऑन-1 परामर्श के साथ पारिवारिक शांति, दांपत्य सुधार और तनाव मुक्ति की शुरुआत करें।", gu: "વ્યક્તિગત 1-ઓન-1 કાઉન્સેલિંગ સાથે પારિવારિક સુમેળ, સંબંધ સુધારણા અને તણાવ મુક્તિની શરૂઆત કરો." })}
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
@@ -1227,7 +1239,7 @@ export default function HomePage() {
               className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 rounded-full bg-[#0B3C2D] hover:bg-[#07291f] text-white font-bold text-base shadow-xl transition-all"
             >
               <PhoneCall className="w-5 h-5 mr-2" />
-              Book a Confidential Session
+              {t(translations.home?.finalCTA.bookBtn || { en: "Book a Confidential Session", hi: "गोपनीय सत्र बुक करें", gu: "ગોપનીય સત્ર બુક કરો" })}
             </Link>
 
             <a
@@ -1244,7 +1256,7 @@ export default function HomePage() {
                 <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.572-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414-.074-.124-.272-.198-.57-.347z"/>
                 <path d="M12 0C5.373 0 0 5.373 0 12c0 2.119.553 4.11 1.519 5.84L.055 23.515l5.849-1.503A11.942 11.942 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22a9.945 9.945 0 01-5.078-1.39l-.364-.216-3.465.89.916-3.376-.237-.377A9.947 9.947 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
               </svg>
-              Chat on WhatsApp
+              {t(translations.home?.finalCTA.whatsappBtn || { en: "Chat on WhatsApp", hi: "व्हाट्सएप पर संपर्क करें", gu: "વોટ્સએપ પર વાત કરો" })}
             </a>
           </div>
         </div>
