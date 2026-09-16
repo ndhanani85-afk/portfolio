@@ -328,19 +328,18 @@ export default function HomePage() {
           <div className="text-center max-w-3xl mx-auto space-y-4">
             <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-[#D98A2B]/10 border border-[#D98A2B]/20 text-[#D98A2B] text-xs font-bold uppercase tracking-wider">
               <Sparkles className="w-3.5 h-3.5" />
-              <span>Recognize What You Are Going Through?</span>
+              <span>Real Struggles • Evidence-Based Breakthroughs</span>
             </div>
 
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif-display font-bold text-[#0B3C2D] leading-[1.2]">
-              Does Any of This Sound{" "}
+              Are You Carrying This Silently{" "}
               <span className="italic text-[#D98A2B] font-normal block sm:inline">
-                Painfully Familiar?
+                Behind Closed Doors?
               </span>
             </h2>
 
-            <p className="text-base sm:text-lg text-ink-muted leading-relaxed">
-              When emotional stress or relationship friction piles up, it’s easy to feel trapped in exhausting, repetitive loops. 
-              Identify your situation below and book a confidential counseling session directly into my calendar.
+            <p className="text-base sm:text-lg text-ink-muted leading-relaxed max-w-2xl mx-auto">
+              Most relationship breakdowns and family burnout aren’t caused by lack of love. They happen when couples and parents get trapped in exhausting, repetitive loops without practical support. Identify your situation below to break the pattern.
             </p>
           </div>
 
@@ -362,30 +361,30 @@ export default function HomePage() {
 
                 <div>
                   <h3 className="text-2xl font-serif-display font-bold text-[#0B3C2D] group-hover:text-[#D98A2B] transition-colors">
-                    Marriage & Couple Strain
+                    The Loop of Constant Friction
                   </h3>
                   <p className="text-xs text-ink-muted font-medium mt-1">
-                    When love feels buried beneath defensiveness and silence.
+                    When every conversation feels like walking on eggshells.
                   </p>
                 </div>
 
                 {/* Relatable Problem Checklist */}
                 <div className="space-y-2.5 pt-1">
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-red-600/90 block">
-                    Is this your struggle?
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-[#0B3C2D] block">
+                    Does this feel like your reality?
                   </span>
-                  <ul className="space-y-2 text-xs text-ink-navy leading-relaxed">
+                  <ul className="space-y-2.5 text-xs text-ink-navy leading-relaxed">
                     <li className="flex items-start">
-                      <span className="text-red-500 font-bold mr-2 text-sm shrink-0">✕</span>
-                      <span>Trapped in the <strong>same circular argument</strong> that never reaches resolution.</span>
+                      <span className="w-4 h-4 rounded-full bg-[#D98A2B]/20 text-[#D98A2B] flex items-center justify-center text-[10px] font-bold mr-2.5 shrink-0 mt-0.5">•</span>
+                      <span>You have the <strong>exact same argument every week</strong> — just dressed in different words.</span>
                     </li>
                     <li className="flex items-start">
-                      <span className="text-red-500 font-bold mr-2 text-sm shrink-0">✕</span>
-                      <span>Feeling more like <strong>exhausted roommates</strong> than romantic partners after children.</span>
+                      <span className="w-4 h-4 rounded-full bg-[#D98A2B]/20 text-[#D98A2B] flex items-center justify-center text-[10px] font-bold mr-2.5 shrink-0 mt-0.5">•</span>
+                      <span>Between careers and children, you have quietly drifted into <strong>exhausted roommates</strong>.</span>
                     </li>
                     <li className="flex items-start">
-                      <span className="text-red-500 font-bold mr-2 text-sm shrink-0">✕</span>
-                      <span>Walking on eggshells or retreating into cold, lonely distance.</span>
+                      <span className="w-4 h-4 rounded-full bg-[#D98A2B]/20 text-[#D98A2B] flex items-center justify-center text-[10px] font-bold mr-2.5 shrink-0 mt-0.5">•</span>
+                      <span>One person criticizes or demands; the other shuts down and retreats into <strong>days of cold silence</strong>.</span>
                     </li>
                   </ul>
                 </div>
@@ -396,13 +395,13 @@ export default function HomePage() {
                     ✓ The Therapeutic Solution:
                   </span>
                   <p className="text-xs text-ink-muted leading-relaxed">
-                    We disarm automatic defenses, rebuild empathy, and install proven communication frameworks that bring warmth and genuine intimacy back.
+                    We disarm reactive triggers, dismantle defensiveness, and install proven communication frameworks that bring emotional safety and genuine intimacy back.
                   </p>
                 </div>
               </div>
 
               {/* Direct Booking CTA */}
-              <div className="pt-2 space-y-2">
+              <div className="pt-2">
                 <button
                   type="button"
                   onClick={() => openDirectBooking("Couples Relationship Repair")}
@@ -411,11 +410,6 @@ export default function HomePage() {
                   <Calendar className="w-4 h-4 mr-2 text-[#D98A2B]" />
                   Book Couple Counseling
                 </button>
-                <p className="text-center text-[10px] text-ink-muted flex items-center justify-center space-x-1.5">
-                  <span>📅 Synced with Google Calendar</span>
-                  <span>•</span>
-                  <span>100% Confidential</span>
-                </p>
               </div>
             </div>
 
@@ -434,30 +428,30 @@ export default function HomePage() {
 
                 <div>
                   <h3 className="text-2xl font-serif-display font-bold text-[#0B3C2D] group-hover:text-[#0B3C2D] transition-colors">
-                    Parenting Overwhelm
+                    Parenting on the Brink
                   </h3>
                   <p className="text-xs text-ink-muted font-medium mt-1">
-                    When household tension and bedtime battles leave you drained.
+                    When you love your kids deeply, but dread the daily battlegrounds.
                   </p>
                 </div>
 
                 {/* Relatable Problem Checklist */}
                 <div className="space-y-2.5 pt-1">
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-red-600/90 block">
-                    Is this your struggle?
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-[#0B3C2D] block">
+                    Does this feel like your reality?
                   </span>
-                  <ul className="space-y-2 text-xs text-ink-navy leading-relaxed">
+                  <ul className="space-y-2.5 text-xs text-ink-navy leading-relaxed">
                     <li className="flex items-start">
-                      <span className="text-red-500 font-bold mr-2 text-sm shrink-0">✕</span>
-                      <span>Daily shouting matches over <strong>screen addiction, homework, or bedtime</strong>.</span>
+                      <span className="w-4 h-4 rounded-full bg-[#0B3C2D]/20 text-[#0B3C2D] flex items-center justify-center text-[10px] font-bold mr-2.5 shrink-0 mt-0.5">•</span>
+                      <span>Mornings, homework, and bedtimes are battlegrounds of <strong>screaming, tears, and screen refusal</strong>.</span>
                     </li>
                     <li className="flex items-start">
-                      <span className="text-red-500 font-bold mr-2 text-sm shrink-0">✕</span>
-                      <span>Struggling to decode <strong>teen mood swings, withdrawal, or refusal</strong>.</span>
+                      <span className="w-4 h-4 rounded-full bg-[#0B3C2D]/20 text-[#0B3C2D] flex items-center justify-center text-[10px] font-bold mr-2.5 shrink-0 mt-0.5">•</span>
+                      <span>Your teen is <strong>withdrawing into secrecy, anxiety</strong>, or explosive resistance to guidance.</span>
                     </li>
                     <li className="flex items-start">
-                      <span className="text-red-500 font-bold mr-2 text-sm shrink-0">✕</span>
-                      <span>Parents disagreeing on discipline styles, leading to double exhaustion.</span>
+                      <span className="w-4 h-4 rounded-full bg-[#0B3C2D]/20 text-[#0B3C2D] flex items-center justify-center text-[10px] font-bold mr-2.5 shrink-0 mt-0.5">•</span>
+                      <span>Parents disagree on discipline styles, leading to double exhaustion and mutual blame.</span>
                     </li>
                   </ul>
                 </div>
@@ -468,13 +462,13 @@ export default function HomePage() {
                     ✓ The Therapeutic Solution:
                   </span>
                   <p className="text-xs text-ink-muted leading-relaxed">
-                    Create calm, non-punitive boundaries that children respect. Replace chaos with predictable routines and deep emotional safety.
+                    Replace shouting and punishment with calm, authoritative boundaries that children respect. Install predictable routines that bring calm back to your home.
                   </p>
                 </div>
               </div>
 
               {/* Direct Booking CTA */}
-              <div className="pt-2 space-y-2">
+              <div className="pt-2">
                 <button
                   type="button"
                   onClick={() => openDirectBooking("Parenting & Family Coaching")}
@@ -483,11 +477,6 @@ export default function HomePage() {
                   <Calendar className="w-4 h-4 mr-2 text-[#D98A2B]" />
                   Book Family Counseling
                 </button>
-                <p className="text-center text-[10px] text-ink-muted flex items-center justify-center space-x-1.5">
-                  <span>📅 Synced with Google Calendar</span>
-                  <span>•</span>
-                  <span>100% Confidential</span>
-                </p>
               </div>
             </div>
 
@@ -506,30 +495,30 @@ export default function HomePage() {
 
                 <div>
                   <h3 className="text-2xl font-serif-display font-bold text-[#0B3C2D] group-hover:text-[#2C6E49] transition-colors">
-                    Burnout & Life Crossroads
+                    High-Functioning Burnout
                   </h3>
                   <p className="text-xs text-ink-muted font-medium mt-1">
-                    When high performance leaves your inner world completely empty.
+                    When you look successful on the outside, but feel empty inside.
                   </p>
                 </div>
 
                 {/* Relatable Problem Checklist */}
                 <div className="space-y-2.5 pt-1">
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-red-600/90 block">
-                    Is this your struggle?
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-[#0B3C2D] block">
+                    Does this feel like your reality?
                   </span>
-                  <ul className="space-y-2 text-xs text-ink-navy leading-relaxed">
+                  <ul className="space-y-2.5 text-xs text-ink-navy leading-relaxed">
                     <li className="flex items-start">
-                      <span className="text-red-500 font-bold mr-2 text-sm shrink-0">✕</span>
-                      <span>Severe <strong>executive burnout, brain fog & decision fatigue</strong>.</span>
+                      <span className="w-4 h-4 rounded-full bg-[#2C6E49]/20 text-[#2C6E49] flex items-center justify-center text-[10px] font-bold mr-2.5 shrink-0 mt-0.5">•</span>
+                      <span>Severe <strong>executive decision fatigue, racing thoughts</strong>, and waking up exhausted.</span>
                     </li>
                     <li className="flex items-start">
-                      <span className="text-red-500 font-bold mr-2 text-sm shrink-0">✕</span>
-                      <span>Feeling unanchored during major career, marriage, or personal crossroads.</span>
+                      <span className="w-4 h-4 rounded-full bg-[#2C6E49]/20 text-[#2C6E49] flex items-center justify-center text-[10px] font-bold mr-2.5 shrink-0 mt-0.5">•</span>
+                      <span>Quietly carrying heavy expectations for family & business with <strong>zero confidential space to vent</strong>.</span>
                     </li>
                     <li className="flex items-start">
-                      <span className="text-red-500 font-bold mr-2 text-sm shrink-0">✕</span>
-                      <span>Quietly carrying heavy emotional weight with no confidential space to breathe.</span>
+                      <span className="w-4 h-4 rounded-full bg-[#2C6E49]/20 text-[#2C6E49] flex items-center justify-center text-[10px] font-bold mr-2.5 shrink-0 mt-0.5">•</span>
+                      <span>Standing at a critical personal, career, or relationship crossroads without clear direction.</span>
                     </li>
                   </ul>
                 </div>
@@ -540,13 +529,13 @@ export default function HomePage() {
                     ✓ The Therapeutic Solution:
                   </span>
                   <p className="text-xs text-ink-muted leading-relaxed">
-                    Master emotional regulation, establish healthy boundaries, and realign your daily habits with clarity, purpose, and deep calm.
+                    Regain emotional regulation, establish unapologetic boundaries, and construct a personalized daily roadmap that preserves your energy, health, and peace.
                   </p>
                 </div>
               </div>
 
               {/* Direct Booking CTA */}
-              <div className="pt-2 space-y-2">
+              <div className="pt-2">
                 <button
                   type="button"
                   onClick={() => openDirectBooking("Individual Counseling & Mentorship")}
@@ -555,11 +544,6 @@ export default function HomePage() {
                   <Calendar className="w-4 h-4 mr-2 text-[#D98A2B]" />
                   Book 1-on-1 Mentorship
                 </button>
-                <p className="text-center text-[10px] text-ink-muted flex items-center justify-center space-x-1.5">
-                  <span>📅 Synced with Google Calendar</span>
-                  <span>•</span>
-                  <span>100% Confidential</span>
-                </p>
               </div>
             </div>
 
@@ -573,7 +557,7 @@ export default function HomePage() {
             </div>
             <div className="flex items-center space-x-2">
               <Calendar className="w-4 h-4 text-[#0B3C2D]" />
-              <span>Automated Google Calendar Sync</span>
+              <span>Direct Calendar Booking</span>
             </div>
             <div className="flex items-center space-x-2">
               <Sparkles className="w-4 h-4 text-[#D98A2B]" />
@@ -581,7 +565,7 @@ export default function HomePage() {
             </div>
             <div className="flex items-center space-x-2">
               <Clock className="w-4 h-4 text-[#0B3C2D]" />
-              <span>50-Minute Structured Sessions</span>
+              <span>50-Minute Dedicated Sessions</span>
             </div>
           </div>
 

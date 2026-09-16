@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { Menu, X, PhoneCall, ChevronDown, Calendar } from "lucide-react";
 import LeafMotif from "@/components/LeafMotif";
+import { LanguageSelector } from "@/components/LanguageManager";
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -126,8 +127,9 @@ export default function Header() {
             </Link>
           </nav>
 
-          {/* Primary CTA */}
-          <div className="hidden md:flex items-center space-x-4">
+          {/* Primary CTA & Language Selector */}
+          <div className="hidden md:flex items-center space-x-3">
+            <LanguageSelector />
             <Link
               href="/contact#booking"
               className="inline-flex items-center px-5 py-2.5 rounded-full bg-[#0B3C2D] hover:bg-[#07291f] text-white text-sm font-semibold transition-all duration-200 shadow-md hover-lift"
@@ -218,10 +220,13 @@ export default function Header() {
               >
                 Reviews
               </Link>
+              {/* Mobile Language Selector */}
+              <LanguageSelector isMobile />
+
               <Link
                 href="/contact#booking"
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="inline-flex items-center justify-center px-5 py-3.5 rounded-full bg-[#0B3C2D] hover:bg-[#07291f] text-white text-base font-bold shadow-md mt-3"
+                className="inline-flex items-center justify-center px-5 py-3.5 rounded-full bg-[#0B3C2D] hover:bg-[#07291f] text-white text-base font-bold shadow-md mt-2"
               >
                 <Calendar className="w-4 h-4 mr-2 text-[#D98A2B]" />
                 Book a Session

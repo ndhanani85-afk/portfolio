@@ -3,6 +3,7 @@ import Script from "next/script";
 import { Inter, Fraunces, Caveat, Alex_Brush } from "next/font/google";
 import "./globals.css";
 import MainLayoutWrapper from "@/components/MainLayoutWrapper";
+import { GoogleTranslateInit } from "@/components/LanguageManager";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -167,6 +168,7 @@ export default function RootLayout({
             </Script>
           </>
         )}
+        <GoogleTranslateInit />
         <MainLayoutWrapper>{children}</MainLayoutWrapper>
       </body>
     </html>
