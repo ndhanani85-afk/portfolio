@@ -110,6 +110,8 @@ function ContactBookingContent() {
           email: formData.email,
           phone: formData.phone.replace(/\D/g, ""),
           serviceType: sessionType,
+          date: selectedDate ? selectedDate.toISOString() : "",
+          time: selectedTime,
           message: `Scheduled: ${selectedDate.toDateString()} at ${selectedTime}. Notes: ${formData.notes || "None"}`,
         }),
       });

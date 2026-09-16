@@ -8,6 +8,8 @@ export interface BookingRecord {
   phone: string;
   serviceType: string;
   message: string;
+  date?: string;
+  time?: string;
   createdAt: string;
 }
 

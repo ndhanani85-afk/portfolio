@@ -28,6 +28,113 @@ async function isAdmin(req: Request): Promise<boolean> {
   return validateSession(token);
 }
 
+// Time normalization utility e.g. "9:00 AM", "09:00 AM" -> "9:00 AM"
+export function normalizeTime(timeStr: string): string {
+  if (!timeStr) return "";
+  const match = timeStr.trim().match(/^0?(\d+):(\d+)\s*(AM|PM)?$/i);
+  if (!match) return timeStr.trim();
+  const hour = parseInt(match[1], 10);
+  const min = match[2].padStart(2, "0");
+  const ampm = (match[3] || (hour >= 12 ? "PM" : "AM")).toUpperCase();
+  const normHour = hour % 12 === 0 ? 12 : hour % 12;
+  return `${normHour}:${min} ${ampm}`;
+}
+
+function extractDateAndSlot(item: { date?: string; time?: string; message?: string }): { dateStr: string; timeStr: string } | null {
+  // 1. Direct fields
+  if (item.date && item.time) {
+    const d = new Date(item.date);
+    if (!isNaN(d.getTime())) {
+      const y = d.getFullYear();
+      const m = String(d.getMonth() + 1).padStart(2, "0");
+      const day = String(d.getDate()).padStart(2, "0");
+      return { dateStr: `${y}-${m}-${day}`, timeStr: normalizeTime(item.time) };
+    }
+  }
+
+  // 2. Parse from message string (e.g. "Direct Booking: Thu Sep 17 2026 at 9:00 AM." or "Scheduled: Thu Sep 17 2026 at 9:00 AM.")
+  if (item.message) {
+    const msgMatch = item.message.match(/(?:Direct Booking|Scheduled):\s*([A-Za-z]{3}\s+[A-Za-z]{3}\s+\d+\s+\d{4})\s+at\s+(\d{1,2}:\d{2}\s*(?:AM|PM))/i);
+    if (msgMatch) {
+      const parsedDate = new Date(msgMatch[1]);
+      if (!isNaN(parsedDate.getTime())) {
+        const y = parsedDate.getFullYear();
+        const m = String(parsedDate.getMonth() + 1).padStart(2, "0");
+        const day = String(parsedDate.getDate()).padStart(2, "0");
+        return { dateStr: `${y}-${m}-${day}`, timeStr: normalizeTime(msgMatch[2]) };
+      }
+    }
+  }
+
+  return null;
+}
+
+async function getBookedSlotsForDate(targetDate: string): Promise<string[]> {
+  const bookedSet = new Set<string>();
+
+  // 1. Check local store
+  try {
+    const local = getLocalBookings();
+    for (const item of local) {
+      const res = extractDateAndSlot(item);
+      if (res && res.dateStr === targetDate) {
+        bookedSet.add(res.timeStr);
+      }
+    }
+  } catch (e) {
+    console.warn("[SlotCheck] Local store check error:", e);
+  }
+
+  // 2. Check Supabase
+  try {
+    const { data: supabaseLeads } = await supabaseAdmin
+      .from("bookings")
+      .select("*");
+    if (Array.isArray(supabaseLeads)) {
+      for (const item of supabaseLeads) {
+        const res = extractDateAndSlot({
+          date: item.date,
+          time: item.time,
+          message: item.message,
+        });
+        if (res && res.dateStr === targetDate) {
+          bookedSet.add(res.timeStr);
+        }
+      }
+    }
+  } catch (e) {
+    console.warn("[SlotCheck] Supabase check notice:", e);
+  }
+
+  // 3. Check Google Apps Script / Google Calendar (ONLY events with 'counsel' in title)
+  const googleScriptUrl = process.env.GOOGLE_SCRIPT_WEB_APP_URL;
+  if (googleScriptUrl) {
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 4000);
+      const res = await fetch(`${googleScriptUrl}?date=${encodeURIComponent(targetDate)}`, {
+        method: "GET",
+        redirect: "follow",
+        signal: controller.signal,
+      });
+      clearTimeout(timeoutId);
+      if (res.ok) {
+        const data = await res.json();
+        if (data.success && Array.isArray(data.bookedTimes)) {
+          for (const t of data.bookedTimes) {
+            bookedSet.add(normalizeTime(t));
+          }
+        }
+      }
+    } catch (gErr) {
+      // Graceful fallback: local and supabase checks provide coverage
+      console.warn("[SlotCheck] Google Calendar live check notice:", gErr);
+    }
+  }
+
+  return Array.from(bookedSet);
+}
+
 // POST: Submit a new booking / Quiz lead / Contact form (INSTANT < 50ms)
 export async function POST(req: Request) {
   maybeCleanupStaleEntries();
@@ -76,6 +183,28 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Invalid time format." }, { status: 400 });
     }
 
+    // CHECK: If date and time are provided, ensure slot is NOT already reserved!
+    if (rawDate && rawTime) {
+      const d = new Date(rawDate);
+      if (!isNaN(d.getTime())) {
+        const y = d.getFullYear();
+        const m = String(d.getMonth() + 1).padStart(2, "0");
+        const day = String(d.getDate()).padStart(2, "0");
+        const targetDate = `${y}-${m}-${day}`;
+        const currentBooked = await getBookedSlotsForDate(targetDate);
+        if (currentBooked.includes(normalizeTime(rawTime))) {
+          return NextResponse.json(
+            {
+              success: false,
+              error: "This counseling slot is already reserved. Please choose another available time.",
+              message: "This counseling slot is already reserved. Please choose another available time.",
+            },
+            { status: 409 }
+          );
+        }
+      }
+    }
+
     const leadName = rawName.trim() || "Anonymous Visitor";
     const leadPhone = rawPhone.trim().replace(/[^\d+]/g, "");
     const leadEmail = rawEmail.trim().toLowerCase();
@@ -113,6 +242,8 @@ export async function POST(req: Request) {
       phone: leadPhone,
       serviceType: finalService,
       message: finalMessage,
+      date: rawDate,
+      time: rawTime,
       createdAt: new Date().toISOString(),
     };
 
@@ -148,10 +279,11 @@ export async function POST(req: Request) {
         if (googleScriptUrl) {
           try {
             const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 6000);
+            const timeoutId = setTimeout(() => controller.abort(), 8000);
             fetch(googleScriptUrl, {
               method: "POST",
-              headers: { "Content-Type": "application/json" },
+              headers: { "Content-Type": "text/plain;charset=utf-8" },
+              redirect: "follow",
               body: JSON.stringify({
                 name: leadName,
                 email: leadEmail,
@@ -163,8 +295,15 @@ export async function POST(req: Request) {
               }),
               signal: controller.signal,
             })
-              .then((res) => res.json())
-              .then((data) => console.log("[Google Script Calendar Sync Success]:", data))
+              .then(async (res) => {
+                const text = await res.text();
+                try {
+                  const data = JSON.parse(text);
+                  console.log("[Google Script Calendar Sync Success]:", data);
+                } catch {
+                  console.log("[Google Script Calendar Sync Response]:", text);
+                }
+              })
               .catch((err) => console.log("[Google Script Calendar Sync Notice]:", err.message))
               .finally(() => clearTimeout(timeoutId));
           } catch (gasErr) {
@@ -191,9 +330,23 @@ export async function POST(req: Request) {
   }
 }
 
-// GET: Fetch all bookings/leads for Admin Dashboard
+// GET: Fetch all bookings/leads for Admin Dashboard, or live booked slots check
 export async function GET(req: Request) {
   try {
+    const { searchParams } = new URL(req.url);
+    const checkSlots = searchParams.get("checkSlots");
+    const dateParam = searchParams.get("date");
+
+    // Public endpoint for live calendar slot availability check
+    if (checkSlots === "true" && dateParam) {
+      const bookedSlots = await getBookedSlotsForDate(dateParam);
+      return NextResponse.json({
+        success: true,
+        date: dateParam,
+        bookedSlots,
+      });
+    }
+
     if (!(await isAdmin(req))) {
       return NextResponse.json({ error: "Unauthorized access" }, { status: 401 });
     }

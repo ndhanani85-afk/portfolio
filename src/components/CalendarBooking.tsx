@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight, Clock, CalendarDays } from "lucide-react";
 import LeafMotif from "@/components/LeafMotif";
 import { useLanguage } from "@/context/LanguageContext";
@@ -25,6 +25,17 @@ const fallbackMonthNames = [
 
 const fallbackDayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
+function normalizeTime(timeStr: string): string {
+  if (!timeStr) return "";
+  const match = timeStr.trim().match(/^0?(\d+):(\d+)\s*(AM|PM)?$/i);
+  if (!match) return timeStr.trim();
+  const hour = parseInt(match[1], 10);
+  const min = match[2].padStart(2, "0");
+  const ampm = (match[3] || (hour >= 12 ? "PM" : "AM")).toUpperCase();
+  const normHour = hour % 12 === 0 ? 12 : hour % 12;
+  return `${normHour}:${min} ${ampm}`;
+}
+
 export default function CalendarBooking({
   selectedDate,
   selectedTime,
@@ -40,8 +51,53 @@ export default function CalendarBooking({
   const [currentMonth, setCurrentMonth] = useState(today.getMonth());
   const [currentYear, setCurrentYear] = useState(today.getFullYear());
 
+  // Live booked counseling slots state
+  const [bookedSlots, setBookedSlots] = useState<string[]>([]);
+  const [isLoadingSlots, setIsLoadingSlots] = useState(false);
+
   const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
   const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay();
+
+  // Fetch booked slots whenever selectedDate changes
+  useEffect(() => {
+    if (!selectedDate) {
+      setBookedSlots([]);
+      return;
+    }
+
+    const year = selectedDate.getFullYear();
+    const month = String(selectedDate.getMonth() + 1).padStart(2, "0");
+    const day = String(selectedDate.getDate()).padStart(2, "0");
+    const dateStr = `${year}-${month}-${day}`;
+
+    let isMounted = true;
+    setIsLoadingSlots(true);
+
+    fetch(`/api/bookings?checkSlots=true&date=${dateStr}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (!isMounted) return;
+        if (data.success && Array.isArray(data.bookedSlots)) {
+          setBookedSlots(data.bookedSlots);
+          // If current selectedTime was already booked, unselect it immediately
+          if (selectedTime && data.bookedSlots.includes(normalizeTime(selectedTime))) {
+            onTimeSelect("");
+          }
+        } else {
+          setBookedSlots([]);
+        }
+      })
+      .catch((err) => {
+        console.warn("[CalendarBooking] Slot check notice:", err);
+      })
+      .finally(() => {
+        if (isMounted) setIsLoadingSlots(false);
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, [selectedDate, selectedTime, onTimeSelect]);
 
   const prevMonth = () => {
     if (currentMonth === 0) {
@@ -78,11 +134,11 @@ export default function CalendarBooking({
 
     if (!isDateToday) return false;
 
-    const match = timeStr.match(/^(\d+):(\d+)\s*(AM|PM)$/i);
+    const match = timeStr.match(/^0?(\d+):(\d+)\s*(AM|PM)$/i);
     if (!match) return false;
 
-    let hours = parseInt(match[1]);
-    const minutes = parseInt(match[2]);
+    let hours = parseInt(match[1], 10);
+    const minutes = parseInt(match[2], 10);
     const ampm = match[3].toUpperCase();
 
     if (ampm === "PM" && hours !== 12) {
@@ -148,7 +204,7 @@ export default function CalendarBooking({
         <button
           type="button"
           onClick={prevMonth}
-          className="w-8 h-8 rounded-full hover:bg-[#8CA899]/20 flex items-center justify-center transition-colors text-[#0B3C2D]"
+          className="w-8 h-8 rounded-full hover:bg-[#8CA899]/20 flex items-center justify-center transition-colors text-[#0B3C2D] cursor-pointer"
           aria-label="Previous month"
         >
           <ChevronLeft className="w-5 h-5" />
@@ -159,7 +215,7 @@ export default function CalendarBooking({
         <button
           type="button"
           onClick={nextMonth}
-          className="w-8 h-8 rounded-full hover:bg-[#8CA899]/20 flex items-center justify-center transition-colors text-[#0B3C2D]"
+          className="w-8 h-8 rounded-full hover:bg-[#8CA899]/20 flex items-center justify-center transition-colors text-[#0B3C2D] cursor-pointer"
           aria-label="Next month"
         >
           <ChevronRight className="w-5 h-5" />
@@ -196,7 +252,7 @@ export default function CalendarBooking({
                   ? "border border-[#D98A2B] text-[#D98A2B] bg-[#D98A2B]/10"
                   : disabled
                   ? "text-ink-light/40 cursor-not-allowed bg-[#FAF7F2]/40"
-                  : "text-deep-ink hover:bg-[#8CA899]/20 hover:text-[#0B3C2D]"
+                  : "text-deep-ink hover:bg-[#8CA899]/20 hover:text-[#0B3C2D] cursor-pointer"
               }`}
             >
               {day}
@@ -213,34 +269,58 @@ export default function CalendarBooking({
       </div>
 
       <div className="border-t border-[#0B3C2D]/10 pt-4">
-        <div className="flex items-center space-x-2 mb-3">
-          <Clock className="w-4 h-4 text-[#D98A2B]" />
-          <span className="text-xs font-bold text-[#0B3C2D] uppercase tracking-wider">
-            {formT?.timeHeading ? t(formT.timeHeading) : "Select Available Time Slot"}
-          </span>
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center space-x-2">
+            <Clock className="w-4 h-4 text-[#D98A2B]" />
+            <span className="text-xs font-bold text-[#0B3C2D] uppercase tracking-wider">
+              {formT?.timeHeading ? t(formT.timeHeading) : "Select Available Time Slot"}
+            </span>
+          </div>
+          {isLoadingSlots && (
+            <span className="text-[11px] text-[#D98A2B] flex items-center gap-1.5 font-medium">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#D98A2B] inline-block animate-ping" />
+              Checking slots...
+            </span>
+          )}
         </div>
+
         <div className="grid grid-cols-3 sm:grid-cols-3 gap-2">
           {timeSlots.map((time) => {
             const isPast = checkIsPastTime(selectedDate, time);
+            const isBooked = bookedSlots.includes(normalizeTime(time));
+            const isDisabled = isPast || isBooked;
+            const isSelectedTime = selectedTime === time;
+
             return (
               <button
                 key={time}
                 type="button"
-                disabled={isPast}
-                onClick={() => onTimeSelect(time)}
-                className={`py-2 px-2 rounded-xl text-xs font-semibold transition-all duration-150 border ${
-                  selectedTime === time
-                    ? "bg-[#D98A2B] text-white border-[#D98A2B] shadow-sm font-bold"
+                disabled={isDisabled}
+                onClick={() => !isDisabled && onTimeSelect(time)}
+                className={`relative py-2.5 px-2 rounded-xl text-xs font-semibold transition-all duration-150 border flex flex-col items-center justify-center min-h-[46px] ${
+                  isSelectedTime
+                    ? "bg-[#D98A2B] text-white border-[#D98A2B] shadow-sm font-bold scale-[1.02]"
+                    : isBooked
+                    ? "border-rose-200 bg-rose-50/70 text-rose-500 cursor-not-allowed"
                     : isPast
                     ? "border-[#0B3C2D]/10 text-ink-light/40 cursor-not-allowed bg-[#FAF7F2]/40"
-                    : "border-[#0B3C2D]/15 text-deep-ink hover:border-[#0B3C2D] hover:bg-[#FAF7F2]"
+                    : "border-[#0B3C2D]/15 text-deep-ink hover:border-[#0B3C2D] hover:bg-[#FAF7F2] cursor-pointer"
                 }`}
+                title={isBooked ? "This counseling session slot is already booked" : isPast ? "Past time slot" : "Available"}
               >
-                {time}
+                <span className={isBooked ? "line-through opacity-75 text-[11px]" : ""}>
+                  {time}
+                </span>
+                {isBooked && (
+                  <span className="text-[9px] font-bold tracking-wider text-rose-600 uppercase mt-0.5 leading-none">
+                    Booked
+                  </span>
+                )}
               </button>
             );
           })}
         </div>
+
         {!selectedTime && (
           <p className="text-[11px] text-ink-light mt-3 text-center">
             {formT?.chooseSlotToProceed ? t(formT.chooseSlotToProceed) : "Select an available slot to proceed"}
