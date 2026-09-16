@@ -256,14 +256,14 @@ export default function HomePage() {
             <div className="order-1 lg:order-2 lg:col-span-5 relative">
               <div className="relative mx-auto max-w-md lg:max-w-none rounded-[32px] p-2.5 bg-white/80 shadow-2xl border border-[#0B3C2D]/10 overflow-hidden space-y-2.5">
                 
-                {/* Person portrait photo /03.png kept as requested */}
+                {/* Person portrait photo /03.png — zoomed to face & body */}
                 <div className="relative w-full aspect-[4/5] rounded-[24px] overflow-hidden shadow-sm group">
                   <Image
                     src="/03.png"
                     alt="Nikunj Dhanani Counselor"
                     fill
                     sizes="(max-width: 768px) 100vw, 50vw"
-                    className="object-cover object-[center_20%] group-hover:scale-103 transition-transform duration-500"
+                    className="object-cover object-[center_15%] scale-[1.3] group-hover:scale-[1.35] transition-transform duration-500"
                     priority
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent"></div>
