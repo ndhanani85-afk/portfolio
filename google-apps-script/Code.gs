@@ -12,7 +12,7 @@
  * 8. Set "Who has access": "Anyone"  <-- CRITICAL: Must be "Anyone" so the website can book without login!
  * 9. Click "Deploy", authorize access when prompted, and copy the Web App URL (ending in /exec).
  * 10. Paste that URL in your website's .env file as:
- *     GOOGLE_SCRIPT_WEB_APP_URL="https://script.google.com/macros/s/.../exec"
+ *     GOOGLE_SCRIPT_WEB_APP_URL="https://script.google.com/macros/s/AKfycby_o2N1rjfzBL1LLCZ1sBfvPJsK0Bw4Z73sww-8Q19a2XRoQjyLv299KuD5sbIPR-VsRw/exec"
  *     Also update GOOGLE_SCRIPT_WEB_APP_URL in Cloudflare Workers -> Settings -> Variables and Secrets.
  */
 
