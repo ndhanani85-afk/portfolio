@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Globe, Check, X, ChevronDown } from "lucide-react";
+import { Globe, Check, ChevronDown } from "lucide-react";
 import { useLanguage, LANGUAGES, SupportedLanguage } from "@/context/LanguageContext";
 import { translations } from "@/lib/translations";
 
@@ -103,13 +103,12 @@ export function FirstVisitLanguageModal() {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
-    // Only show if user hasn't chosen a language or dismissed the modal
+    // Show modal on first visit until user selects a language preference
     const saved = localStorage.getItem("user_lang_preference");
-    const dismissed = sessionStorage.getItem("lang_modal_dismissed");
-    if (!saved && !dismissed) {
+    if (!saved) {
       const timer = setTimeout(() => {
         setIsOpen(true);
-      }, 700);
+      }, 500);
       return () => clearTimeout(timer);
     }
   }, []);
@@ -119,25 +118,11 @@ export function FirstVisitLanguageModal() {
     setIsOpen(false);
   };
 
-  const handleDismiss = () => {
-    sessionStorage.setItem("lang_modal_dismissed", "true");
-    setIsOpen(false);
-  };
-
   if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#0B3C2D]/60 backdrop-blur-sm animate-fade-in">
       <div className="relative w-full max-w-md bg-white rounded-3xl p-6 sm:p-8 shadow-2xl border border-[#0B3C2D]/15 space-y-6 text-center">
-        {/* Close button */}
-        <button
-          type="button"
-          onClick={handleDismiss}
-          aria-label="Close"
-          className="absolute top-4 right-4 w-8 h-8 rounded-full bg-[#F8F4EE] hover:bg-[#E8F3EE] text-[#0B3C2D] flex items-center justify-center transition-colors cursor-pointer"
-        >
-          <X className="w-4 h-4" />
-        </button>
 
         {/* Header Icon */}
         <div className="w-14 h-14 rounded-2xl bg-[#0B3C2D] text-white flex items-center justify-center mx-auto shadow-md">
