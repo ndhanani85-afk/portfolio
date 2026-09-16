@@ -5,7 +5,7 @@ import LeafMotif from "@/components/LeafMotif";
 import ScrollReveal from "@/components/ScrollReveal";
 
 export const metadata = {
-  title: "Individual Counselling & Life Coaching | N. Dhanani",
+  title: "Individual Counselling & Life Coaching | Nikunj Dhanani",
   description: "Personal counseling and executive life coaching in Mumbai and online. Manage stress, executive burnout, life transitions, and emotional balance.",
 };
 

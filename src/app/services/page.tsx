@@ -5,7 +5,7 @@ import LeafMotif from "@/components/LeafMotif";
 import ScrollReveal from "@/components/ScrollReveal";
 
 export const metadata = {
-  title: "Counseling Services | N. Dhanani",
+  title: "Counseling Services | Nikunj Dhanani",
   description: "Explore individual counseling, couples relationship repair, and parenting coaching sessions guided directly by me in Mumbai and online across India.",
 };
 

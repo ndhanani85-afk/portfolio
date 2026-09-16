@@ -24,10 +24,18 @@ import {
 import LeafMotif from "@/components/LeafMotif";
 import WaveDivider from "@/components/WaveDivider";
 import StressQuizModal from "@/components/StressQuizModal";
+import DirectBookingModal from "@/components/DirectBookingModal";
 
 export default function HomePage() {
   const [isQuizOpen, setIsQuizOpen] = useState(false);
+  const [isBookingOpen, setIsBookingOpen] = useState(false);
+  const [bookingService, setBookingService] = useState("Couples Relationship Repair");
   const [activeTestimonial, setActiveTestimonial] = useState(0);
+
+  const openDirectBooking = (serviceName: string) => {
+    setBookingService(serviceName);
+    setIsBookingOpen(true);
+  };
 
   const realAvatars = [
     { name: "Priya R.", url: "/avatar1.png" },
@@ -168,13 +176,14 @@ export default function HomePage() {
 
               {/* Action Buttons Row */}
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 pt-1">
-                <Link
-                  href="/contact#booking"
-                  className="inline-flex items-center justify-center px-7 py-3.5 rounded-full bg-[#0B3C2D] hover:bg-[#07291f] text-white font-bold text-sm shadow-md hover-lift transition-all"
+                <button
+                  type="button"
+                  onClick={() => openDirectBooking("Couples Relationship Repair")}
+                  className="inline-flex items-center justify-center px-7 py-3.5 rounded-full bg-[#0B3C2D] hover:bg-[#07291f] text-white font-bold text-sm shadow-md hover-lift transition-all cursor-pointer"
                 >
                   <Calendar className="w-4.5 h-4.5 mr-2 text-[#D98A2B]" />
                   Book a Session
-                </Link>
+                </button>
                 
                 <button
                   onClick={() => setIsQuizOpen(true)}
@@ -305,6 +314,274 @@ export default function HomePage() {
               <span className="text-xl md:text-2xl font-bold font-sans tracking-tighter text-[#0B3C2D]/80 italic">amazon</span>
               <span className="text-xl md:text-2xl font-black font-sans tracking-tight text-[#0B3C2D]/80">Deloitte.</span>
               <span className="text-xl md:text-2xl font-medium font-sans tracking-tight text-[#0B3C2D]/80">Infosys</span>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      {/* ── SECTION 1.5: RELATABLE PROBLEM-HOOK & DIRECT COUNSELING SOLUTION ── */}
+      <section className="bg-white py-14 sm:py-20 md:py-24 border-y border-[#0B3C2D]/10 relative z-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+          
+          {/* Section Hook Header */}
+          <div className="text-center max-w-3xl mx-auto space-y-4">
+            <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-[#D98A2B]/10 border border-[#D98A2B]/20 text-[#D98A2B] text-xs font-bold uppercase tracking-wider">
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>Recognize What You Are Going Through?</span>
+            </div>
+
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif-display font-bold text-[#0B3C2D] leading-[1.2]">
+              Does Any of This Sound{" "}
+              <span className="italic text-[#D98A2B] font-normal block sm:inline">
+                Painfully Familiar?
+              </span>
+            </h2>
+
+            <p className="text-base sm:text-lg text-ink-muted leading-relaxed">
+              When emotional stress or relationship friction piles up, it’s easy to feel trapped in exhausting, repetitive loops. 
+              Identify your situation below and book a confidential counseling session directly into my calendar.
+            </p>
+          </div>
+
+          {/* 3 Relatable Problem-to-Solution Cards */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
+            
+            {/* CARD 1: Couple / Marriage Relationship Repair */}
+            <div className="bg-[#FAF8F5] rounded-3xl p-6 sm:p-8 border border-[#0B3C2D]/10 shadow-sm hover:shadow-md transition-all flex flex-col justify-between space-y-6 group hover:border-[#D98A2B]/50">
+              <div className="space-y-5">
+                {/* Badge & Icon */}
+                <div className="flex items-center justify-between">
+                  <div className="w-12 h-12 rounded-2xl bg-[#D98A2B]/15 text-[#D98A2B] flex items-center justify-center shadow-xs">
+                    <Heart className="w-6 h-6 fill-current" />
+                  </div>
+                  <span className="text-[11px] font-bold uppercase tracking-widest px-3 py-1 rounded-full bg-[#D98A2B]/10 text-[#D98A2B]">
+                    Couples Focus
+                  </span>
+                </div>
+
+                <div>
+                  <h3 className="text-2xl font-serif-display font-bold text-[#0B3C2D] group-hover:text-[#D98A2B] transition-colors">
+                    Marriage & Couple Strain
+                  </h3>
+                  <p className="text-xs text-ink-muted font-medium mt-1">
+                    When love feels buried beneath defensiveness and silence.
+                  </p>
+                </div>
+
+                {/* Relatable Problem Checklist */}
+                <div className="space-y-2.5 pt-1">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-red-600/90 block">
+                    Is this your struggle?
+                  </span>
+                  <ul className="space-y-2 text-xs text-ink-navy leading-relaxed">
+                    <li className="flex items-start">
+                      <span className="text-red-500 font-bold mr-2 text-sm shrink-0">✕</span>
+                      <span>Trapped in the <strong>same circular argument</strong> that never reaches resolution.</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-red-500 font-bold mr-2 text-sm shrink-0">✕</span>
+                      <span>Feeling more like <strong>exhausted roommates</strong> than romantic partners after children.</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-red-500 font-bold mr-2 text-sm shrink-0">✕</span>
+                      <span>Walking on eggshells or retreating into cold, lonely distance.</span>
+                    </li>
+                  </ul>
+                </div>
+
+                {/* The Counseling Solution */}
+                <div className="p-4 rounded-2xl bg-white border border-[#0B3C2D]/10 space-y-1.5">
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-[#0B3C2D] block">
+                    ✓ The Therapeutic Solution:
+                  </span>
+                  <p className="text-xs text-ink-muted leading-relaxed">
+                    We disarm automatic defenses, rebuild empathy, and install proven communication frameworks that bring warmth and genuine intimacy back.
+                  </p>
+                </div>
+              </div>
+
+              {/* Direct Booking CTA */}
+              <div className="pt-2 space-y-2">
+                <button
+                  type="button"
+                  onClick={() => openDirectBooking("Couples Relationship Repair")}
+                  className="w-full inline-flex items-center justify-center px-6 py-3.5 rounded-full bg-[#0B3C2D] hover:bg-[#07291f] text-white font-bold text-xs shadow-md hover-lift transition-all cursor-pointer"
+                >
+                  <Calendar className="w-4 h-4 mr-2 text-[#D98A2B]" />
+                  Book Couple Counseling
+                </button>
+                <p className="text-center text-[10px] text-ink-muted flex items-center justify-center space-x-1.5">
+                  <span>📅 Synced with Google Calendar</span>
+                  <span>•</span>
+                  <span>100% Confidential</span>
+                </p>
+              </div>
+            </div>
+
+            {/* CARD 2: Family & Parenting Guidance */}
+            <div className="bg-[#FAF8F5] rounded-3xl p-6 sm:p-8 border border-[#0B3C2D]/10 shadow-sm hover:shadow-md transition-all flex flex-col justify-between space-y-6 group hover:border-[#0B3C2D]/50">
+              <div className="space-y-5">
+                {/* Badge & Icon */}
+                <div className="flex items-center justify-between">
+                  <div className="w-12 h-12 rounded-2xl bg-[#0B3C2D]/15 text-[#0B3C2D] flex items-center justify-center shadow-xs">
+                    <Users className="w-6 h-6 text-[#0B3C2D]" />
+                  </div>
+                  <span className="text-[11px] font-bold uppercase tracking-widest px-3 py-1 rounded-full bg-[#0B3C2D]/10 text-[#0B3C2D]">
+                    Family Focus
+                  </span>
+                </div>
+
+                <div>
+                  <h3 className="text-2xl font-serif-display font-bold text-[#0B3C2D] group-hover:text-[#0B3C2D] transition-colors">
+                    Parenting Overwhelm
+                  </h3>
+                  <p className="text-xs text-ink-muted font-medium mt-1">
+                    When household tension and bedtime battles leave you drained.
+                  </p>
+                </div>
+
+                {/* Relatable Problem Checklist */}
+                <div className="space-y-2.5 pt-1">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-red-600/90 block">
+                    Is this your struggle?
+                  </span>
+                  <ul className="space-y-2 text-xs text-ink-navy leading-relaxed">
+                    <li className="flex items-start">
+                      <span className="text-red-500 font-bold mr-2 text-sm shrink-0">✕</span>
+                      <span>Daily shouting matches over <strong>screen addiction, homework, or bedtime</strong>.</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-red-500 font-bold mr-2 text-sm shrink-0">✕</span>
+                      <span>Struggling to decode <strong>teen mood swings, withdrawal, or refusal</strong>.</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-red-500 font-bold mr-2 text-sm shrink-0">✕</span>
+                      <span>Parents disagreeing on discipline styles, leading to double exhaustion.</span>
+                    </li>
+                  </ul>
+                </div>
+
+                {/* The Counseling Solution */}
+                <div className="p-4 rounded-2xl bg-white border border-[#0B3C2D]/10 space-y-1.5">
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-[#0B3C2D] block">
+                    ✓ The Therapeutic Solution:
+                  </span>
+                  <p className="text-xs text-ink-muted leading-relaxed">
+                    Create calm, non-punitive boundaries that children respect. Replace chaos with predictable routines and deep emotional safety.
+                  </p>
+                </div>
+              </div>
+
+              {/* Direct Booking CTA */}
+              <div className="pt-2 space-y-2">
+                <button
+                  type="button"
+                  onClick={() => openDirectBooking("Parenting & Family Coaching")}
+                  className="w-full inline-flex items-center justify-center px-6 py-3.5 rounded-full bg-[#0B3C2D] hover:bg-[#07291f] text-white font-bold text-xs shadow-md hover-lift transition-all cursor-pointer"
+                >
+                  <Calendar className="w-4 h-4 mr-2 text-[#D98A2B]" />
+                  Book Family Counseling
+                </button>
+                <p className="text-center text-[10px] text-ink-muted flex items-center justify-center space-x-1.5">
+                  <span>📅 Synced with Google Calendar</span>
+                  <span>•</span>
+                  <span>100% Confidential</span>
+                </p>
+              </div>
+            </div>
+
+            {/* CARD 3: 1-on-1 Life & Executive Mentorship */}
+            <div className="bg-[#FAF8F5] rounded-3xl p-6 sm:p-8 border border-[#0B3C2D]/10 shadow-sm hover:shadow-md transition-all flex flex-col justify-between space-y-6 group hover:border-[#2C6E49]/50">
+              <div className="space-y-5">
+                {/* Badge & Icon */}
+                <div className="flex items-center justify-between">
+                  <div className="w-12 h-12 rounded-2xl bg-[#2C6E49]/15 text-[#2C6E49] flex items-center justify-center shadow-xs">
+                    <Brain className="w-6 h-6 text-[#2C6E49]" />
+                  </div>
+                  <span className="text-[11px] font-bold uppercase tracking-widest px-3 py-1 rounded-full bg-[#2C6E49]/10 text-[#2C6E49]">
+                    Personal Mentorship
+                  </span>
+                </div>
+
+                <div>
+                  <h3 className="text-2xl font-serif-display font-bold text-[#0B3C2D] group-hover:text-[#2C6E49] transition-colors">
+                    Burnout & Life Crossroads
+                  </h3>
+                  <p className="text-xs text-ink-muted font-medium mt-1">
+                    When high performance leaves your inner world completely empty.
+                  </p>
+                </div>
+
+                {/* Relatable Problem Checklist */}
+                <div className="space-y-2.5 pt-1">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-red-600/90 block">
+                    Is this your struggle?
+                  </span>
+                  <ul className="space-y-2 text-xs text-ink-navy leading-relaxed">
+                    <li className="flex items-start">
+                      <span className="text-red-500 font-bold mr-2 text-sm shrink-0">✕</span>
+                      <span>Severe <strong>executive burnout, brain fog & decision fatigue</strong>.</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-red-500 font-bold mr-2 text-sm shrink-0">✕</span>
+                      <span>Feeling unanchored during major career, marriage, or personal crossroads.</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-red-500 font-bold mr-2 text-sm shrink-0">✕</span>
+                      <span>Quietly carrying heavy emotional weight with no confidential space to breathe.</span>
+                    </li>
+                  </ul>
+                </div>
+
+                {/* The Counseling Solution */}
+                <div className="p-4 rounded-2xl bg-white border border-[#0B3C2D]/10 space-y-1.5">
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-[#0B3C2D] block">
+                    ✓ The Therapeutic Solution:
+                  </span>
+                  <p className="text-xs text-ink-muted leading-relaxed">
+                    Master emotional regulation, establish healthy boundaries, and realign your daily habits with clarity, purpose, and deep calm.
+                  </p>
+                </div>
+              </div>
+
+              {/* Direct Booking CTA */}
+              <div className="pt-2 space-y-2">
+                <button
+                  type="button"
+                  onClick={() => openDirectBooking("Individual Counseling & Mentorship")}
+                  className="w-full inline-flex items-center justify-center px-6 py-3.5 rounded-full bg-[#0B3C2D] hover:bg-[#07291f] text-white font-bold text-xs shadow-md hover-lift transition-all cursor-pointer"
+                >
+                  <Calendar className="w-4 h-4 mr-2 text-[#D98A2B]" />
+                  Book 1-on-1 Mentorship
+                </button>
+                <p className="text-center text-[10px] text-ink-muted flex items-center justify-center space-x-1.5">
+                  <span>📅 Synced with Google Calendar</span>
+                  <span>•</span>
+                  <span>100% Confidential</span>
+                </p>
+              </div>
+            </div>
+
+          </div>
+
+          {/* Reassurance Bar */}
+          <div className="bg-[#FAF8F5] rounded-2xl p-4 sm:p-5 border border-[#0B3C2D]/10 flex flex-wrap items-center justify-around gap-4 text-xs font-bold text-[#0B3C2D]">
+            <div className="flex items-center space-x-2">
+              <ShieldCheck className="w-4 h-4 text-[#D98A2B]" />
+              <span>100% Confidential Care</span>
+            </div>
+            <div className="flex items-center space-x-2">
+              <Calendar className="w-4 h-4 text-[#0B3C2D]" />
+              <span>Automated Google Calendar Sync</span>
+            </div>
+            <div className="flex items-center space-x-2">
+              <Sparkles className="w-4 h-4 text-[#D98A2B]" />
+              <span>Evidence-Based Frameworks</span>
+            </div>
+            <div className="flex items-center space-x-2">
+              <Clock className="w-4 h-4 text-[#0B3C2D]" />
+              <span>50-Minute Structured Sessions</span>
             </div>
           </div>
 
@@ -988,6 +1265,13 @@ export default function HomePage() {
 
       {/* Interactive Quiz Modal Component */}
       <StressQuizModal isOpen={isQuizOpen} onClose={() => setIsQuizOpen(false)} />
+
+      {/* Interactive Direct Calendar Booking Modal */}
+      <DirectBookingModal
+        isOpen={isBookingOpen}
+        onClose={() => setIsBookingOpen(false)}
+        initialService={bookingService}
+      />
     </div>
   );
 }

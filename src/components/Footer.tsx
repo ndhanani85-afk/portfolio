@@ -17,7 +17,7 @@ export default function Footer() {
               </div>
               <div>
                 <span className="text-xl font-serif-display font-bold tracking-tight text-white group-hover:text-[#D98A2B] transition-colors block">
-                  N. DHANANI
+                  NIKUNJ DHANANI
                 </span>
                 <span className="block text-[10px] font-bold text-[#A8C3B5] uppercase tracking-widest -mt-1 font-sans">
                   Counselor & Life Coach
@@ -145,7 +145,7 @@ export default function Footer() {
 
         {/* Copyright & Developed By */}
         <div className="mt-8 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between text-xs text-[#A8C3B5]">
-          <p>© {new Date().getFullYear()} N. Dhanani Counseling. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Nikunj Dhanani Counseling. All rights reserved.</p>
           <a
             href="https://portfolio-avadh.vercel.app"
             target="_blank"

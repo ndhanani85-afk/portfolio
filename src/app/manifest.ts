@@ -3,7 +3,7 @@ import type { MetadataRoute } from "next";
 export default function manifest(): MetadataRoute.Manifest {
   return {
     name: "Nikunj Dhanani | Family Counselor & Life Coach",
-    short_name: "N. Dhanani",
+    short_name: "Nikunj Dhanani",
     description: "Guiding families through stress back to calm. 6+ years of evidence-based counseling in Mumbai and online.",
     start_url: "/",
     display: "standalone",

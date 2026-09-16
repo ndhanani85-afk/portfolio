@@ -5,7 +5,7 @@ import LeafMotif from "@/components/LeafMotif";
 import ScrollReveal from "@/components/ScrollReveal";
 
 export const metadata = {
-  title: "Parenting Coaching & Youth Guidance | N. Dhanani",
+  title: "Parenting Coaching & Youth Guidance | Nikunj Dhanani",
   description: "Evidence-based parenting coaching in Mumbai and online. Manage child behavioral triggers, teen anxiety, and household stress with structured guidance.",
 };
 

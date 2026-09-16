@@ -44,7 +44,7 @@ export default function Header() {
             </div>
             <div>
               <span className="text-xl font-bold tracking-tight text-[#0B3C2D] font-serif-display block">
-                N. DHANANI
+                NIKUNJ DHANANI
               </span>
               <span className="block text-[10px] font-bold text-ink-muted uppercase tracking-widest -mt-1 font-sans">
                 Counselor & Life Coach

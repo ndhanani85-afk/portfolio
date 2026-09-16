@@ -5,7 +5,7 @@ import LeafMotif from "@/components/LeafMotif";
 import ScrollReveal from "@/components/ScrollReveal";
 
 export const metadata = {
-  title: "Relationship Repair & Couples Counseling | N. Dhanani",
+  title: "Relationship Repair & Couples Counseling | Nikunj Dhanani",
   description: "Couples counseling and relationship repair in Mumbai and online. Break circular argument cycles, restore emotional warmth, and rebuild trust.",
 };
 

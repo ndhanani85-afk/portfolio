@@ -300,7 +300,7 @@ export default function ReviewGeneratorPage() {
             </div>
             <div className="min-w-0">
               <span className="text-sm sm:text-lg font-bold font-serif-display text-[#0B3C2D] block leading-tight truncate">
-                N. DHANANI
+                NIKUNJ DHANANI
               </span>
               <span className="text-[9px] sm:text-[10px] font-bold text-[#D98A2B] uppercase tracking-wider block mt-0.5 truncate">
                 Family Counselor & Life Coach
