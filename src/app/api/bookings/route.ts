@@ -9,6 +9,24 @@ import {
   BookingRecord,
 } from "@/lib/bookingStore";
 import { checkRateLimit, maybeCleanupStaleEntries } from "@/lib/rateLimit";
+import { validateSession, getSessionCookieName } from "@/lib/session";
+
+function getSessionToken(req: Request): string | null {
+  const cookieHeader = req.headers.get("cookie");
+  if (!cookieHeader) return null;
+  const cookies = cookieHeader.split(";").map(c => c.trim());
+  for (const cookie of cookies) {
+    if (cookie.startsWith(`${getSessionCookieName()}=`)) {
+      return cookie.substring(getSessionCookieName().length + 1);
+    }
+  }
+  return null;
+}
+
+async function isAdmin(req: Request): Promise<boolean> {
+  const token = getSessionToken(req);
+  return validateSession(token);
+}
 
 // POST: Submit a new booking / Quiz lead / Contact form (INSTANT < 50ms)
 export async function POST(req: Request) {
@@ -26,17 +44,63 @@ export async function POST(req: Request) {
 
   try {
     const body = await req.json();
-    const { name, email, phone, serviceType, service, message, notes, date, time } = body;
 
-    const leadName = name || "Anonymous Visitor";
-    const leadPhone = phone || "";
-    const leadEmail = email || "";
-    const finalService = serviceType || service || "General Counseling Inquiry";
-    const finalMessage = message || notes || "Submitted via Website";
+    // --- Input Validation ---
+    const rawName = typeof body.name === "string" ? body.name : "";
+    const rawEmail = typeof body.email === "string" ? body.email : "";
+    const rawPhone = typeof body.phone === "string" ? body.phone : "";
+    const rawServiceType = typeof body.serviceType === "string" ? body.serviceType : "";
+    const rawService = typeof body.service === "string" ? body.service : "";
+    const rawMessage = typeof body.message === "string" ? body.message : "";
+    const rawNotes = typeof body.notes === "string" ? body.notes : "";
+    const rawDate = typeof body.date === "string" ? body.date : undefined;
+    const rawTime = typeof body.time === "string" ? body.time : undefined;
+
+    // Length limits to prevent abuse
+    if (rawName.length > 200) {
+      return NextResponse.json({ error: "Name is too long (max 200 characters)." }, { status: 400 });
+    }
+    if (rawEmail.length > 254) {
+      return NextResponse.json({ error: "Email is too long." }, { status: 400 });
+    }
+    if (rawPhone.length > 20) {
+      return NextResponse.json({ error: "Phone number is too long." }, { status: 400 });
+    }
+    if (rawMessage.length > 5000 || rawNotes.length > 5000) {
+      return NextResponse.json({ error: "Message is too long (max 5000 characters)." }, { status: 400 });
+    }
+    if (rawDate && rawDate.length > 50) {
+      return NextResponse.json({ error: "Invalid date format." }, { status: 400 });
+    }
+    if (rawTime && rawTime.length > 50) {
+      return NextResponse.json({ error: "Invalid time format." }, { status: 400 });
+    }
+
+    const leadName = rawName.trim() || "Anonymous Visitor";
+    const leadPhone = rawPhone.trim().replace(/[^\d+]/g, "");
+    const leadEmail = rawEmail.trim().toLowerCase();
+    const finalService = rawServiceType.trim() || rawService.trim() || "General Counseling Inquiry";
+    const finalMessage = rawMessage.trim() || rawNotes.trim() || "Submitted via Website";
+
+    // Email format validation (if provided)
+    if (leadEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(leadEmail)) {
+      return NextResponse.json(
+        { error: "Please provide a valid email address." },
+        { status: 400 }
+      );
+    }
+
+    // Phone validation (if provided) — must have at least 7 digits
+    if (leadPhone && leadPhone.replace(/\D/g, "").length < 7) {
+      return NextResponse.json(
+        { error: "Please provide a valid phone number (at least 7 digits)." },
+        { status: 400 }
+      );
+    }
 
     if (!leadPhone && !leadEmail) {
       return NextResponse.json(
-        { error: "Please provide a valid 10-digit mobile phone number or email address." },
+        { error: "Please provide a valid phone number or email address." },
         { status: 400 }
       );
     }
@@ -58,7 +122,7 @@ export async function POST(req: Request) {
     // 2. Non-blocking background sync to Supabase, Web3Forms email, and Google Apps Script Calendar
     (async () => {
       try {
-        sendBookingEmail({ ...newRecord, date, time }).catch((e) =>
+        sendBookingEmail({ ...newRecord, date: rawDate, time: rawTime }).catch((e) =>
           console.log("Email dispatch background notice:", e)
         );
 
@@ -94,8 +158,8 @@ export async function POST(req: Request) {
                 phone: leadPhone,
                 serviceType: finalService,
                 message: finalMessage,
-                date: date || "",
-                time: time || "",
+                date: rawDate || "",
+                time: rawTime || "",
               }),
               signal: controller.signal,
             })
@@ -130,11 +194,7 @@ export async function POST(req: Request) {
 // GET: Fetch all bookings/leads for Admin Dashboard
 export async function GET(req: Request) {
   try {
-    const { searchParams } = new URL(req.url);
-    const key = searchParams.get("key") || req.headers.get("x-admin-key");
-
-    const ADMIN_KEY = process.env.ADMIN_KEY;
-    if (!ADMIN_KEY || key !== ADMIN_KEY) {
+    if (!(await isAdmin(req))) {
       return NextResponse.json({ error: "Unauthorized access" }, { status: 401 });
     }
 
@@ -198,23 +258,21 @@ export async function GET(req: Request) {
 // DELETE: Delete a lead entry permanently from databases
 export async function DELETE(req: Request) {
   try {
-    const { searchParams } = new URL(req.url);
-    const id = searchParams.get("id");
-    const key = searchParams.get("key") || req.headers.get("x-admin-key");
-
-    const ADMIN_KEY = process.env.ADMIN_KEY;
-    if (!ADMIN_KEY || key !== ADMIN_KEY) {
+    if (!(await isAdmin(req))) {
       return NextResponse.json({ error: "Unauthorized access" }, { status: 401 });
     }
+
+    const { searchParams } = new URL(req.url);
+    const id = searchParams.get("id");
 
     if (!id) {
       return NextResponse.json({ error: "Booking ID is required" }, { status: 400 });
     }
 
-    // 1. Delete from local JSON store immediately
-    deleteLocalBooking(id);
+    // 1. Delete from local JSON store immediately (match by ID only)
+    const deleted = deleteLocalBooking(id);
 
-    // 2. Non-blocking background deletion from Supabase
+    // 2. Non-blocking background deletion from Supabase (match by ID only)
     (async () => {
       try {
         await supabaseAdmin
@@ -235,11 +293,7 @@ export async function DELETE(req: Request) {
 // PUT: Edit/Update a lead entry
 export async function PUT(req: Request) {
   try {
-    const { searchParams } = new URL(req.url);
-    const key = searchParams.get("key") || req.headers.get("x-admin-key");
-
-    const ADMIN_KEY = process.env.ADMIN_KEY;
-    if (!ADMIN_KEY || key !== ADMIN_KEY) {
+    if (!(await isAdmin(req))) {
       return NextResponse.json({ error: "Unauthorized access" }, { status: 401 });
     }
 

@@ -2,14 +2,17 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { Menu, X, PhoneCall, ChevronDown, Calendar } from "lucide-react";
+import { Menu, X, ChevronDown, Calendar } from "lucide-react";
 import LeafMotif from "@/components/LeafMotif";
 import { LanguageSelector } from "@/components/LanguageManager";
+import { useLanguage } from "@/context/LanguageContext";
+import { translations } from "@/lib/translations";
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isServicesOpen, setIsServicesOpen] = useState(false);
+  const { t } = useLanguage();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -24,16 +27,18 @@ export default function Header() {
   }, []);
 
   const serviceSubpages = [
-    { label: "Overview — All Services", href: "/services" },
-    { label: "Parenting Coaching", href: "/services/parenting-coaching" },
-    { label: "Relationship Repair", href: "/services/relationship-repair" },
-    { label: "Counselling & Life Coaching", href: "/services/counselling-life-coaching" },
+    { label: t(translations.header.allServices), href: "/services" },
+    { label: t(translations.header.parentingCoaching), href: "/services/parenting-coaching" },
+    { label: t(translations.header.relationshipRepair), href: "/services/relationship-repair" },
+    { label: t(translations.header.counsellingLifeCoaching), href: "/services/counselling-life-coaching" },
   ];
 
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 max-w-full ${
-        isScrolled ? "bg-white/95 backdrop-blur-md shadow-md py-3 border-b border-[#0B3C2D]/10" : "bg-[#F8F4EE] py-4 border-b border-[#0B3C2D]/10"
+        isScrolled
+          ? "bg-white/95 backdrop-blur-md shadow-md py-3 border-b border-[#0B3C2D]/10"
+          : "bg-[#F8F4EE] py-4 border-b border-[#0B3C2D]/10"
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -48,7 +53,7 @@ export default function Header() {
                 NIKUNJ DHANANI
               </span>
               <span className="block text-[10px] font-bold text-ink-muted uppercase tracking-widest -mt-1 font-sans">
-                Counselor & Life Coach
+                {t(translations.header.subTitle)}
               </span>
             </div>
           </Link>
@@ -59,7 +64,7 @@ export default function Header() {
               href="/"
               className="text-sm font-medium text-deep-ink hover:text-[#0B3C2D] transition-colors"
             >
-              Home
+              {t(translations.header.home)}
             </Link>
 
             {/* Services Dropdown */}
@@ -72,7 +77,7 @@ export default function Header() {
                 href="/services"
                 className="inline-flex items-center text-sm font-medium text-deep-ink hover:text-[#0B3C2D] transition-colors py-2"
               >
-                Services
+                {t(translations.header.services)}
                 <ChevronDown className="w-3.5 h-3.5 ml-1 text-ink-muted group-hover:text-[#0B3C2D]" />
               </Link>
 
@@ -95,35 +100,35 @@ export default function Header() {
               href="/about"
               className="text-sm font-medium text-deep-ink hover:text-[#0B3C2D] transition-colors"
             >
-              About
+              {t(translations.header.about)}
             </Link>
 
             <Link
               href="/speaking"
               className="text-sm font-medium text-deep-ink hover:text-[#0B3C2D] transition-colors"
             >
-              Speaking
+              {t(translations.header.speaking)}
             </Link>
 
             <Link
               href="/resources"
               className="text-sm font-medium text-deep-ink hover:text-[#0B3C2D] transition-colors"
             >
-              Resources
+              {t(translations.header.resources)}
             </Link>
 
             <Link
               href="/faq"
               className="text-sm font-medium text-deep-ink hover:text-[#0B3C2D] transition-colors"
             >
-              FAQ
+              {t(translations.header.faq)}
             </Link>
 
             <Link
               href="/review-generator"
               className="text-sm font-medium text-deep-ink hover:text-[#0B3C2D] transition-colors"
             >
-              Reviews
+              {t(translations.header.reviews)}
             </Link>
           </nav>
 
@@ -135,7 +140,7 @@ export default function Header() {
               className="inline-flex items-center px-5 py-2.5 rounded-full bg-[#0B3C2D] hover:bg-[#07291f] text-white text-sm font-semibold transition-all duration-200 shadow-md hover-lift"
             >
               <Calendar className="w-4 h-4 mr-2 text-[#D98A2B]" />
-              Book a Session
+              {t(translations.header.bookSession)}
             </Link>
           </div>
 
@@ -166,12 +171,12 @@ export default function Header() {
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="text-base font-bold text-[#0B3C2D] hover:text-[#D98A2B]"
               >
-                Home
+                {t(translations.header.home)}
               </Link>
-              
+
               <div className="pl-3 border-l-2 border-[#D98A2B] space-y-2.5 my-1">
                 <span className="text-xs font-bold text-[#D98A2B] uppercase tracking-wider block">
-                  Services
+                  {t(translations.header.services)}
                 </span>
                 {serviceSubpages.map((sub) => (
                   <Link
@@ -190,35 +195,35 @@ export default function Header() {
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="text-base font-bold text-[#0B3C2D] hover:text-[#D98A2B]"
               >
-                About Me
+                {t(translations.header.aboutMe)}
               </Link>
               <Link
                 href="/speaking"
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="text-base font-bold text-[#0B3C2D] hover:text-[#D98A2B]"
               >
-                Keynote Speaking
+                {t(translations.header.speaking)}
               </Link>
               <Link
                 href="/resources"
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="text-base font-bold text-[#0B3C2D] hover:text-[#D98A2B]"
               >
-                Articles & Guides
+                {t(translations.header.resources)}
               </Link>
               <Link
                 href="/faq"
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="text-base font-bold text-[#0B3C2D] hover:text-[#D98A2B]"
               >
-                FAQ
+                {t(translations.header.faq)}
               </Link>
               <Link
                 href="/review-generator"
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="text-base font-bold text-[#0B3C2D] hover:text-[#D98A2B]"
               >
-                Reviews
+                {t(translations.header.reviews)}
               </Link>
               {/* Mobile Language Selector */}
               <LanguageSelector isMobile />
@@ -229,7 +234,7 @@ export default function Header() {
                 className="inline-flex items-center justify-center px-5 py-3.5 rounded-full bg-[#0B3C2D] hover:bg-[#07291f] text-white text-base font-bold shadow-md mt-2"
               >
                 <Calendar className="w-4 h-4 mr-2 text-[#D98A2B]" />
-                Book a Session
+                {t(translations.header.bookSession)}
               </Link>
             </nav>
           </div>

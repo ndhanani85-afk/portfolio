@@ -220,7 +220,7 @@ export default function ReviewGeneratorPage() {
 
     // 2. Validate Review Text
     if (!reviewText.trim()) {
-      alert("Please generate or enter your review before posting.");
+      setSaveError("Please generate or enter your review before posting.");
       return;
     }
 

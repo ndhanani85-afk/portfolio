@@ -3,7 +3,6 @@ import Script from "next/script";
 import { Inter, Fraunces, Caveat, Alex_Brush } from "next/font/google";
 import "./globals.css";
 import MainLayoutWrapper from "@/components/MainLayoutWrapper";
-import { GoogleTranslateInit } from "@/components/LanguageManager";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -146,10 +145,7 @@ export default function RootLayout({
       className={`${inter.variable} ${fraunces.variable} ${caveat.variable} ${alexBrush.variable} scroll-smooth bg-[#F8F4EE] overflow-x-hidden`}
     >
       <head>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
+        <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
       </head>
       <body className="flex flex-col min-h-screen bg-[#F8F4EE] text-ink-navy selection:bg-dusty-sky/30 overflow-x-hidden w-full max-w-full">
         {gaId && (
@@ -168,7 +164,6 @@ export default function RootLayout({
             </Script>
           </>
         )}
-        <GoogleTranslateInit />
         <MainLayoutWrapper>{children}</MainLayoutWrapper>
       </body>
     </html>

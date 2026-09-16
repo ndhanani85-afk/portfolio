@@ -25,8 +25,11 @@ import LeafMotif from "@/components/LeafMotif";
 import WaveDivider from "@/components/WaveDivider";
 import StressQuizModal from "@/components/StressQuizModal";
 import DirectBookingModal from "@/components/DirectBookingModal";
+import { useLanguage } from "@/context/LanguageContext";
+import { translations } from "@/lib/translations";
 
 export default function HomePage() {
+  const { t } = useLanguage();
   const [isQuizOpen, setIsQuizOpen] = useState(false);
   const [isBookingOpen, setIsBookingOpen] = useState(false);
   const [bookingService, setBookingService] = useState("Couples Relationship Repair");
@@ -46,40 +49,40 @@ export default function HomePage() {
 
   const concernCards = [
     {
-      title: "Parenting Overwhelm",
-      description: "Constantly walking on eggshells with children's behavior, school stress, or daily household friction.",
+      title: t(translations.concernCardsSection.card1.title),
+      description: t(translations.concernCardsSection.card1.description),
       serviceHref: "/services/parenting-coaching",
-      tag: "Family Focus",
+      tag: t(translations.concernCardsSection.card1.tag),
     },
     {
-      title: "Marriage After Kids",
-      description: "Feeling distant from your partner, trapped in repetitive arguments, or lacking emotional intimacy.",
+      title: t(translations.concernCardsSection.card2.title),
+      description: t(translations.concernCardsSection.card2.description),
       serviceHref: "/services/relationship-repair",
-      tag: "Couples Repair",
+      tag: t(translations.concernCardsSection.card2.tag),
     },
     {
-      title: "Corporate Burnout",
-      description: "Managing executive pressure, high-stakes decision fatigue, and chronic mental exhaustion.",
+      title: t(translations.concernCardsSection.card3.title),
+      description: t(translations.concernCardsSection.card3.description),
       serviceHref: "/services/counselling-life-coaching",
-      tag: "Leadership & Work",
+      tag: t(translations.concernCardsSection.card3.tag),
     },
     {
-      title: "Communication Breakdowns",
-      description: "Struggling to express emotional needs without triggering defensive or explosive reactions.",
+      title: t(translations.concernCardsSection.card4.title),
+      description: t(translations.concernCardsSection.card4.description),
       serviceHref: "/services/relationship-repair",
-      tag: "Communication",
+      tag: t(translations.concernCardsSection.card4.tag),
     },
     {
-      title: "Teen Conflict & Guiding",
-      description: "Navigating teenage independence, academic pressure, mood shifts, and parent-child distance.",
+      title: t(translations.concernCardsSection.card5.title),
+      description: t(translations.concernCardsSection.card5.description),
       serviceHref: "/services/parenting-coaching",
-      tag: "Parenting",
+      tag: t(translations.concernCardsSection.card5.tag),
     },
     {
-      title: "Career-Stage Anxiety",
-      description: "Uncertainty around major career transitions, identity shifts, and personal direction.",
+      title: t(translations.concernCardsSection.card6.title),
+      description: t(translations.concernCardsSection.card6.description),
       serviceHref: "/services/counselling-life-coaching",
-      tag: "Personal Growth",
+      tag: t(translations.concernCardsSection.card6.tag),
     },
   ];
 
@@ -158,20 +161,20 @@ export default function HomePage() {
               {/* Top Tag Pill */}
               <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-white/90 border border-[#0B3C2D]/10 text-[#0B3C2D] text-xs font-semibold shadow-2xs">
                 <Sparkles className="w-3.5 h-3.5 text-[#D98A2B]" />
-                <span>Family Counselor & Life Coach</span>
+                <span>{t(translations.hero.tagPill)}</span>
               </div>
 
               {/* Main Headline */}
               <h1 className="text-3xl sm:text-5xl lg:text-6xl font-serif-display font-bold text-[#0B3C2D] leading-[1.15] tracking-tight max-w-3xl">
-                Guiding families through stress,{" "}
+                {t(translations.hero.headlinePart1)}{" "}
                 <span className="italic text-[#D98A2B] font-normal inline-block">
-                  back to calm.
+                  {t(translations.hero.headlinePart2)}
                 </span>
               </h1>
 
               {/* Subtitle */}
               <p className="text-base sm:text-lg text-ink-muted leading-relaxed max-w-xl">
-                Helping families, couples & professionals overcome stress, strengthen relationships, and create a happier, balanced life.
+                {t(translations.hero.subheadline)}
               </p>
 
               {/* Action Buttons Row */}
@@ -182,15 +185,15 @@ export default function HomePage() {
                   className="inline-flex items-center justify-center px-7 py-3.5 rounded-full bg-[#0B3C2D] hover:bg-[#07291f] text-white font-bold text-sm shadow-md hover-lift transition-all cursor-pointer"
                 >
                   <Calendar className="w-4.5 h-4.5 mr-2 text-[#D98A2B]" />
-                  Book a Session
+                  {t(translations.hero.bookSessionBtn)}
                 </button>
                 
                 <button
                   onClick={() => setIsQuizOpen(true)}
-                  className="inline-flex items-center justify-center px-6 py-3.5 rounded-full bg-white border border-[#0B3C2D]/15 text-[#0B3C2D] hover:bg-[#0B3C2D] hover:text-white font-semibold text-sm shadow-2xs hover:shadow-xs transition-all group"
+                  className="inline-flex items-center justify-center px-6 py-3.5 rounded-full bg-white border border-[#0B3C2D]/15 text-[#0B3C2D] hover:bg-[#0B3C2D] hover:text-white font-semibold text-sm shadow-2xs hover:shadow-xs transition-all group cursor-pointer"
                 >
                   <Sparkles className="w-4.5 h-4.5 mr-2 text-[#D98A2B] group-hover:text-white transition-colors" />
-                  Take 2-Min Stress Check
+                  {t(translations.hero.takeStressCheckBtn)}
                 </button>
               </div>
 
@@ -202,7 +205,7 @@ export default function HomePage() {
                   </div>
                   <div>
                     <span className="block font-serif-display font-bold text-base text-[#0B3C2D] leading-none">80+</span>
-                    <span className="block text-[11px] text-ink-muted leading-tight mt-0.5">Families Guided</span>
+                    <span className="block text-[11px] text-ink-muted leading-tight mt-0.5">{t(translations.hero.familiesGuided)}</span>
                   </div>
                 </div>
 
@@ -212,7 +215,7 @@ export default function HomePage() {
                   </div>
                   <div>
                     <span className="block font-serif-display font-bold text-base text-[#0B3C2D] leading-none">4.9/5</span>
-                    <span className="block text-[11px] text-ink-muted leading-tight mt-0.5">Client Rating</span>
+                    <span className="block text-[11px] text-ink-muted leading-tight mt-0.5">{t(translations.hero.clientRating)}</span>
                   </div>
                 </div>
 
@@ -222,7 +225,7 @@ export default function HomePage() {
                   </div>
                   <div>
                     <span className="block font-serif-display font-bold text-base text-[#0B3C2D] leading-none">100%</span>
-                    <span className="block text-[11px] text-ink-muted leading-tight mt-0.5">Confidential</span>
+                    <span className="block text-[11px] text-ink-muted leading-tight mt-0.5">{t(translations.hero.confidential)}</span>
                   </div>
                 </div>
               </div>
@@ -243,7 +246,7 @@ export default function HomePage() {
                   ))}
                 </div>
                 <span className="text-xs text-ink-muted">
-                  Trusted by families & professionals across <strong>India</strong>
+                  {t(translations.hero.trustedBy)}
                 </span>
               </div>
 
@@ -274,10 +277,10 @@ export default function HomePage() {
                     </div>
                     <div className="min-w-0">
                       <h4 className="text-xs font-bold text-[#0B3C2D] truncate">
-                        A Safe & Confidential Space
+                        {t(translations.hero.safeSpaceTitle)}
                       </h4>
                       <p className="text-[11px] text-ink-muted leading-tight line-clamp-1">
-                        One-on-one care tailored to your unique journey.
+                        {t(translations.hero.safeSpaceDesc)}
                       </p>
                     </div>
                   </div>
@@ -297,7 +300,7 @@ export default function HomePage() {
           {/* WORKED WITH INDIVIDUALS & LEADERS FROM Logos Bar */}
           <div className="bg-white/90 backdrop-blur-sm rounded-2xl md:rounded-3xl p-6 border border-[#0B3C2D]/10 shadow-2xs">
             <span className="text-[10px] sm:text-[11px] font-bold text-ink-muted uppercase tracking-widest text-center block mb-5 font-sans">
-              WORKED WITH INDIVIDUALS & LEADERS FROM
+              {t(translations.hero.workedWith)}
             </span>
             <div className="flex flex-wrap items-center justify-center gap-8 md:gap-14 opacity-75">
               <span className="text-xl md:text-2xl font-bold font-sans tracking-tight text-[#0B3C2D]/80">Google</span>
@@ -328,18 +331,18 @@ export default function HomePage() {
           <div className="text-center max-w-3xl mx-auto space-y-4">
             <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-[#D98A2B]/10 border border-[#D98A2B]/20 text-[#D98A2B] text-xs font-bold uppercase tracking-wider">
               <Sparkles className="w-3.5 h-3.5" />
-              <span>Real Struggles • Evidence-Based Breakthroughs</span>
+              <span>{t(translations.problemHook.badge)}</span>
             </div>
 
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif-display font-bold text-[#0B3C2D] leading-[1.2]">
-              Are You Carrying This Silently{" "}
+              {t(translations.problemHook.headlinePart1)}{" "}
               <span className="italic text-[#D98A2B] font-normal block sm:inline">
-                Behind Closed Doors?
+                {t(translations.problemHook.headlinePart2)}
               </span>
             </h2>
 
             <p className="text-base sm:text-lg text-ink-muted leading-relaxed max-w-2xl mx-auto">
-              Most relationship breakdowns and family burnout aren’t caused by lack of love. They happen when couples and parents get trapped in exhausting, repetitive loops without practical support. Identify your situation below to break the pattern.
+              {t(translations.problemHook.intro)}
             </p>
           </div>
 
@@ -355,36 +358,36 @@ export default function HomePage() {
                     <Heart className="w-6 h-6 fill-current" />
                   </div>
                   <span className="text-[11px] font-bold uppercase tracking-widest px-3 py-1 rounded-full bg-[#D98A2B]/10 text-[#D98A2B]">
-                    Couples Focus
+                    {t(translations.problemHook.couples.tag)}
                   </span>
                 </div>
 
                 <div>
                   <h3 className="text-2xl font-serif-display font-bold text-[#0B3C2D] group-hover:text-[#D98A2B] transition-colors">
-                    The Loop of Constant Friction
+                    {t(translations.problemHook.couples.title)}
                   </h3>
                   <p className="text-xs text-ink-muted font-medium mt-1">
-                    When every conversation feels like walking on eggshells.
+                    {t(translations.problemHook.couples.subtitle)}
                   </p>
                 </div>
 
                 {/* Relatable Problem Checklist */}
                 <div className="space-y-2.5 pt-1">
                   <span className="text-[11px] font-bold uppercase tracking-wider text-[#0B3C2D] block">
-                    Does this feel like your reality?
+                    {t(translations.problemHook.couples.realityCheck)}
                   </span>
                   <ul className="space-y-2.5 text-xs text-ink-navy leading-relaxed">
                     <li className="flex items-start">
                       <span className="w-4 h-4 rounded-full bg-[#D98A2B]/20 text-[#D98A2B] flex items-center justify-center text-[10px] font-bold mr-2.5 shrink-0 mt-0.5">•</span>
-                      <span>You have the <strong>exact same argument every week</strong> — just dressed in different words.</span>
+                      <span>{t(translations.problemHook.couples.point1)}</span>
                     </li>
                     <li className="flex items-start">
                       <span className="w-4 h-4 rounded-full bg-[#D98A2B]/20 text-[#D98A2B] flex items-center justify-center text-[10px] font-bold mr-2.5 shrink-0 mt-0.5">•</span>
-                      <span>Between careers and children, you have quietly drifted into <strong>exhausted roommates</strong>.</span>
+                      <span>{t(translations.problemHook.couples.point2)}</span>
                     </li>
                     <li className="flex items-start">
                       <span className="w-4 h-4 rounded-full bg-[#D98A2B]/20 text-[#D98A2B] flex items-center justify-center text-[10px] font-bold mr-2.5 shrink-0 mt-0.5">•</span>
-                      <span>One person criticizes or demands; the other shuts down and retreats into <strong>days of cold silence</strong>.</span>
+                      <span>{t(translations.problemHook.couples.point3)}</span>
                     </li>
                   </ul>
                 </div>
@@ -392,10 +395,10 @@ export default function HomePage() {
                 {/* The Counseling Solution */}
                 <div className="p-4 rounded-2xl bg-white border border-[#0B3C2D]/10 space-y-1.5">
                   <span className="text-[10px] font-bold uppercase tracking-widest text-[#0B3C2D] block">
-                    ✓ The Therapeutic Solution:
+                    {t(translations.problemHook.couples.solutionLabel)}
                   </span>
                   <p className="text-xs text-ink-muted leading-relaxed">
-                    We disarm reactive triggers, dismantle defensiveness, and install proven communication frameworks that bring emotional safety and genuine intimacy back.
+                    {t(translations.problemHook.couples.solution)}
                   </p>
                 </div>
               </div>
@@ -408,7 +411,7 @@ export default function HomePage() {
                   className="w-full inline-flex items-center justify-center px-6 py-3.5 rounded-full bg-[#0B3C2D] hover:bg-[#07291f] text-white font-bold text-xs shadow-md hover-lift transition-all cursor-pointer"
                 >
                   <Calendar className="w-4 h-4 mr-2 text-[#D98A2B]" />
-                  Book Couple Counseling
+                  {t(translations.problemHook.couples.button)}
                 </button>
               </div>
             </div>
@@ -422,36 +425,36 @@ export default function HomePage() {
                     <Users className="w-6 h-6 text-[#0B3C2D]" />
                   </div>
                   <span className="text-[11px] font-bold uppercase tracking-widest px-3 py-1 rounded-full bg-[#0B3C2D]/10 text-[#0B3C2D]">
-                    Family Focus
+                    {t(translations.problemHook.family.tag)}
                   </span>
                 </div>
 
                 <div>
                   <h3 className="text-2xl font-serif-display font-bold text-[#0B3C2D] group-hover:text-[#0B3C2D] transition-colors">
-                    Parenting on the Brink
+                    {t(translations.problemHook.family.title)}
                   </h3>
                   <p className="text-xs text-ink-muted font-medium mt-1">
-                    When you love your kids deeply, but dread the daily battlegrounds.
+                    {t(translations.problemHook.family.subtitle)}
                   </p>
                 </div>
 
                 {/* Relatable Problem Checklist */}
                 <div className="space-y-2.5 pt-1">
                   <span className="text-[11px] font-bold uppercase tracking-wider text-[#0B3C2D] block">
-                    Does this feel like your reality?
+                    {t(translations.problemHook.family.realityCheck)}
                   </span>
                   <ul className="space-y-2.5 text-xs text-ink-navy leading-relaxed">
                     <li className="flex items-start">
                       <span className="w-4 h-4 rounded-full bg-[#0B3C2D]/20 text-[#0B3C2D] flex items-center justify-center text-[10px] font-bold mr-2.5 shrink-0 mt-0.5">•</span>
-                      <span>Mornings, homework, and bedtimes are battlegrounds of <strong>screaming, tears, and screen refusal</strong>.</span>
+                      <span>{t(translations.problemHook.family.point1)}</span>
                     </li>
                     <li className="flex items-start">
                       <span className="w-4 h-4 rounded-full bg-[#0B3C2D]/20 text-[#0B3C2D] flex items-center justify-center text-[10px] font-bold mr-2.5 shrink-0 mt-0.5">•</span>
-                      <span>Your teen is <strong>withdrawing into secrecy, anxiety</strong>, or explosive resistance to guidance.</span>
+                      <span>{t(translations.problemHook.family.point2)}</span>
                     </li>
                     <li className="flex items-start">
                       <span className="w-4 h-4 rounded-full bg-[#0B3C2D]/20 text-[#0B3C2D] flex items-center justify-center text-[10px] font-bold mr-2.5 shrink-0 mt-0.5">•</span>
-                      <span>Parents disagree on discipline styles, leading to double exhaustion and mutual blame.</span>
+                      <span>{t(translations.problemHook.family.point3)}</span>
                     </li>
                   </ul>
                 </div>
@@ -459,10 +462,10 @@ export default function HomePage() {
                 {/* The Counseling Solution */}
                 <div className="p-4 rounded-2xl bg-white border border-[#0B3C2D]/10 space-y-1.5">
                   <span className="text-[10px] font-bold uppercase tracking-widest text-[#0B3C2D] block">
-                    ✓ The Therapeutic Solution:
+                    {t(translations.problemHook.family.solutionLabel)}
                   </span>
                   <p className="text-xs text-ink-muted leading-relaxed">
-                    Replace shouting and punishment with calm, authoritative boundaries that children respect. Install predictable routines that bring calm back to your home.
+                    {t(translations.problemHook.family.solution)}
                   </p>
                 </div>
               </div>
@@ -475,7 +478,7 @@ export default function HomePage() {
                   className="w-full inline-flex items-center justify-center px-6 py-3.5 rounded-full bg-[#0B3C2D] hover:bg-[#07291f] text-white font-bold text-xs shadow-md hover-lift transition-all cursor-pointer"
                 >
                   <Calendar className="w-4 h-4 mr-2 text-[#D98A2B]" />
-                  Book Family Counseling
+                  {t(translations.problemHook.family.button)}
                 </button>
               </div>
             </div>
@@ -489,36 +492,36 @@ export default function HomePage() {
                     <Brain className="w-6 h-6 text-[#2C6E49]" />
                   </div>
                   <span className="text-[11px] font-bold uppercase tracking-widest px-3 py-1 rounded-full bg-[#2C6E49]/10 text-[#2C6E49]">
-                    Personal Mentorship
+                    {t(translations.problemHook.burnout.tag)}
                   </span>
                 </div>
 
                 <div>
                   <h3 className="text-2xl font-serif-display font-bold text-[#0B3C2D] group-hover:text-[#2C6E49] transition-colors">
-                    High-Functioning Burnout
+                    {t(translations.problemHook.burnout.title)}
                   </h3>
                   <p className="text-xs text-ink-muted font-medium mt-1">
-                    When you look successful on the outside, but feel empty inside.
+                    {t(translations.problemHook.burnout.subtitle)}
                   </p>
                 </div>
 
                 {/* Relatable Problem Checklist */}
                 <div className="space-y-2.5 pt-1">
                   <span className="text-[11px] font-bold uppercase tracking-wider text-[#0B3C2D] block">
-                    Does this feel like your reality?
+                    {t(translations.problemHook.burnout.realityCheck)}
                   </span>
                   <ul className="space-y-2.5 text-xs text-ink-navy leading-relaxed">
                     <li className="flex items-start">
                       <span className="w-4 h-4 rounded-full bg-[#2C6E49]/20 text-[#2C6E49] flex items-center justify-center text-[10px] font-bold mr-2.5 shrink-0 mt-0.5">•</span>
-                      <span>Severe <strong>executive decision fatigue, racing thoughts</strong>, and waking up exhausted.</span>
+                      <span>{t(translations.problemHook.burnout.point1)}</span>
                     </li>
                     <li className="flex items-start">
                       <span className="w-4 h-4 rounded-full bg-[#2C6E49]/20 text-[#2C6E49] flex items-center justify-center text-[10px] font-bold mr-2.5 shrink-0 mt-0.5">•</span>
-                      <span>Quietly carrying heavy expectations for family & business with <strong>zero confidential space to vent</strong>.</span>
+                      <span>{t(translations.problemHook.burnout.point2)}</span>
                     </li>
                     <li className="flex items-start">
                       <span className="w-4 h-4 rounded-full bg-[#2C6E49]/20 text-[#2C6E49] flex items-center justify-center text-[10px] font-bold mr-2.5 shrink-0 mt-0.5">•</span>
-                      <span>Standing at a critical personal, career, or relationship crossroads without clear direction.</span>
+                      <span>{t(translations.problemHook.burnout.point3)}</span>
                     </li>
                   </ul>
                 </div>
@@ -526,10 +529,10 @@ export default function HomePage() {
                 {/* The Counseling Solution */}
                 <div className="p-4 rounded-2xl bg-white border border-[#0B3C2D]/10 space-y-1.5">
                   <span className="text-[10px] font-bold uppercase tracking-widest text-[#0B3C2D] block">
-                    ✓ The Therapeutic Solution:
+                    {t(translations.problemHook.burnout.solutionLabel)}
                   </span>
                   <p className="text-xs text-ink-muted leading-relaxed">
-                    Regain emotional regulation, establish unapologetic boundaries, and construct a personalized daily roadmap that preserves your energy, health, and peace.
+                    {t(translations.problemHook.burnout.solution)}
                   </p>
                 </div>
               </div>
@@ -542,7 +545,7 @@ export default function HomePage() {
                   className="w-full inline-flex items-center justify-center px-6 py-3.5 rounded-full bg-[#0B3C2D] hover:bg-[#07291f] text-white font-bold text-xs shadow-md hover-lift transition-all cursor-pointer"
                 >
                   <Calendar className="w-4 h-4 mr-2 text-[#D98A2B]" />
-                  Book 1-on-1 Mentorship
+                  {t(translations.problemHook.burnout.button)}
                 </button>
               </div>
             </div>
@@ -553,19 +556,19 @@ export default function HomePage() {
           <div className="bg-[#FAF8F5] rounded-2xl p-4 sm:p-5 border border-[#0B3C2D]/10 flex flex-wrap items-center justify-around gap-4 text-xs font-bold text-[#0B3C2D]">
             <div className="flex items-center space-x-2">
               <ShieldCheck className="w-4 h-4 text-[#D98A2B]" />
-              <span>100% Confidential Care</span>
+              <span>{t(translations.problemHook.reassurance.confidentialCare)}</span>
             </div>
             <div className="flex items-center space-x-2">
               <Calendar className="w-4 h-4 text-[#0B3C2D]" />
-              <span>Direct Calendar Booking</span>
+              <span>{t(translations.problemHook.reassurance.directCalendar)}</span>
             </div>
             <div className="flex items-center space-x-2">
               <Sparkles className="w-4 h-4 text-[#D98A2B]" />
-              <span>Evidence-Based Frameworks</span>
+              <span>{t(translations.problemHook.reassurance.evidenceBased)}</span>
             </div>
             <div className="flex items-center space-x-2">
               <Clock className="w-4 h-4 text-[#0B3C2D]" />
-              <span>50-Minute Dedicated Sessions</span>
+              <span>{t(translations.problemHook.reassurance.dedicatedSessions)}</span>
             </div>
           </div>
 
@@ -582,17 +585,17 @@ export default function HomePage() {
             <Heart className="w-6 h-6 fill-current" />
           </div>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif-display font-bold text-[#0B3C2D] leading-snug">
-            "You don't need to be fixed. You need to be heard, understood, and equipped."
+            {t(translations.emotionalConnector.quote)}
           </h2>
           <p className="text-base md:text-lg text-ink-muted leading-relaxed">
-            Relational friction, parenting stress, and emotional anxiety often arise not from lack of love, but from carrying heavy responsibilities without structural support. You don't have to navigate family conflict or personal burnout alone.
+            {t(translations.emotionalConnector.subquote)}
           </p>
           <div className="pt-2">
             <Link
               href="/about"
               className="inline-flex items-center text-sm font-bold text-[#0B3C2D] hover:text-[#D98A2B] transition-colors group"
             >
-              Read My Counseling Philosophy
+              {t(translations.emotionalConnector.philosophyBtn)}
               <ArrowRight className="w-4 h-4 ml-1.5 transform group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>
@@ -608,13 +611,13 @@ export default function HomePage() {
           
           <div className="text-center max-w-3xl mx-auto space-y-3">
             <span className="text-xs font-bold uppercase tracking-widest text-[#D98A2B]">
-              Areas of Focus
+              {t(translations.concernCardsSection.badge)}
             </span>
             <h2 className="text-3xl sm:text-4xl font-serif-display font-bold text-[#0B3C2D]">
-              What situation are you bringing to session?
+              {t(translations.concernCardsSection.heading)}
             </h2>
             <p className="text-sm sm:text-base text-ink-muted">
-              Counseling tailored to specific, real-world friction points in family, relationship, and career life.
+              {t(translations.concernCardsSection.subheading)}
             </p>
           </div>
 
@@ -641,7 +644,7 @@ export default function HomePage() {
                     href={card.serviceHref}
                     className="text-xs font-bold text-[#0B3C2D] group-hover:text-[#D98A2B] inline-flex items-center transition-colors"
                   >
-                    Explore Support Plan
+                    {t(translations.concernCardsSection.exploreBtn)}
                     <ChevronRight className="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition-transform" />
                   </Link>
                   <LeafMotif className="w-4 h-4 text-[#8CA899]" />
@@ -761,7 +764,7 @@ export default function HomePage() {
                   </li>
                   <li className="flex items-center space-x-2">
                     <LeafMotif className="w-4 h-4 text-[#0B3C2D]" />
-                    <span>Post-kids relationship balancing</span>
+                    <span>Kids after marriage & relationship balance</span>
                   </li>
                 </ul>
               </div>

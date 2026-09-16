@@ -4,8 +4,12 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { Calendar } from "lucide-react";
 
+import { useLanguage } from "@/context/LanguageContext";
+import { translations } from "@/lib/translations";
+
 export default function MobileStickyCTA() {
   const [isVisible, setIsVisible] = useState(false);
+  const { t } = useLanguage();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -44,7 +48,7 @@ export default function MobileStickyCTA() {
         className="flex-1 inline-flex items-center justify-center py-3.5 px-4 rounded-full bg-[#0B3C2D] hover:bg-[#07291f] text-white font-bold text-sm sm:text-base shadow-md transition-all"
       >
         <Calendar className="w-5 h-5 mr-2 text-[#D98A2B]" />
-        Book Session
+        {t(translations.header.bookSession)}
       </Link>
     </div>
   );

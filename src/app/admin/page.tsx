@@ -79,6 +79,7 @@ export default function AdminDashboard() {
     message: "",
   });
   const [isUpdating, setIsUpdating] = useState(false);
+  const [updateError, setUpdateError] = useState<string | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
 
   // Reviews State (Site Storage)
@@ -88,14 +89,29 @@ export default function AdminDashboard() {
   const [deletingReviewId, setDeletingReviewId] = useState<string | null>(null);
   const [reviewFilterCategory, setReviewFilterCategory] = useState("All");
 
-  // Load auth state from localStorage on mount
+  // Check session on mount
   useEffect(() => {
-    const savedKey = localStorage.getItem("dhanani_admin_key");
-    if (savedKey && savedKey !== "dhanani_admin_2026") {
-      fetchBookings(savedKey);
-      fetchReviews(savedKey);
-    }
+    // Check if session cookie exists by making a test request
+    checkSession();
   }, []);
+
+  const checkSession = async () => {
+    try {
+      const res = await fetch("/api/admin/login", {
+        method: "GET",
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.authenticated) {
+          setIsAuthenticated(true);
+          fetchBookings();
+          fetchReviews();
+        }
+      }
+    } catch (err) {
+      // Not authenticated
+    }
+  };
 
   // Filter Bookings logic
   useEffect(() => {
@@ -144,29 +160,24 @@ export default function AdminDashboard() {
     setFilteredReviews(result);
   }, [reviews, searchTerm, reviewFilterCategory]);
 
-  const fetchBookings = async (key: string): Promise<boolean> => {
+  const fetchBookings = async (): Promise<boolean> => {
     setLoading(true);
     try {
-      const res = await fetch(`/api/bookings`, {
-        headers: { "x-admin-key": key },
-      });
+      const res = await fetch(`/api/bookings`);
       const data = await res.json();
 
       if (res.ok && data.success) {
         setIsAuthenticated(true);
-        localStorage.setItem("dhanani_admin_key", key);
         setBookings(data.data || []);
         setFilteredBookings(data.data || []);
         setSource(data.source || "Lead Submission Channels");
         return true;
       } else {
-        localStorage.removeItem("dhanani_admin_key");
         setIsAuthenticated(false);
         return false;
       }
     } catch (err) {
       console.log("Admin bookings fetch error:", err);
-      localStorage.removeItem("dhanani_admin_key");
       setIsAuthenticated(false);
       return false;
     } finally {
@@ -174,7 +185,7 @@ export default function AdminDashboard() {
     }
   };
 
-  const fetchReviews = async (key?: string) => {
+  const fetchReviews = async () => {
     setReviewsLoading(true);
     try {
       const res = await fetch("/api/reviews");
@@ -194,15 +205,33 @@ export default function AdminDashboard() {
     e.preventDefault();
     setLoginError("");
     if (!password) return;
-    const ok = await fetchBookings(password);
-    fetchReviews(password);
-    if (!ok) {
-      setLoginError("Invalid administrator password");
+
+    try {
+      const res = await fetch("/api/admin/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password }),
+      });
+
+      if (res.ok) {
+        setIsAuthenticated(true);
+        fetchBookings();
+        fetchReviews();
+      } else {
+        const data = await res.json();
+        setLoginError(data.message || "Invalid administrator password");
+      }
+    } catch (err) {
+      setLoginError("Network error. Please try again.");
     }
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem("dhanani_admin_key");
+  const handleLogout = async () => {
+    try {
+      await fetch("/api/admin/login", { method: "DELETE" });
+    } catch (err) {
+      // Ignore errors on logout
+    }
     setIsAuthenticated(false);
     setPassword("");
     setBookings([]);
@@ -212,10 +241,8 @@ export default function AdminDashboard() {
   };
 
   const handleRefresh = () => {
-    const savedKey = localStorage.getItem("dhanani_admin_key");
-    if (!savedKey) return;
-    fetchBookings(savedKey);
-    fetchReviews(savedKey);
+    fetchBookings();
+    fetchReviews();
   };
 
   // Delete Lead Handler
@@ -227,13 +254,10 @@ export default function AdminDashboard() {
     setBookings((prev) => prev.filter((b) => b._id !== id));
     setFilteredBookings((prev) => prev.filter((b) => b._id !== id));
 
-    const savedKey = localStorage.getItem("dhanani_admin_key");
-    if (!savedKey) return;
     setDeletingId(id);
     try {
       await fetch(`/api/bookings?id=${id}`, {
         method: "DELETE",
-        headers: { "x-admin-key": savedKey },
       });
     } catch (err) {
       console.log("Error deleting lead from server:", err);
@@ -251,13 +275,10 @@ export default function AdminDashboard() {
     setReviews((prev) => prev.filter((r) => r._id !== id));
     setFilteredReviews((prev) => prev.filter((r) => r._id !== id));
 
-    const savedKey = localStorage.getItem("dhanani_admin_key");
-    if (!savedKey) return;
     setDeletingReviewId(id);
     try {
       await fetch(`/api/reviews?id=${id}`, {
         method: "DELETE",
-        headers: { "x-admin-key": savedKey },
       });
     } catch (err) {
       console.log("Error deleting review:", err);
@@ -282,12 +303,12 @@ export default function AdminDashboard() {
     e.preventDefault();
     if (!editingBooking) return;
 
-    const savedKey = localStorage.getItem("dhanani_admin_key");
     setIsUpdating(true);
+    setUpdateError(null);
     try {
       const res = await fetch(`/api/bookings`, {
         method: "PUT",
-        headers: { "Content-Type": "application/json", "x-admin-key": savedKey ?? "" },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           id: editingBooking._id,
           ...editForm,
@@ -301,11 +322,12 @@ export default function AdminDashboard() {
           )
         );
         setEditingBooking(null);
+        setUpdateError(null);
       } else {
-        alert(data.error || "Failed to update lead");
+        setUpdateError(data.error || "Failed to update lead");
       }
     } catch (err) {
-      alert("Error updating lead");
+      setUpdateError("Network error. Please check your connection and try again.");
     } finally {
       setIsUpdating(false);
     }
@@ -803,6 +825,11 @@ export default function AdminDashboard() {
               </div>
 
               <form onSubmit={handleSaveEdit} className="space-y-4 text-left">
+                {updateError && (
+                  <div className="p-3 bg-red-50 border border-red-200 text-red-700 rounded-xl text-xs font-semibold">
+                    {updateError}
+                  </div>
+                )}
                 <div>
                   <label className="block text-xs font-bold text-[#1E2C24] mb-1">Full Name</label>
                   <input

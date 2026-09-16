@@ -39,3 +39,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# User data files (PII)
+src/data/*.json
+
+# Cloudflare migration exports (may contain PII)
+wrangler.toml
+migration-export/

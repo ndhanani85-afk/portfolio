@@ -61,20 +61,16 @@ export const saveLocalBooking = (record: BookingRecord): BookingRecord => {
   return record;
 };
 
-export const deleteLocalBooking = (idOrMatch: string): boolean => {
+export const deleteLocalBooking = (id: string): boolean => {
   try {
-    memoryBookings = getLocalBookings();
-    memoryBookings = memoryBookings.filter(
-      (b) =>
-        b._id !== idOrMatch &&
-        b.phone !== idOrMatch &&
-        b.email !== idOrMatch &&
-        b.name !== idOrMatch
-    );
+    const before = getLocalBookings();
+    // Match by ID only — do not match by phone, email, or name
+    const after = before.filter((b) => b._id !== id);
+    memoryBookings = after;
     ensureFileExists();
     const filePath = getFilePath();
     fs.writeFileSync(filePath, JSON.stringify(memoryBookings, null, 2), "utf-8");
-    return true;
+    return after.length < before.length;
   } catch (err) {
     console.log("[BookingStore] Delete error:", err);
     return false;

@@ -21,6 +21,7 @@ import {
 import Link from "next/link";
 import Image from "next/image";
 import LeafMotif from "@/components/LeafMotif";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface StressQuizModalProps {
   isOpen: boolean;
@@ -436,6 +437,7 @@ const questionsList: QuestionDef[] = [
 ];
 
 export default function StressQuizModal({ isOpen, onClose }: StressQuizModalProps) {
+  const { language: siteLang } = useLanguage();
   const [lang, setLang] = useState<QuizLanguage | null>(null);
 
   // Steps Breakdown:
@@ -445,6 +447,13 @@ export default function StressQuizModal({ isOpen, onClose }: StressQuizModalProp
   // Steps 5-7: Q4, Q5, Q6
   // Step 8: Final Diagnosis Card & WhatsApp Action
   const [stepIndex, setStepIndex] = useState<number>(0);
+
+  useEffect(() => {
+    if (isOpen && siteLang) {
+      setLang(siteLang);
+      setStepIndex((prev) => (prev === 0 ? 1 : prev));
+    }
+  }, [isOpen, siteLang]);
 
   const [answers, setAnswers] = useState<{
     domain: "parenting" | "relationship" | "burnout" | "teen" | "anxiety";

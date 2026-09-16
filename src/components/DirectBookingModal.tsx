@@ -6,7 +6,6 @@ import {
   Calendar,
   Clock,
   CheckCircle2,
-  Sparkles,
   ShieldCheck,
   Heart,
   Users,
@@ -15,6 +14,8 @@ import {
   ExternalLink
 } from "lucide-react";
 import CalendarBooking from "./CalendarBooking";
+import { useLanguage } from "@/context/LanguageContext";
+import { translations } from "@/lib/translations";
 
 interface DirectBookingModalProps {
   isOpen: boolean;
@@ -22,38 +23,12 @@ interface DirectBookingModalProps {
   initialService?: string;
 }
 
-export const COUNSELING_SERVICES = [
-  {
-    id: "couples",
-    name: "Couples Relationship Repair",
-    subtitle: "Break circular arguments, rebuild warmth & trust",
-    icon: Heart,
-    color: "#D98A2B",
-    bg: "#FFF9F0",
-  },
-  {
-    id: "family",
-    name: "Parenting & Family Coaching",
-    subtitle: "End daily screen battles, manage teen/child triggers",
-    icon: Users,
-    color: "#0B3C2D",
-    bg: "#E8F3EE",
-  },
-  {
-    id: "mentor",
-    name: "Individual Counseling & Mentorship",
-    subtitle: "Overcome burnout, regain emotional clarity & resilience",
-    icon: Brain,
-    color: "#2C6E49",
-    bg: "#EFF8F3",
-  },
-];
-
 export default function DirectBookingModal({
   isOpen,
   onClose,
   initialService = "Couples Relationship Repair",
 }: DirectBookingModalProps) {
+  const { t } = useLanguage();
   const [selectedService, setSelectedService] = useState(initialService);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedTime, setSelectedTime] = useState<string>("");
@@ -69,6 +44,33 @@ export default function DirectBookingModal({
   const [phoneError, setPhoneError] = useState("");
   const [submitError, setSubmitError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const counselingServices = [
+    {
+      id: "couples",
+      name: t(translations.bookingModal.serviceCouplesTitle),
+      subtitle: t(translations.bookingModal.serviceCouplesSub),
+      icon: Heart,
+      color: "#D98A2B",
+      bg: "#FFF9F0",
+    },
+    {
+      id: "family",
+      name: t(translations.bookingModal.serviceFamilyTitle),
+      subtitle: t(translations.bookingModal.serviceFamilySub),
+      icon: Users,
+      color: "#0B3C2D",
+      bg: "#E8F3EE",
+    },
+    {
+      id: "mentor",
+      name: t(translations.bookingModal.serviceMentorTitle),
+      subtitle: t(translations.bookingModal.serviceMentorSub),
+      icon: Brain,
+      color: "#2C6E49",
+      bg: "#EFF8F3",
+    },
+  ];
 
   // Sync initial service when modal opens
   useEffect(() => {
@@ -230,10 +232,12 @@ export default function DirectBookingModal({
             </div>
             <div>
               <h3 className="font-serif-display font-bold text-lg sm:text-xl text-white leading-tight">
-                {step === "confirmed" ? "Session Confirmed" : "Book Confidential Counseling"}
+                {step === "confirmed"
+                  ? t(translations.bookingModal.confirmedTitle)
+                  : t(translations.bookingModal.title)}
               </h3>
               <p className="text-[11px] text-[#A8C3B5] tracking-wide">
-                Directly with Nikunj Dhanani • 100% Private
+                {t(translations.bookingModal.sub)}
               </p>
             </div>
           </div>
@@ -241,7 +245,7 @@ export default function DirectBookingModal({
             type="button"
             onClick={resetAndClose}
             aria-label="Close modal"
-            className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors"
+            className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors cursor-pointer"
           >
             <X className="w-4 h-4" />
           </button>
@@ -254,10 +258,10 @@ export default function DirectBookingModal({
           {step !== "confirmed" && (
             <div className="space-y-3">
               <label className="text-xs font-bold uppercase tracking-wider text-[#0B3C2D] block">
-                1. Select Focus Area
+                {t(translations.bookingModal.step1)}
               </label>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
-                {COUNSELING_SERVICES.map((srv) => {
+                {counselingServices.map((srv) => {
                   const Icon = srv.icon;
                   const isCurrent = selectedService === srv.name;
                   return (
@@ -265,7 +269,7 @@ export default function DirectBookingModal({
                       key={srv.id}
                       type="button"
                       onClick={() => setSelectedService(srv.name)}
-                      className={`p-3 rounded-2xl border text-left transition-all flex flex-col justify-between ${
+                      className={`p-3 rounded-2xl border text-left transition-all flex flex-col justify-between cursor-pointer ${
                         isCurrent
                           ? "border-[#0B3C2D] bg-[#0B3C2D] text-white shadow-sm"
                           : "border-[#0B3C2D]/15 bg-[#F8F4EE]/60 hover:bg-white text-[#13221C]"
@@ -301,7 +305,7 @@ export default function DirectBookingModal({
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <label className="text-xs font-bold uppercase tracking-wider text-[#0B3C2D]">
-                  2. Choose Preferred Date & Time
+                  {t(translations.bookingModal.step2)}
                 </label>
                 {selectedDate && selectedTime && (
                   <span className="text-xs font-bold text-[#D98A2B]">
@@ -326,9 +330,9 @@ export default function DirectBookingModal({
                   type="button"
                   disabled={!selectedDate || !selectedTime}
                   onClick={() => setStep("contact")}
-                  className="w-full sm:w-auto inline-flex items-center justify-center px-7 py-3 rounded-full bg-[#0B3C2D] hover:bg-[#07291f] disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-bold text-xs shadow-md transition-all"
+                  className="w-full sm:w-auto inline-flex items-center justify-center px-7 py-3 rounded-full bg-[#0B3C2D] hover:bg-[#07291f] disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-bold text-xs shadow-md transition-all cursor-pointer"
                 >
-                  Continue to Contact Details
+                  {t(translations.bookingModal.btnContinue)}
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </button>
               </div>
@@ -348,22 +352,22 @@ export default function DirectBookingModal({
                 <button
                   type="button"
                   onClick={() => setStep("schedule")}
-                  className="text-xs font-bold text-[#D98A2B] hover:underline"
+                  className="text-xs font-bold text-[#D98A2B] hover:underline cursor-pointer"
                 >
-                  Change Slot
+                  {t(translations.bookingModal.changeSlot)}
                 </button>
               </div>
 
               <div className="space-y-3">
                 <label className="text-xs font-bold uppercase tracking-wider text-[#0B3C2D] block">
-                  3. Your Confidential Details
+                  {t(translations.bookingModal.step3)}
                 </label>
 
                 <div>
                   <input
                     type="text"
                     required
-                    placeholder="Your Full Name *"
+                    placeholder={t(translations.bookingModal.namePlaceholder)}
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     className="w-full px-4 py-2.5 rounded-xl border border-[#0B3C2D]/20 focus:border-[#0B3C2D] focus:outline-none text-xs text-ink-navy bg-[#F8F4EE]/40"
@@ -375,7 +379,7 @@ export default function DirectBookingModal({
                     <input
                       type="tel"
                       required
-                      placeholder="WhatsApp Mobile Number *"
+                      placeholder={t(translations.bookingModal.phonePlaceholder)}
                       value={formData.phone}
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                       className={`w-full px-4 py-2.5 rounded-xl border focus:outline-none text-xs text-ink-navy bg-[#F8F4EE]/40 ${
@@ -390,7 +394,7 @@ export default function DirectBookingModal({
                     <input
                       type="email"
                       required
-                      placeholder="Email Address *"
+                      placeholder={t(translations.bookingModal.emailPlaceholder)}
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       className="w-full px-4 py-2.5 rounded-xl border border-[#0B3C2D]/20 focus:border-[#0B3C2D] focus:outline-none text-xs text-ink-navy bg-[#F8F4EE]/40"
@@ -401,7 +405,7 @@ export default function DirectBookingModal({
                 <div>
                   <textarea
                     rows={2}
-                    placeholder="Briefly describe what you're hoping to work through (Optional & 100% Confidential)..."
+                    placeholder={t(translations.bookingModal.notesPlaceholder)}
                     value={formData.notes}
                     onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
                     className="w-full px-4 py-2.5 rounded-xl border border-[#0B3C2D]/20 focus:border-[#0B3C2D] focus:outline-none text-xs text-ink-navy bg-[#F8F4EE]/40 resize-none"
@@ -419,22 +423,22 @@ export default function DirectBookingModal({
                 <button
                   type="button"
                   onClick={() => setStep("schedule")}
-                  className="px-5 py-2.5 rounded-full border border-[#0B3C2D]/20 text-[#0B3C2D] font-bold text-xs hover:bg-[#F8F4EE] transition-colors"
+                  className="px-5 py-2.5 rounded-full border border-[#0B3C2D]/20 text-[#0B3C2D] font-bold text-xs hover:bg-[#F8F4EE] transition-colors cursor-pointer"
                 >
-                  Back
+                  {t(translations.bookingModal.btnBack)}
                 </button>
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="inline-flex items-center justify-center px-7 py-3 rounded-full bg-[#0B3C2D] hover:bg-[#07291f] disabled:opacity-60 text-white font-bold text-xs shadow-md transition-all"
+                  className="inline-flex items-center justify-center px-7 py-3 rounded-full bg-[#0B3C2D] hover:bg-[#07291f] disabled:opacity-60 text-white font-bold text-xs shadow-md transition-all cursor-pointer"
                 >
                   {isSubmitting ? (
                     <span className="flex items-center">
                       <span className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></span>
-                      Confirming Session...
+                      {t(translations.bookingModal.btnConfirming)}
                     </span>
                   ) : (
-                    "Confirm & Schedule Session"
+                    t(translations.bookingModal.btnConfirm)
                   )}
                 </button>
               </div>
@@ -455,7 +459,7 @@ export default function DirectBookingModal({
 
               <div className="space-y-2">
                 <h4 className="text-2xl font-serif-display font-bold text-[#0B3C2D]">
-                  Session Reserved Successfully!
+                  {t(translations.bookingModal.confirmedTitle)}
                 </h4>
                 <p className="text-xs text-ink-muted max-w-md mx-auto">
                   Thank you, <strong>{formData.name}</strong>. Your session for{" "}
@@ -491,11 +495,11 @@ export default function DirectBookingModal({
                   className="w-full inline-flex items-center justify-center px-5 py-3 rounded-full bg-[#4285F4] hover:bg-[#3367D6] text-white font-bold text-xs shadow-md hover-lift transition-all"
                 >
                   <Calendar className="w-4 h-4 mr-2" />
-                  Add to your Google Calendar
+                  {t(translations.bookingModal.addToGoogleCal)}
                   <ExternalLink className="w-3.5 h-3.5 ml-1.5 opacity-80" />
                 </a>
                 <p className="text-[11px] text-ink-muted">
-                  A WhatsApp and email reminder with your private session link has also been queued.
+                  {t(translations.bookingModal.reminderQueued)}
                 </p>
               </div>
 
@@ -503,9 +507,9 @@ export default function DirectBookingModal({
                 <button
                   type="button"
                   onClick={resetAndClose}
-                  className="px-6 py-2.5 rounded-full bg-[#0B3C2D] hover:bg-[#07291f] text-white text-xs font-bold transition-colors"
+                  className="px-6 py-2.5 rounded-full bg-[#0B3C2D] hover:bg-[#07291f] text-white text-xs font-bold transition-colors cursor-pointer"
                 >
-                  Done
+                  {t(translations.bookingModal.doneBtn)}
                 </button>
               </div>
             </div>

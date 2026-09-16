@@ -6,6 +6,8 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppBubble from "@/components/WhatsAppBubble";
 import MobileStickyCTA from "@/components/MobileStickyCTA";
+import { LanguageProvider } from "@/context/LanguageContext";
+import { FirstVisitLanguageModal } from "@/components/LanguageManager";
 
 export default function MainLayoutWrapper({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -15,16 +17,22 @@ export default function MainLayoutWrapper({ children }: { children: React.ReactN
     pathname?.startsWith("/reviews");
 
   if (isNoHeaderFooter) {
-    return <main className="flex-grow">{children}</main>;
+    return (
+      <LanguageProvider>
+        <main className="flex-grow">{children}</main>
+        <FirstVisitLanguageModal />
+      </LanguageProvider>
+    );
   }
 
   return (
-    <>
+    <LanguageProvider>
       <Header />
       <main className="flex-grow pt-20">{children}</main>
       <Footer />
       <WhatsAppBubble />
       <MobileStickyCTA />
-    </>
+      <FirstVisitLanguageModal />
+    </LanguageProvider>
   );
 }

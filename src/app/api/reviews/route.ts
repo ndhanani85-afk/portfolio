@@ -8,6 +8,24 @@ import {
   ReviewRecord,
 } from "@/lib/reviewStore";
 import { checkRateLimit, maybeCleanupStaleEntries } from "@/lib/rateLimit";
+import { validateSession, getSessionCookieName } from "@/lib/session";
+
+function getSessionToken(req: Request): string | null {
+  const cookieHeader = req.headers.get("cookie");
+  if (!cookieHeader) return null;
+  const cookies = cookieHeader.split(";").map(c => c.trim());
+  for (const cookie of cookies) {
+    if (cookie.startsWith(`${getSessionCookieName()}=`)) {
+      return cookie.substring(getSessionCookieName().length + 1);
+    }
+  }
+  return null;
+}
+
+async function isAdmin(req: Request): Promise<boolean> {
+  const token = getSessionToken(req);
+  return validateSession(token);
+}
 
 // POST: Save a review into Supabase and local store (instant < 20ms)
 export async function POST(req: Request) {
@@ -25,11 +43,31 @@ export async function POST(req: Request) {
 
   try {
     const body = await req.json();
-    const { name, rating, category, subType, reviewText, isAIGenerated } = body;
 
-    if (!reviewText || !reviewText.trim()) {
+    // --- Input Validation ---
+    const rawName = typeof body.name === "string" ? body.name : "";
+    const rawReviewText = typeof body.reviewText === "string" ? body.reviewText : "";
+    const rawCategory = typeof body.category === "string" ? body.category : "";
+    const rawSubType = typeof body.subType === "string" ? body.subType : "";
+    const rawRating = Number(body.rating);
+
+    if (!rawReviewText.trim()) {
       return NextResponse.json(
         { error: "Review text cannot be empty." },
+        { status: 400 }
+      );
+    }
+
+    if (rawReviewText.length > 5000) {
+      return NextResponse.json(
+        { error: "Review is too long (max 5000 characters)." },
+        { status: 400 }
+      );
+    }
+
+    if (rawName.length > 200) {
+      return NextResponse.json(
+        { error: "Name is too long (max 200 characters)." },
         { status: 400 }
       );
     }
@@ -37,12 +75,12 @@ export async function POST(req: Request) {
     const reviewId = `rev_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
     const newRecord: ReviewRecord = {
       _id: reviewId,
-      name: name?.trim() || "Anonymous Client",
-      rating: Number(rating) || 5,
-      category: category || "General Counseling",
-      subType: subType || "General",
-      reviewText: reviewText.trim(),
-      isAIGenerated: Boolean(isAIGenerated),
+      name: rawName.trim() || "Anonymous Client",
+      rating: isNaN(rawRating) || rawRating < 1 ? 5 : Math.min(rawRating, 5),
+      category: rawCategory.trim() || "General Counseling",
+      subType: rawSubType.trim() || "General",
+      reviewText: rawReviewText.trim(),
+      isAIGenerated: Boolean(body.isAIGenerated),
       source: "site_storage",
       createdAt: new Date().toISOString(),
     };
@@ -165,14 +203,12 @@ export async function GET(req: Request) {
 // DELETE: Delete a review entry (Admin protected)
 export async function DELETE(req: Request) {
   try {
-    const { searchParams } = new URL(req.url);
-    const id = searchParams.get("id");
-    const key = searchParams.get("key") || req.headers.get("x-admin-key");
-
-    const ADMIN_KEY = process.env.ADMIN_KEY;
-    if (!ADMIN_KEY || key !== ADMIN_KEY) {
+    if (!(await isAdmin(req))) {
       return NextResponse.json({ error: "Unauthorized access" }, { status: 401 });
     }
+
+    const { searchParams } = new URL(req.url);
+    const id = searchParams.get("id");
 
     if (!id) {
       return NextResponse.json({ error: "Review ID is required" }, { status: 400 });

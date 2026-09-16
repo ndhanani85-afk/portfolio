@@ -85,7 +85,7 @@ export default function RelationshipRepairPage() {
                 </li>
                 <li className="flex items-start space-x-2">
                   <LeafMotif className="w-4 h-4 text-[#D98A2B] shrink-0 mt-0.5" />
-                  <span>Partners experiencing emotional distance or lack of affection after having kids</span>
+                  <span>Partners experiencing emotional distance or lack of affection while raising kids after marriage</span>
                 </li>
                 <li className="flex items-start space-x-2">
                   <LeafMotif className="w-4 h-4 text-[#D98A2B] shrink-0 mt-0.5" />
