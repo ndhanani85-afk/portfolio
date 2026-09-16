@@ -247,75 +247,71 @@ export async function POST(req: Request) {
       createdAt: new Date().toISOString(),
     };
 
-    // 1. Save to local store INSTANTLY (< 1ms)
+    // 1. Save to local store (works locally, no-op on Cloudflare Workers)
     saveLocalBooking(newRecord);
 
-    // 2. Non-blocking background sync to Supabase, Web3Forms email, and Google Apps Script Calendar
-    (async () => {
-      try {
-        sendBookingEmail({ ...newRecord, date: rawDate, time: rawTime }).catch((e) =>
-          console.log("Email dispatch background notice:", e)
-        );
+    // 2. Await critical syncs BEFORE returning response (Cloudflare Workers kills fire-and-forget)
+    // Email — fire-and-forget is fine (Web3Forms is fast)
+    sendBookingEmail({ ...newRecord, date: rawDate, time: rawTime }).catch((e) =>
+      console.log("Email dispatch background notice:", e)
+    );
 
-        // Supabase sync
-        const { error: supabaseError } = await supabaseAdmin
-          .from("bookings")
-          .upsert({
-            id: bookingId,
+    // Supabase sync — MUST await so data appears in admin panel
+    try {
+      const { error: supabaseError } = await supabaseAdmin
+        .from("bookings")
+        .upsert({
+          id: bookingId,
+          name: leadName,
+          email: leadEmail,
+          phone: leadPhone,
+          service_type: finalService,
+          message: finalMessage,
+          created_at: newRecord.createdAt,
+        });
+
+      if (supabaseError) {
+        console.log("[Supabase Lead Insert Warning]:", supabaseError.message);
+      }
+    } catch (dbErr) {
+      console.log("[Supabase Insert Exception]:", dbErr);
+    }
+
+    // Google Apps Script Calendar sync — MUST await so event gets created
+    const googleScriptUrl = process.env.GOOGLE_SCRIPT_WEB_APP_URL;
+    if (googleScriptUrl) {
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 8000);
+        const gasRes = await fetch(googleScriptUrl, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          redirect: "follow",
+          body: JSON.stringify({
             name: leadName,
             email: leadEmail,
             phone: leadPhone,
-            service_type: finalService,
+            serviceType: finalService,
             message: finalMessage,
-            created_at: newRecord.createdAt,
-          });
-
-        if (supabaseError) {
-          console.log("[Supabase Lead Insert Warning]:", supabaseError.message);
+            date: rawDate || "",
+            time: rawTime || "",
+          }),
+          signal: controller.signal,
+        });
+        clearTimeout(timeoutId);
+        const gasText = await gasRes.text();
+        try {
+          const gasData = JSON.parse(gasText);
+          console.log("[Google Script Calendar Sync Success]:", gasData);
+        } catch {
+          console.log("[Google Script Calendar Sync Response]:", gasText);
         }
-
-        // Google Apps Script Google Calendar sync
-        const googleScriptUrl = process.env.GOOGLE_SCRIPT_WEB_APP_URL;
-        if (googleScriptUrl) {
-          try {
-            const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 8000);
-            fetch(googleScriptUrl, {
-              method: "POST",
-              headers: { "Content-Type": "text/plain;charset=utf-8" },
-              redirect: "follow",
-              body: JSON.stringify({
-                name: leadName,
-                email: leadEmail,
-                phone: leadPhone,
-                serviceType: finalService,
-                message: finalMessage,
-                date: rawDate || "",
-                time: rawTime || "",
-              }),
-              signal: controller.signal,
-            })
-              .then(async (res) => {
-                const text = await res.text();
-                try {
-                  const data = JSON.parse(text);
-                  console.log("[Google Script Calendar Sync Success]:", data);
-                } catch {
-                  console.log("[Google Script Calendar Sync Response]:", text);
-                }
-              })
-              .catch((err) => console.log("[Google Script Calendar Sync Notice]:", err.message))
-              .finally(() => clearTimeout(timeoutId));
-          } catch (gasErr) {
-            console.log("[Google Script Dispatch Exception]:", gasErr);
-          }
-        }
-      } catch (err) {
-        console.log("[Background Sync Notice]:", err);
+      } catch (gasErr: any) {
+        console.log("[Google Script Calendar Sync Notice]:", gasErr?.message || gasErr);
       }
-    })();
+    }
 
-    // 3. Return INSTANT response to client (< 20ms)
+    // 3. Return response to client
     return NextResponse.json({
       success: true,
       message: "Thank you! Your information has been received successfully.",
