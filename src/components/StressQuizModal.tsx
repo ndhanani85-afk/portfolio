@@ -20,7 +20,6 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import LeafMotif from "@/components/LeafMotif";
 import { useLanguage } from "@/context/LanguageContext";
 
 interface StressQuizModalProps {
@@ -642,8 +641,14 @@ export default function StressQuizModal({ isOpen, onClose }: StressQuizModalProp
         {/* Modal Header */}
         <div className="bg-[#FAF6F0] px-5 py-3.5 border-b border-[#E6DEC8] flex items-center justify-between shrink-0">
           <div className="flex items-center space-x-2.5 min-w-0">
-            <div className="w-8 h-8 rounded-xl bg-[#6B7F62] text-white flex items-center justify-center shrink-0 shadow-2xs">
-              <LeafMotif className="w-4 h-4 text-white" />
+            <div className="relative w-8 h-8 rounded-xl bg-white border border-[#E6DEC8] overflow-hidden flex items-center justify-center shrink-0 shadow-2xs p-0.5">
+              <Image
+                src="/logo.png"
+                alt="Nikunj Dhanani Logo"
+                width={32}
+                height={32}
+                className="w-full h-full object-contain"
+              />
             </div>
             <div className="min-w-0">
               <h3 className="font-serif-display font-bold text-sm sm:text-base text-[#1E2C24] truncate">

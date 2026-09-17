@@ -4,7 +4,6 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Calendar, CheckCircle2 } from "lucide-react";
-import LeafMotif from "@/components/LeafMotif";
 import ScrollReveal from "@/components/ScrollReveal";
 import { useLanguage } from "@/context/LanguageContext";
 import { translations } from "@/lib/translations";
@@ -115,7 +114,15 @@ export default function AboutPage() {
         {/* Philosophy Pull-Quote */}
         <ScrollReveal direction="up" delay={200}>
           <div className="bg-[#0B3C2D] text-white rounded-3xl p-10 md:p-14 text-center space-y-4 shadow-xl relative overflow-hidden">
-            <LeafMotif className="w-10 h-10 text-[#D98A2B] mx-auto" />
+            <div className="w-16 h-16 rounded-full overflow-hidden bg-white/95 border border-white/20 shadow-xl flex items-center justify-center p-2 mx-auto">
+              <Image
+                src="/logo.png"
+                alt="Nikunj Dhanani Logo"
+                width={56}
+                height={56}
+                className="w-full h-full object-contain rounded-full"
+              />
+            </div>
             <blockquote className="text-xl sm:text-2xl md:text-3xl font-serif-display italic leading-relaxed text-[#8CA899] max-w-3xl mx-auto">
               "{t(ap?.ethos.quote || { en: "You don't need to be fixed. You need to be heard, understood, and equipped with clear, practical tools for your daily life.", hi: "", gu: "" })}"
             </blockquote>

@@ -1225,7 +1225,15 @@ export default function HomePage() {
       {/* ── SECTION 11: FINAL CTA BAND ── */}
       <section className="bg-[#0B3C2D] text-white py-20 relative">
         <div className="max-w-4xl mx-auto px-4 text-center space-y-8">
-          <LeafMotif className="w-10 h-10 text-[#D98A2B] mx-auto" />
+          <div className="w-16 h-16 rounded-full overflow-hidden bg-white/95 border border-white/20 shadow-xl flex items-center justify-center p-2 mx-auto">
+            <Image
+              src="/logo.png"
+              alt="Nikunj Dhanani Logo"
+              width={56}
+              height={56}
+              className="w-full h-full object-contain rounded-full"
+            />
+          </div>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif-display font-bold leading-tight">
             {t(translations.home?.finalCTA.heading || { en: "Get the support you deserve today.", hi: "आज ही मानसिक शांति और सुकून की ओर कदम बढ़ाएं।", gu: "આજે જ માનસિક શાંતિ અને સહયોગ તરફ ડગલું માંડો." })}
           </h2>

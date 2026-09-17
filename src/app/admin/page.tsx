@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import {
   Shield,
   Lock,
@@ -344,9 +345,15 @@ export default function AdminDashboard() {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#FAF6F0] px-4 py-12 text-[#2E2A26]">
         <div className="max-w-md w-full bg-[#FFFDF9] p-8 rounded-3xl shadow-xl border border-[#E6DEC8] space-y-6">
-          <div className="text-center space-y-2">
-            <div className="w-14 h-14 rounded-2xl bg-[#1E2C24] flex items-center justify-center text-white mx-auto shadow-md">
-              <Shield className="w-7 h-7 text-[#C97B5B]" />
+          <div className="text-center space-y-3">
+            <div className="w-16 h-16 rounded-2xl bg-white border border-[#E6DEC8] flex items-center justify-center mx-auto shadow-sm overflow-hidden p-1">
+              <Image
+                src="/logo.png"
+                alt="Nikunj Dhanani Logo"
+                width={64}
+                height={64}
+                className="w-full h-full object-contain"
+              />
             </div>
             <h1 className="text-2xl font-serif-display font-bold text-[#1E2C24]">
               Practitioner Admin Portal
@@ -400,17 +407,28 @@ export default function AdminDashboard() {
         
         {/* Dashboard Top Header */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between space-y-4 md:space-y-0 bg-[#FFFDF9] p-6 rounded-3xl border border-[#E6DEC8] shadow-sm">
-          <div>
-            <span className="text-[11px] font-bold uppercase tracking-widest text-[#C97B5B] block">
-              Nikunj Dhanani • Master Practice Admin Center
-            </span>
-            <h1 className="text-2xl sm:text-3xl font-serif-display font-bold text-[#1E2C24]">
-              {activeTab === "leads" ? "Multi-Source Client Inquiries & Leads" : "Site Storage Client Reviews"}
-            </h1>
-            <p className="text-xs text-[#5E5852] flex items-center mt-1">
-              <Database className="w-3.5 h-3.5 mr-1.5 text-[#6B7F62]" />
-              Lead Sources: <strong className="ml-1 text-[#1E2C24] font-bold">{source}</strong>
-            </p>
+          <div className="flex items-center space-x-4">
+            <div className="w-12 h-12 rounded-2xl bg-white border border-[#E6DEC8] flex items-center justify-center shadow-xs overflow-hidden p-1 shrink-0">
+              <Image
+                src="/logo.png"
+                alt="Nikunj Dhanani Logo"
+                width={48}
+                height={48}
+                className="w-full h-full object-contain"
+              />
+            </div>
+            <div>
+              <span className="text-[11px] font-bold uppercase tracking-widest text-[#C97B5B] block">
+                Nikunj Dhanani • Master Practice Admin Center
+              </span>
+              <h1 className="text-2xl sm:text-3xl font-serif-display font-bold text-[#1E2C24]">
+                {activeTab === "leads" ? "Multi-Source Client Inquiries & Leads" : "Site Storage Client Reviews"}
+              </h1>
+              <p className="text-xs text-[#5E5852] flex items-center mt-1">
+                <Database className="w-3.5 h-3.5 mr-1.5 text-[#6B7F62]" />
+                Lead Sources: <strong className="ml-1 text-[#1E2C24] font-bold">{source}</strong>
+              </p>
+            </div>
           </div>
           
           <div className="flex items-center space-x-3">

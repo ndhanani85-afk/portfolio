@@ -85,6 +85,15 @@ export const metadata: Metadata = {
     description: "Guiding families through stress, back to calm. 6+ years of evidence-based counseling in Mumbai & online.",
     images: ["/ndhanani.png"],
   },
+  icons: {
+    icon: [
+      { url: "/logo.png", sizes: "any", type: "image/png" },
+    ],
+    shortcut: ["/logo.png"],
+    apple: [
+      { url: "/logo.png", sizes: "180x180", type: "image/png" },
+    ],
+  },
   verification: {
     google: "5lN0At3gecy-sD7PjTVXdN83IVD55Gq6hBZAM8MO4jE",
   },
@@ -110,7 +119,7 @@ const jsonLd = {
       "@id": "https://www.nikunjdhanani.com/#organization",
       "name": "Nikunj Dhanani Counseling & Coaching",
       "url": "https://www.nikunjdhanani.com",
-      "logo": "https://www.nikunjdhanani.com/tesca_logo.png",
+      "logo": "https://www.nikunjdhanani.com/logo.png",
       "image": "https://www.nikunjdhanani.com/ndhanani.png",
       "description": "Evidence-based counseling for parenting overwhelm, marriage relationship repair, executive stress, and personal life coaching in Mumbai and online.",
       "address": {

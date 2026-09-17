@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import {
   Sparkles,
   RefreshCw,
@@ -14,7 +15,6 @@ import {
   Layers,
   X
 } from "lucide-react";
-import LeafMotif from "@/components/LeafMotif";
 
 import {
   AlertDialog,
@@ -287,7 +287,13 @@ export default function ReviewGeneratorPage() {
           </Link>
 
           <span className="text-xs font-semibold text-[#8C847C] hidden sm:inline-flex items-center">
-            <LeafMotif className="w-3.5 h-3.5 mr-1.5 text-[#0B3C2D]" />
+            <Image
+              src="/logo.png"
+              alt="Nikunj Dhanani Logo"
+              width={16}
+              height={16}
+              className="w-4 h-4 mr-1.5 object-contain"
+            />
             Nikunj Dhanani Counseling Practice
           </span>
         </div>
@@ -295,8 +301,14 @@ export default function ReviewGeneratorPage() {
         {/* Top Floating Brand Card / Rating Header */}
         <div className="bg-white rounded-2xl p-3 sm:p-5 shadow-sm border border-[#E4DDD0] flex items-center justify-between gap-2.5">
           <div className="flex items-center space-x-2.5 sm:space-x-3 min-w-0">
-            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-[#0B3C2D] flex items-center justify-center text-white shadow-sm shrink-0">
-              <LeafMotif className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-white border border-[#0B3C2D]/15 flex items-center justify-center shadow-sm shrink-0 overflow-hidden p-0.5">
+              <Image
+                src="/logo.png"
+                alt="Nikunj Dhanani Logo"
+                width={44}
+                height={44}
+                className="w-full h-full object-contain"
+              />
             </div>
             <div className="min-w-0">
               <span className="text-sm sm:text-lg font-bold font-serif-display text-[#0B3C2D] block leading-tight truncate">

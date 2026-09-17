@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight, Clock, CalendarDays } from "lucide-react";
-import LeafMotif from "@/components/LeafMotif";
 import { useLanguage } from "@/context/LanguageContext";
 import { translations } from "@/lib/translations";
 
@@ -194,7 +193,7 @@ export default function CalendarBooking({
   return (
     <div className="bg-white border border-[#0B3C2D]/15 rounded-2xl p-5 md:p-6 shadow-md">
       <div className="flex items-center space-x-2 mb-4">
-        <LeafMotif className="w-5 h-5 text-[#D98A2B]" />
+        <CalendarDays className="w-5 h-5 text-[#D98A2B]" />
         <h3 className="text-base font-bold text-[#0B3C2D] font-serif-display">
           {formT?.calendarHeading ? t(formT.calendarHeading) : "Select Session Date"}
         </h3>

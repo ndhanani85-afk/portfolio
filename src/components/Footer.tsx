@@ -2,8 +2,8 @@
 
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Mail, Phone, MapPin, ShieldCheck } from "lucide-react";
-import LeafMotif from "@/components/LeafMotif";
 import { useLanguage } from "@/context/LanguageContext";
 import { translations } from "@/lib/translations";
 
@@ -18,8 +18,14 @@ export default function Footer() {
           {/* Brand Info */}
           <div className="space-y-4">
             <Link href="/" className="flex items-center space-x-3 group">
-              <div className="w-10 h-10 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-white group-hover:bg-[#D98A2B] transition-colors">
-                <LeafMotif className="w-5 h-5 text-white" />
+              <div className="relative w-10 h-10 sm:w-11 sm:h-11 rounded-full overflow-hidden bg-white/95 border border-white/25 shadow-md flex items-center justify-center p-0.5 group-hover:scale-105 transition-transform duration-200">
+                <Image
+                  src="/logo.png"
+                  alt="Nikunj Dhanani Logo"
+                  width={44}
+                  height={44}
+                  className="w-full h-full object-contain rounded-full"
+                />
               </div>
               <div>
                 <span className="text-xl font-serif-display font-bold tracking-tight text-white group-hover:text-[#D98A2B] transition-colors block">

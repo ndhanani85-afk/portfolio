@@ -2,10 +2,10 @@
 
 import React, { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import CalendarBooking from "@/components/CalendarBooking";
 import { Phone, Mail, MapPin, ShieldCheck, CheckCircle2, MessageCircle, Clock, CalendarDays, Lock, AlertCircle, X } from "lucide-react";
-import LeafMotif from "@/components/LeafMotif";
 import ScrollReveal from "@/components/ScrollReveal";
 import { useLanguage } from "@/context/LanguageContext";
 import { translations } from "@/lib/translations";
@@ -160,8 +160,14 @@ function ContactBookingContent() {
             <ScrollReveal direction="up" delay={150}>
               <div className="bg-white rounded-3xl p-8 border border-[#0B3C2D]/10 shadow-md space-y-6">
                 <div className="flex items-center space-x-3">
-                  <div className="w-12 h-12 rounded-full bg-[#0B3C2D] text-white flex items-center justify-center">
-                    <LeafMotif className="w-6 h-6 text-white" />
+                  <div className="relative w-12 h-12 rounded-full overflow-hidden bg-white border border-[#0B3C2D]/15 shadow-sm flex items-center justify-center p-0.5 shrink-0">
+                    <Image
+                      src="/logo.png"
+                      alt="Nikunj Dhanani Logo"
+                      width={48}
+                      height={48}
+                      className="w-full h-full object-contain rounded-full"
+                    />
                   </div>
                   <div>
                     <h3 className="text-xl font-serif-display font-bold text-[#0B3C2D]">
