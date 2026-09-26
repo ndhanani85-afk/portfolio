@@ -6,6 +6,7 @@ import { Calendar } from "lucide-react";
 
 import { useLanguage } from "@/context/LanguageContext";
 import { translations } from "@/lib/translations";
+import { trackPostHogClick } from "@/lib/posthog";
 
 export default function MobileStickyCTA() {
   const [isVisible, setIsVisible] = useState(false);
@@ -31,6 +32,11 @@ export default function MobileStickyCTA() {
         href="https://wa.me/919925060609?text=Hi%20Nikunj,%20I'd%20like%20to%20ask%20a%20quick%20question."
         target="_blank"
         rel="noopener noreferrer"
+        onClick={() =>
+          trackPostHogClick("whatsapp_sticky_click", "lead_generation", {
+            location: "mobile_sticky_bar",
+          })
+        }
         className="flex-1 inline-flex items-center justify-center py-3.5 px-4 rounded-full border border-[#0B3C2D]/20 text-[#0B3C2D] font-bold text-sm sm:text-base bg-[#F8F4EE] hover:bg-[#0B3C2D]/5 transition-colors shadow-xs"
       >
         <svg
@@ -45,6 +51,11 @@ export default function MobileStickyCTA() {
       </a>
       <Link
         href="/contact#booking"
+        onClick={() =>
+          trackPostHogClick("book_session_sticky_click", "conversion", {
+            location: "mobile_sticky_bar",
+          })
+        }
         className="flex-1 inline-flex items-center justify-center py-3.5 px-4 rounded-full bg-[#0B3C2D] hover:bg-[#07291f] text-white font-bold text-sm sm:text-base shadow-md transition-all"
       >
         <Calendar className="w-5 h-5 mr-2 text-[#D98A2B]" />

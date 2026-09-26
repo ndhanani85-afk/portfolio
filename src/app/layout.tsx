@@ -3,6 +3,7 @@ import Script from "next/script";
 import { Inter, Fraunces, Caveat, Alex_Brush } from "next/font/google";
 import "./globals.css";
 import MainLayoutWrapper from "@/components/MainLayoutWrapper";
+import PostHogProvider from "@/components/PostHogProvider";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -266,7 +267,9 @@ export default function RootLayout({
             </Script>
           </>
         )}
-        <MainLayoutWrapper>{children}</MainLayoutWrapper>
+        <PostHogProvider>
+          <MainLayoutWrapper>{children}</MainLayoutWrapper>
+        </PostHogProvider>
       </body>
     </html>
   );

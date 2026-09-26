@@ -7,6 +7,7 @@ import { Menu, X, ChevronDown, Calendar } from "lucide-react";
 import { LanguageSelector } from "@/components/LanguageManager";
 import { useLanguage } from "@/context/LanguageContext";
 import { translations } from "@/lib/translations";
+import { trackPostHogClick } from "@/lib/posthog";
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -144,6 +145,11 @@ export default function Header() {
             <LanguageSelector />
             <Link
               href="/contact#booking"
+              onClick={() =>
+                trackPostHogClick("header_book_session_click", "conversion", {
+                  location: "desktop_nav",
+                })
+              }
               className="inline-flex items-center px-5 py-2.5 rounded-full bg-[#0B3C2D] hover:bg-[#07291f] text-white text-sm font-semibold transition-all duration-200 shadow-md hover-lift"
             >
               <Calendar className="w-4 h-4 mr-2 text-[#D98A2B]" />
@@ -237,7 +243,12 @@ export default function Header() {
 
               <Link
                 href="/contact#booking"
-                onClick={() => setIsMobileMenuOpen(false)}
+                onClick={() => {
+                  trackPostHogClick("mobile_header_book_session_click", "conversion", {
+                    location: "mobile_menu_drawer",
+                  });
+                  setIsMobileMenuOpen(false);
+                }}
                 className="inline-flex items-center justify-center px-5 py-3.5 rounded-full bg-[#0B3C2D] hover:bg-[#07291f] text-white text-base font-bold shadow-md mt-2"
               >
                 <Calendar className="w-4 h-4 mr-2 text-[#D98A2B]" />

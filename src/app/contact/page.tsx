@@ -9,6 +9,7 @@ import { Phone, Mail, MapPin, ShieldCheck, CheckCircle2, MessageCircle, Clock, C
 import ScrollReveal from "@/components/ScrollReveal";
 import { useLanguage } from "@/context/LanguageContext";
 import { translations } from "@/lib/translations";
+import { trackPostHogEvent, identifyPostHogUser } from "@/lib/posthog";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -129,6 +130,16 @@ function ContactBookingContent() {
     } finally {
       setIsSubmitting(false);
     }
+    identifyPostHogUser(formData.email || formData.phone, {
+      name: formData.name,
+      email: formData.email,
+      phone: formData.phone,
+    });
+    trackPostHogEvent("booking_completed", {
+      serviceType: sessionType,
+      date: selectedDate ? selectedDate.toISOString() : "",
+      time: selectedTime,
+    });
     setIsBooked(true);
     setShowCelebration(true);
   };
