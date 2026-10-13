@@ -47,3 +47,6 @@ src/data/*.json
 # Cloudflare migration exports (may contain PII)
 wrangler.toml
 migration-export/
+
+# Graphify AST cache
+graphify-out/cache/

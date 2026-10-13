@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Script from "next/script";
-import { Inter, Fraunces, Caveat, Alex_Brush } from "next/font/google";
+import { Inter, Fraunces, Caveat, Alex_Brush, Playfair_Display, Montserrat } from "next/font/google";
 import "./globals.css";
 import MainLayoutWrapper from "@/components/MainLayoutWrapper";
 import PostHogProvider from "@/components/PostHogProvider";
@@ -27,6 +27,18 @@ const alexBrush = Alex_Brush({
   variable: "--font-alex-brush",
   subsets: ["latin"],
   weight: "400",
+  display: "swap",
+});
+
+const playfair = Playfair_Display({
+  variable: "--font-playfair",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const montserrat = Montserrat({
+  variable: "--font-montserrat",
+  subsets: ["latin"],
   display: "swap",
 });
 
@@ -245,7 +257,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${fraunces.variable} ${caveat.variable} ${alexBrush.variable} scroll-smooth bg-[#F8F4EE] overflow-x-hidden`}
+      className={`${inter.variable} ${fraunces.variable} ${caveat.variable} ${alexBrush.variable} ${playfair.variable} ${montserrat.variable} scroll-smooth bg-[#F8F4EE] overflow-x-hidden`}
     >
       <head>
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>

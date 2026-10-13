@@ -4,6 +4,8 @@
   --font-sans: var(--font-inter), sans-serif;
   --font-display: var(--font-fraunces), serif;
   --font-signature: var(--font-alex-brush), var(--font-caveat), cursive;
+  --font-playfair: var(--font-playfair), "Playfair Display", Georgia, serif;
+  --font-montserrat: var(--font-montserrat), "Montserrat", sans-serif;
 
   /* ── Nikunj Dhanani Brand Palette: Deep Emerald & Ochre Amber ── */
   --color-emerald-deep: #0B3C2D;
@@ -228,4 +230,226 @@ h1, h2, h3, h4, h5, h6 {
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+/* Liquid Glass / Glassmorphism Styles */
+.liquid-glass {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 8px 32px 0 rgba(11, 60, 45, 0.07), inset 0 0 0 1px rgba(255, 255, 255, 0.8);
+}
+
+.liquid-glass-dark {
+  background: rgba(15, 26, 21, 0.85);
+  backdrop-filter: blur(24px) saturate(190%);
+  -webkit-backdrop-filter: blur(24px) saturate(190%);
+  border: 1px solid rgba(217, 138, 43, 0.3);
+  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.4), inset 0 1px 0 0 rgba(255, 255, 255, 0.15);
+}
+
+.gold-gradient-text {
+  background: linear-gradient(135deg, #F3D279 0%, #D98A2B 50%, #9D5D14 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gold-border {
+  border-image: linear-gradient(135deg, #F3D279, #D98A2B, #9D5D14) 1;
+}
+
+/* Brand Liquid Glass Theme (Deep Emerald, Ochre Amber, Sage & Linen) */
+.brand-liquid-bg {
+  background-color: #F8F4EE;
+  background-image: 
+    radial-gradient(circle at 10% 20%, rgba(217, 138, 43, 0.18) 0%, transparent 40%),
+    radial-gradient(circle at 90% 15%, rgba(11, 60, 45, 0.16) 0%, transparent 45%),
+    radial-gradient(circle at 50% 85%, rgba(140, 168, 153, 0.25) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(217, 138, 43, 0.12) 0%, transparent 40%);
+  background-attachment: fixed;
+}
+
+.brand-liquid-card {
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  border: 1.5px solid rgba(255, 255, 255, 0.95);
+  box-shadow: 0 25px 60px -12px rgba(11, 60, 45, 0.12),
+              0 0 0 1px rgba(11, 60, 45, 0.05),
+              inset 0 2px 2px 0 rgba(255, 255, 255, 0.95);
+}
+
+.brand-liquid-tile {
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1.5px solid rgba(11, 60, 45, 0.12);
+  box-shadow: 0 4px 16px rgba(11, 60, 45, 0.04),
+              inset 0 1px 1px #FFFFFF;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.brand-liquid-tile:hover {
+  background: #FFFFFF;
+  border-color: rgba(217, 138, 43, 0.5);
+  box-shadow: 0 8px 24px rgba(11, 60, 45, 0.08),
+              inset 0 1px 1.5px #FFFFFF;
+  transform: translateY(-2px);
+}
+
+.brand-liquid-tile-active {
+  background: #0B3C2D !important;
+  color: #FFFFFF !important;
+  border-color: #0B3C2D !important;
+  box-shadow: 0 8px 24px rgba(11, 60, 45, 0.25),
+              inset 0 1.5px 2px rgba(255, 255, 255, 0.3) !important;
+}
+
+.brand-pill-btn {
+  background: #0B3C2D;
+  color: #FFFFFF;
+  box-shadow: 0 10px 25px -4px rgba(11, 60, 45, 0.3);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.brand-pill-btn:hover {
+  background: #07291f;
+  box-shadow: 0 16px 32px -4px rgba(11, 60, 45, 0.4);
+  transform: translateY(-1.5px);
+}
+.brand-pill-btn:active {
+  transform: translateY(0.5px);
+  box-shadow: 0 6px 16px -2px rgba(11, 60, 45, 0.25);
+}
+
+/* Animations for Full-screen Assessment Experience */
+@keyframes floatSlow {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(0.4deg);
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 0.25;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.45;
+    transform: scale(1.08);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulseBorder {
+  0%, 100% {
+    border-color: rgba(217, 138, 43, 0.4);
+    box-shadow: 0 0 0 0 rgba(217, 138, 43, 0.2);
+  }
+  50% {
+    border-color: rgba(217, 138, 43, 1);
+    box-shadow: 0 0 0 6px rgba(217, 138, 43, 0.25);
+  }
+}
+
+.animate-float {
+  animation: floatSlow 5s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 7s ease-in-out infinite;
+}
+
+.animate-slide-in {
+  animation: slideInRight 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.animate-pulse-border {
+  animation: pulseBorder 2s infinite;
+}
+
+@media print {
+  @page {
+    size: landscape;
+    margin: 0mm;
+  }
+
+  html,
+  body {
+    width: 100% !important;
+    height: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: visible !important;
+    background: #FFFDF9 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Hide everything outside of print */
+  header,
+  nav,
+  footer,
+  button,
+  .no-print,
+  [role="dialog"] {
+    display: none !important;
+  }
+
+  /* Unhide certificate print area and position it fixed across the whole landscape page */
+  body * {
+    visibility: hidden;
+  }
+
+  #certificate-print-area,
+  #certificate-print-area * {
+    visibility: visible !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  #certificate-print-area {
+    position: fixed !important;
+    left: 0 !important;
+    top: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    max-width: none !important;
+    max-height: none !important;
+    margin: 0 !important;
+    padding: 24px 36px !important;
+    box-sizing: border-box !important;
+    box-shadow: none !important;
+    border: none !important;
+    background: #FFFDF9 !important;
+    background-image: radial-gradient(circle at 50% 50%, #FFFDF9 0%, #F8F4EA 100%) !important;
+    overflow: visible !important;
+    z-index: 9999999 !important;
+    transform: none !important;
+    filter: none !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+  }
+}
+
+
+.font-playfair {
+  font-family: var(--font-playfair), "Playfair Display", Georgia, serif;
+}
+
+.font-montserrat {
+  font-family: var(--font-montserrat), "Montserrat", sans-serif;
 }
