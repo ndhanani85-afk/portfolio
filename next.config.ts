@@ -37,6 +37,25 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  async redirects() {
+    return [
+      {
+        source: "/quiz-certificate",
+        destination: "/quiz-certification",
+        permanent: true,
+      },
+      {
+        source: "/quiz-certificate/:path*",
+        destination: "/quiz-certification/:path*",
+        permanent: true,
+      },
+      {
+        source: "/quiz",
+        destination: "/quiz-certification",
+        permanent: false,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

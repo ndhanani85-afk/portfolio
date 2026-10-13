@@ -15,7 +15,8 @@ export default function MainLayoutWrapper({ children }: { children: React.ReactN
     pathname?.startsWith("/admin") ||
     pathname?.startsWith("/review-generator") ||
     pathname?.startsWith("/reviews") ||
-    pathname?.startsWith("/quiz-certification");
+    pathname?.startsWith("/quiz-certification") ||
+    pathname?.startsWith("/quiz-certificate");
 
   if (isNoHeaderFooter) {
     return (
